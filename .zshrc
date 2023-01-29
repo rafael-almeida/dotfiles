@@ -122,5 +122,4 @@ fi
 # <<< conda initialize <<<
 
 # Alacritty
-TERM=alacritty
 fpath+=${ZDOTDIR:-~}/.zsh_functions
