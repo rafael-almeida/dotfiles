@@ -120,6 +120,3 @@ if [ -f "/home/raamb/mambaforge/etc/profile.d/mamba.sh" ]; then
     . "/home/raamb/mambaforge/etc/profile.d/mamba.sh"
 fi
 # <<< conda initialize <<<
-
-# Alacritty
-fpath+=${ZDOTDIR:-~}/.zsh_functions

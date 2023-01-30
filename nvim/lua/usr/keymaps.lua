@@ -46,12 +46,6 @@ map("n", "J", "mzJ`z")
 map("v", "<", "<gv")
 map("v", ">", ">gv")
 
--- move line(s) up and down
-map("v", "<C-k>", ":m '<-2<CR>gv=gv")
-map("v", "<C-j>", ":m '>+1<CR>gv=gv")
-map("i", "<C-k>", "<Esc>:m .-2<CR>==gi")
-map("i", "<C-j>", "<Esc>:m .+1<CR>==gi")
-
 -- center cursor when moving page
 map("n", "<C-d>", "<C-d>zz")
 map("n", "<C-u>", "<C-u>zz")
@@ -60,13 +54,11 @@ map("n", "<C-u>", "<C-u>zz")
 map("n", "n", "nzzzv")
 map("n", "N", "Nzzzv")
 
--- navigate errors
-map("n", ";p", ":lprevious<CR>")
-map("n", ";n", ":lnext<CR>")
-
--- navigate buffers
-map("n", "<S-h>", ":bprevious<CR>")
-map("n", "<S-l>", ":bnext<CR>")
+-- move line(s) up and down
+map("v", "<C-k>", ":m '<-2<CR>gv=gv")
+map("v", "<C-j>", ":m '>+1<CR>gv=gv")
+map("i", "<C-k>", "<Esc>:m .-2<CR>==gi")
+map("i", "<C-j>", "<Esc>:m .+1<CR>==gi")
 
 -- navigate windows
 map("n", "<C-k>", "<C-W><C-k>")
@@ -75,10 +67,19 @@ map("n", "<C-h>", "<C-W><C-h>")
 map("n", "<C-l>", "<C-W><C-l>")
 
 -- resize window
-map("n", "<A-=>", "<C-w>=")
-map("n", "<A-k>", "<C-W>+")
-map("n", "<A-j>", "<C-W>-")
-map("n", "<A-h>", "<C-W><")
-map("n", "<A-l>", "<C-W>>")
-map("n", "<A-,>", "<C-W>5<")
-map("n", "<A-.>", "<C-W>5>")
+--map("n", "<A-=>", "<C-w>=")
+--map("n", "<A-k>", "<C-W>+")
+--map("n", "<A-j>", "<C-W>-")
+--map("n", "<A-h>", "<C-W><")
+--map("n", "<A-l>", "<C-W>>")
+--map("n", "<A-,>", "<C-W>5<")
+--map("n", "<A-.>", "<C-W>5>")
+
+-- navigate buffers
+map("n", "<S-h>", ":bprevious<CR>")
+map("n", "<S-l>", ":bnext<CR>")
+
+-- navigate errors
+map("n", ";p", ":lprevious<CR>")
+map("n", ";n", ":lnext<CR>")
+
