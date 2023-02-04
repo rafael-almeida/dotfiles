@@ -1,85 +1,83 @@
-local map = require("usr.map").map
-
 -- disable arrow keys
-map("n", "<Up>", "<nop>")
-map("n", "<Down>", "<nop>")
-map("n", "<Left>", "<nop>")
-map("n", "<Right>", "<nop>")
+vim.keymap.set("n", "<Up>", "<nop>")
+vim.keymap.set("n", "<Down>", "<nop>")
+vim.keymap.set("n", "<Left>", "<nop>")
+vim.keymap.set("n", "<Right>", "<nop>")
 
 -- disable repeat the last recorded register
-map("n", "Q", "<nop>")
+vim.keymap.set("n", "Q", "<nop>")
 
 -- toggle explorer
-map("n", "<leader>n", ":Exp<CR>")
+vim.keymap.set("n", "<leader>n", ":Exp<CR>")
 
 -- make Y behave like it should
-map("n", "Y", "yg$")
+vim.keymap.set("n", "Y", "yg$")
 
 -- copy to clipboard
-map("n", "<leader>y", "\"+y")
-map("v", "<leader>y", "\"+y")
-map("n", "<leader>Y", "\"+Y")
-map("v", "<leader>Y", "\"+Y")
+vim.keymap.set("n", "<leader>y", "\"+y")
+vim.keymap.set("v", "<leader>y", "\"+y")
+vim.keymap.set("n", "<leader>Y", "\"+Y")
+vim.keymap.set("v", "<leader>Y", "\"+Y")
 
 -- paste from clipboard
-map("n", "<leader>p", "\"+p")
-map("v", "<leader>p", "\"+p")
-map("n", "<leader>P", "\"+P")
-map("v", "<leader>P", "\"+P")
+vim.keymap.set("n", "<leader>p", "\"+p")
+vim.keymap.set("v", "<leader>p", "\"+p")
+vim.keymap.set("n", "<leader>P", "\"+P")
+vim.keymap.set("v", "<leader>P", "\"+P")
 
 -- use black hole register
-map("n", "<leader>x", "\"_x")
-map("v", "<leader>x", "\"_x")
-map("n", "<leader>d", "\"_d")
-map("v", "<leader>d", "\"_d")
-map("n", "<leader>D", "\"_D")
-map("v", "<leader>D", "\"_D")
-map("n", "<leader>c", "\"_c")
-map("v", "<leader>c", "\"_c")
-map("n", "<leader>C", "\"_C")
-map("v", "<leader>C", "\"_C")
+vim.keymap.set("n", "<leader>x", "\"_x")
+vim.keymap.set("v", "<leader>x", "\"_x")
+vim.keymap.set("n", "<leader>d", "\"_d")
+vim.keymap.set("v", "<leader>d", "\"_d")
+vim.keymap.set("n", "<leader>D", "\"_D")
+vim.keymap.set("v", "<leader>D", "\"_D")
+vim.keymap.set("n", "<leader>c", "\"_c")
+vim.keymap.set("v", "<leader>c", "\"_c")
+vim.keymap.set("n", "<leader>C", "\"_C")
+vim.keymap.set("v", "<leader>C", "\"_C")
 
 -- maintain cursor's position after line join
-map("n", "J", "mzJ`z")
+vim.keymap.set("n", "J", "mzJ`z")
 
 -- maintain visual mode after indent
-map("v", "<", "<gv")
-map("v", ">", ">gv")
+vim.keymap.set("v", "<", "<gv")
+vim.keymap.set("v", ">", ">gv")
 
 -- center cursor when moving page
-map("n", "<C-d>", "<C-d>zz")
-map("n", "<C-u>", "<C-u>zz")
+vim.keymap.set("n", "<C-d>", "<C-d>zz")
+vim.keymap.set("n", "<C-u>", "<C-u>zz")
 
 -- center cursor when searching
-map("n", "n", "nzzzv")
-map("n", "N", "Nzzzv")
+vim.keymap.set("n", "n", "nzzzv")
+vim.keymap.set("n", "N", "Nzzzv")
 
 -- move line(s) up and down
-map("v", "<C-k>", ":m '<-2<CR>gv=gv")
-map("v", "<C-j>", ":m '>+1<CR>gv=gv")
-map("i", "<C-k>", "<Esc>:m .-2<CR>==gi")
-map("i", "<C-j>", "<Esc>:m .+1<CR>==gi")
+vim.keymap.set("v", "<C-k>", ":m '<-2<CR>gv=gv")
+vim.keymap.set("v", "<C-j>", ":m '>+1<CR>gv=gv")
+vim.keymap.set("i", "<C-k>", "<Esc>:m .-2<CR>==gi")
+vim.keymap.set("i", "<C-j>", "<Esc>:m .+1<CR>==gi")
 
 -- navigate windows
-map("n", "<C-k>", "<C-W><C-k>")
-map("n", "<C-j>", "<C-W><C-j>")
-map("n", "<C-h>", "<C-W><C-h>")
-map("n", "<C-l>", "<C-W><C-l>")
+vim.keymap.set("n", "<C-k>", "<C-W><C-k>")
+vim.keymap.set("n", "<C-j>", "<C-W><C-j>")
+vim.keymap.set("n", "<C-h>", "<C-W><C-h>")
+vim.keymap.set("n", "<C-l>", "<C-W><C-l>")
 
 -- resize window
---map("n", "<A-=>", "<C-w>=")
---map("n", "<A-k>", "<C-W>+")
---map("n", "<A-j>", "<C-W>-")
---map("n", "<A-h>", "<C-W><")
---map("n", "<A-l>", "<C-W>>")
---map("n", "<A-,>", "<C-W>5<")
---map("n", "<A-.>", "<C-W>5>")
+--vim.keymap.set("n", "<A-=>", "<C-w>=")
+--vim.keymap.set("n", "<A-k>", "<C-W>+")
+--vim.keymap.set("n", "<A-j>", "<C-W>-")
+--vim.keymap.set("n", "<A-h>", "<C-W><")
+--vim.keymap.set("n", "<A-l>", "<C-W>>")
+--vim.keymap.set("n", "<A-,>", "<C-W>5<")
+--vim.keymap.set("n", "<A-.>", "<C-W>5>")
 
 -- navigate buffers
-map("n", "<S-h>", ":bprevious<CR>")
-map("n", "<S-l>", ":bnext<CR>")
+vim.keymap.set("n", "<S-h>", ":bprevious<CR>")
+vim.keymap.set("n", "<S-l>", ":bnext<CR>")
 
 -- navigate errors
-map("n", ";p", ":lprevious<CR>")
-map("n", ";n", ":lnext<CR>")
+vim.keymap.set("n", ";p", ":lprevious<CR>")
+vim.keymap.set("n", ";n", ":lnext<CR>")
 
