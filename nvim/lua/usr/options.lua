@@ -4,6 +4,7 @@ local options = {
     termguicolors = true,
     signcolumn = "yes",
     colorcolumn = "80",
+    cursorline = true,
     scrolloff = 8,
     number = true,
     relativenumber = true,
