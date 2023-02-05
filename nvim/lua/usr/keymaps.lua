@@ -76,8 +76,3 @@ vim.keymap.set("n", "<C-l>", "<C-W><C-l>")
 -- navigate buffers
 vim.keymap.set("n", "<S-h>", ":bprevious<CR>")
 vim.keymap.set("n", "<S-l>", ":bnext<CR>")
-
--- navigate errors
-vim.keymap.set("n", ";p", ":lprevious<CR>")
-vim.keymap.set("n", ";n", ":lnext<CR>")
-
