@@ -30,14 +30,10 @@ return require("packer").startup(function(use)
 
     use("mbbill/undotree")
     use("numToStr/Comment.nvim")
+    use("windwp/nvim-autopairs")
 
     use("tpope/vim-fugitive")
-    use({
-        'lewis6991/gitsigns.nvim',
-        config = function()
-            require('gitsigns').setup()
-        end
-    })
+    use('lewis6991/gitsigns.nvim')
 
     use("lukas-reineke/indent-blankline.nvim")
     use({
