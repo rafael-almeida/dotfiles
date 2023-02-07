@@ -15,10 +15,9 @@ local lsp_attach = function(_, bufnr)
     vim.keymap.set("n", "gi", vim.lsp.buf.implementation, bufopts)
     vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
 
-
-    vim.keymap.set("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, bufopts)
-    vim.keymap.set("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, bufopts)
-    vim.keymap.set("n", "<leader>wl", function()
+    vim.keymap.set("n", "<leader>wA", vim.lsp.buf.add_workspace_folder, bufopts)
+    vim.keymap.set("n", "<leader>wR", vim.lsp.buf.remove_workspace_folder, bufopts)
+    vim.keymap.set("n", "<leader>wL", function()
         print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
     end, bufopts)
 
@@ -40,8 +39,7 @@ local lsp_attach = function(_, bufnr)
     ]]
 end
 
-local servers = { "sumneko_lua" }
---local servers = { "sumneko_lua", "tsserver", "pyright", "gopls", "html", "zk" }
+local servers = { "sumneko_lua", "tsserver", "pyright", "gopls", "html", "zk" }
 
 require('mason').setup()
 require('mason-lspconfig').setup({ ensure_installed = servers })

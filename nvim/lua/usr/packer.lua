@@ -44,4 +44,6 @@ return require("packer").startup(function(use)
     use("folke/tokyonight.nvim")
     use("tanvirtin/monokai.nvim")
     use("EdenEast/nightfox.nvim")
+
+    use("vimwiki/vimwiki")
 end)
