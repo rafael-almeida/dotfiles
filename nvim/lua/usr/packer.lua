@@ -1,49 +1,50 @@
 vim.cmd [[packadd packer.nvim]]
 
 return require("packer").startup(function(use)
-    use("wbthomason/packer.nvim")
+        use("wbthomason/packer.nvim")
 
-    use("neovim/nvim-lspconfig")
-    use("williamboman/mason.nvim")
-    use("williamboman/mason-lspconfig.nvim")
+        use("neovim/nvim-lspconfig")
+        use("williamboman/mason.nvim")
+        use("williamboman/mason-lspconfig.nvim")
 
-    use("hrsh7th/nvim-cmp")
-    use("hrsh7th/cmp-buffer")
-    use("hrsh7th/cmp-path")
-    use("hrsh7th/cmp-nvim-lsp")
-    use("hrsh7th/cmp-nvim-lua")
-    use("saadparwaiz1/cmp_luasnip")
+        use("hrsh7th/nvim-cmp")
+        use("hrsh7th/cmp-buffer")
+        use("hrsh7th/cmp-path")
+        use("hrsh7th/cmp-nvim-lsp")
+        use("hrsh7th/cmp-nvim-lua")
+        use("saadparwaiz1/cmp_luasnip")
 
-    use("L3MON4D3/LuaSnip")
-    use("rafamadriz/friendly-snippets")
+        use("L3MON4D3/LuaSnip")
+        use("rafamadriz/friendly-snippets")
 
-    use({
-        "nvim-treesitter/nvim-treesitter",
-        run = ":TSUpdate"
-    })
+        use({
+            "nvim-treesitter/nvim-treesitter",
+            run = ":TSUpdate"
+        })
 
-    use({
-        "nvim-telescope/telescope.nvim",
-        tag = "0.1.1",
-        requires = "nvim-lua/plenary.nvim"
-    })
+        use({
+            "nvim-telescope/telescope.nvim",
+            tag = "0.1.1",
+            requires = "nvim-lua/plenary.nvim"
+        })
 
-    use("mbbill/undotree")
-    use("numToStr/Comment.nvim")
-    use("windwp/nvim-autopairs")
+        use("mbbill/undotree")
+        use("numToStr/Comment.nvim")
+        use("windwp/nvim-autopairs")
+        use("tpope/vim-surround")
 
-    use("tpope/vim-fugitive")
-    use('lewis6991/gitsigns.nvim')
+        use("tpope/vim-fugitive")
+        use("lewis6991/gitsigns.nvim")
 
-    use("lukas-reineke/indent-blankline.nvim")
-    use({
-        "nvim-lualine/lualine.nvim",
-        requires = { "kyazdani42/nvim-web-devicons", opt = true }
-    })
+        use("lukas-reineke/indent-blankline.nvim")
+        use({
+            "nvim-lualine/lualine.nvim",
+            requires = { "kyazdani42/nvim-web-devicons", opt = true }
+        })
 
-    use("folke/tokyonight.nvim")
-    use("tanvirtin/monokai.nvim")
-    use("EdenEast/nightfox.nvim")
+        use("folke/tokyonight.nvim")
+        use("tanvirtin/monokai.nvim")
+        use("EdenEast/nightfox.nvim")
 
-    use("vimwiki/vimwiki")
-end)
+        use("vimwiki/vimwiki")
+    end)

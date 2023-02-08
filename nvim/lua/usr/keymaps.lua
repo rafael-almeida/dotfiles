@@ -1,12 +1,3 @@
--- warp selection
-vim.keymap.set("v", "<leader>'", "c'<C-R>\"'<ESC>")
-vim.keymap.set("v", '<leader>"', 'c"<C-R>""<ESC>')
-vim.keymap.set("v", '<leader>`', 'c`<C-R>"`<ESC>')
-vim.keymap.set("v", '<leader>(', 'c(<C-R>")<ESC>')
-vim.keymap.set("v", '<leader>[', 'c[<C-R>"]<ESC>')
-vim.keymap.set("v", '<leader>{', 'c{<C-R>"}<ESC>')
-vim.keymap.set("v", '<leader><', 'c<<C-R>"><ESC>')
-
 -- disable arrow keys
 vim.keymap.set("n", "<Up>", "<nop>")
 vim.keymap.set("n", "<Down>", "<nop>")
