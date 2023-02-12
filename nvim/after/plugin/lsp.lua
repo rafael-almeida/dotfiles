@@ -10,26 +10,24 @@ local lsp_attach = function(_, bufnr)
 
     local bufopts = { noremap = true, silent = true, buffer = bufnr }
 
-    vim.keymap.set("n", "gD", vim.lsp.buf.declaration, bufopts)
-    vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)
-    vim.keymap.set("n", "gi", vim.lsp.buf.implementation, bufopts)
-    vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
-
+    vim.keymap.set("n", "<leader>R", ":LspRestart<CR>")
     vim.keymap.set("n", "<leader>wA", vim.lsp.buf.add_workspace_folder, bufopts)
     vim.keymap.set("n", "<leader>wR", vim.lsp.buf.remove_workspace_folder, bufopts)
     vim.keymap.set("n", "<leader>wL", function()
         print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
     end, bufopts)
-
     vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
     vim.keymap.set("n", "<C-s>", vim.lsp.buf.signature_help, bufopts)
+    vim.keymap.set("n", "gD", vim.lsp.buf.declaration, bufopts)
+    vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)
+    vim.keymap.set("n", "gi", vim.lsp.buf.implementation, bufopts)
+    vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
     vim.keymap.set("n", "<leader>D", vim.lsp.buf.type_definition, bufopts)
     vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, bufopts)
     vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, bufopts)
     vim.keymap.set("n", "<leader>ft", function()
         vim.lsp.buf.format({ async = true })
     end, bufopts)
-    vim.keymap.set("n", "<leader>R", ":LspRestart<CR>")
 
     vim.cmd [[
         augroup lsp_buf_format
@@ -39,7 +37,13 @@ local lsp_attach = function(_, bufnr)
     ]]
 end
 
-local servers = { "sumneko_lua", "tsserver", "pyright", "gopls", "html", "zk" }
+local servers = {
+    "sumneko_lua",
+    "tsserver",
+    "pylsp",
+    "gopls",
+    "zk",
+}
 
 require('mason').setup()
 require('mason-lspconfig').setup({ ensure_installed = servers })
@@ -54,7 +58,7 @@ require('mason-lspconfig').setup_handlers({
             capabilities = lsp_capabilities,
         }
 
-        if (server == "sumneko_lua") then
+        if server == "sumneko_lua" then
             config.settings = {
                 Lua = {
                     diagnostics = {

@@ -1,13 +1,13 @@
--- local themes = {
---     "tokyonight-night",
---     "monokai_pro",
---     "nightfox",
---     "carbonfox",
---     "terafox",
--- }
+local themes = {
+    "ayu",
+    "spacecamp_lite",
+    "happy_hacking",
+}
 
 -- math.randomseed(os.time())
 -- local n = math.random(1, #themes)
 -- vim.cmd("colorscheme " .. themes[n])
 
-vim.cmd("colorscheme monokai_pro")
+-- vim.cmd("set background=light")
+vim.cmd("set background=dark")
+vim.cmd("colorscheme " .. themes[1])

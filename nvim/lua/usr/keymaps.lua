@@ -8,7 +8,7 @@ vim.keymap.set("n", "<Right>", "<nop>")
 vim.keymap.set("n", "Q", "<nop>")
 
 -- toggle explorer
-vim.keymap.set("n", "<leader>n", ":Exp<CR>")
+vim.keymap.set("n", "<leader>n", ":Exp<CR> :set number<CR> :set relativenumber<CR>")
 
 -- make Y behave like it should
 vim.keymap.set("n", "Y", "yg$")
@@ -54,16 +54,18 @@ vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 
 -- move line(s) up and down
+vim.keymap.set("n", "<C-k>", ":m .-2<CR>==g<Esc>")
+vim.keymap.set("n", "<C-j>", ":m .+1<CR>==g<Esc>")
 vim.keymap.set("v", "<C-k>", ":m '<-2<CR>gv=gv")
 vim.keymap.set("v", "<C-j>", ":m '>+1<CR>gv=gv")
 vim.keymap.set("i", "<C-k>", "<Esc>:m .-2<CR>==gi")
 vim.keymap.set("i", "<C-j>", "<Esc>:m .+1<CR>==gi")
 
 -- navigate windows
-vim.keymap.set("n", "<C-k>", "<C-W><C-k>")
-vim.keymap.set("n", "<C-j>", "<C-W><C-j>")
-vim.keymap.set("n", "<C-h>", "<C-W><C-h>")
-vim.keymap.set("n", "<C-l>", "<C-W><C-l>")
+vim.keymap.set("n", "<C-W>k", "<C-W><C-k>")
+vim.keymap.set("n", "<C-W>j", "<C-W><C-j>")
+vim.keymap.set("n", "<C-W>h", "<C-W><C-h>")
+vim.keymap.set("n", "<C-W>l", "<C-W><C-l>")
 
 -- navigate buffers
 vim.keymap.set("n", "<S-h>", ":bprevious<CR>")
