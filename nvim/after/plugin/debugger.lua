@@ -1,4 +1,9 @@
-vim.keymap.set("n", "<leader>B", ":lua require('dap').toggle_breakpoint()<CR>")
+-- DAP
+-- ============================================================================
+
+local dap = require("dap")
+
+vim.keymap.set("n", "<leader>B", "dap.toggle_breakpoint()<CR>")
 vim.keymap.set('n', '<Leader>dl', function()
     require('dap').set_breakpoint(nil, nil, vim.fn.input('log message: '))
 end)
@@ -10,7 +15,18 @@ vim.keymap.set("n", "<leader>do", ":lua require('dap').step_out()<CR>")
 vim.keymap.set("n", "<leader>dr", ":lua require('dap').restart()<CR>")
 vim.keymap.set("n", "<leader>dt", ":lua require('dap').terminate()<CR>")
 
+-- DAP Python
+-- ============================================================================
 
+
+-- dap_python.test_runner = 'pytest'
+
+local dap_python = require("dap-python")
+vim.keymap.set("n", "<leader>dM", ":lua require('dap-python').test_method()<CR>")
+vim.keymap.set("n", "<leader>dC", ":lua require('dap-python').test_class()<CR>")
+vim.keymap.set("v", "<leader>dS", "<ESC>:lua require('dap-python').debug_selection()<CR>")
+
+-- DAP UI
 -- ============================================================================
 
 local dap, dapui = require("dap"), require("dapui")
@@ -29,15 +45,11 @@ dap.listeners.before.event_exited["dapui_config"] = function()
     dapui.close()
 end
 
+-- Telescope DAP
 -- ============================================================================
 
-local dap_python = require("dap-python")
-
-dap_python.setup("~/.virtualenvs/debugpy/bin/python")
--- dap_python.test_runner = 'pytest'
-
-vim.keymap.set("n", "<leader>dM", ":lua require('dap-python').test_method()<CR>")
-vim.keymap.set("n", "<leader>dC", ":lua require('dap-python').test_class()<CR>")
-vim.keymap.set("v", "<leader>dS", "<ESC>:lua require('dap-python').debug_selection()<CR>")
-
--- ============================================================================
+--vim.keymap.set("", "", ":lua require('telescope').extensions.dap.commands{}<CR>")
+--vim.keymap.set("", "", ":lua require('telescope').extensions.dap.configurations{}<CR>")
+--vim.keymap.set("", "", ":lua require('telescope').extensions.dap.list_breakpoints{}<CR>")
+--vim.keymap.set("", "", ":lua require('telescope').extensions.dap.variables{}<CR>")
+--vim.keymap.set("", "", ":lua require('telescope').extensions.dap.frames{}<CR>")

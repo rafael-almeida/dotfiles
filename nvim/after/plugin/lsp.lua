@@ -38,7 +38,7 @@ local lsp_attach = function(_, bufnr)
 end
 
 local servers = {
-    "sumneko_lua",
+    "lua_ls",
     "tsserver",
     "pylsp",
     "gopls",
@@ -58,7 +58,7 @@ require('mason-lspconfig').setup_handlers({
             capabilities = lsp_capabilities,
         }
 
-        if server == "sumneko_lua" then
+        if server == "lua_ls" then
             config.settings = {
                 Lua = {
                     diagnostics = {
