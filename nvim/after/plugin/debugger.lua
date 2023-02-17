@@ -3,53 +3,49 @@
 
 local dap = require("dap")
 
-vim.keymap.set("n", "<leader>B", "dap.toggle_breakpoint()<CR>")
-vim.keymap.set('n', '<Leader>dl', function()
-    require('dap').set_breakpoint(nil, nil, vim.fn.input('log message: '))
+vim.keymap.set("n", "<leader>B", dap.toggle_breakpoint)
+vim.keymap.set('n', "<leader>dl", function()
+    dap.set_breakpoint(nil, nil, vim.fn.input('log message: '))
 end)
 
-vim.keymap.set("n", "<leader>dc", ":lua require('dap').continue()<CR>")
-vim.keymap.set("n", "<leader>di", ":lua require('dap').step_into()<CR>")
-vim.keymap.set("n", "<leader>dv", ":lua require('dap').step_over()<CR>")
-vim.keymap.set("n", "<leader>do", ":lua require('dap').step_out()<CR>")
-vim.keymap.set("n", "<leader>dr", ":lua require('dap').restart()<CR>")
-vim.keymap.set("n", "<leader>dt", ":lua require('dap').terminate()<CR>")
+vim.keymap.set("n", "<leader>dc", dap.continue)
+vim.keymap.set("n", "<leader>di", dap.step_into)
+vim.keymap.set("n", "<leader>dv", dap.step_over)
+vim.keymap.set("n", "<leader>do", dap.step_out)
+vim.keymap.set("n", "<leader>dr", dap.restart)
+vim.keymap.set("n", "<leader>dt", dap.terminate)
 
 -- DAP Python
 -- ============================================================================
 
+local dap_python = require("dap-python")
 
 -- dap_python.test_runner = 'pytest'
-
-local dap_python = require("dap-python")
-vim.keymap.set("n", "<leader>dM", ":lua require('dap-python').test_method()<CR>")
-vim.keymap.set("n", "<leader>dC", ":lua require('dap-python').test_class()<CR>")
-vim.keymap.set("v", "<leader>dS", "<ESC>:lua require('dap-python').debug_selection()<CR>")
+vim.keymap.set("n", "<leader>dM", dap_python.test_method)
+vim.keymap.set("n", "<leader>dC", dap_python.test_class)
+vim.keymap.set("v", "<leader>dS", function()
+    vim.api.nvim_input("<ESC>")
+    dap_python.debug_selection()
+end)
 
 -- DAP UI
 -- ============================================================================
 
-local dap, dapui = require("dap"), require("dapui")
+local dapui = require("dapui")
 
 dapui.setup()
 
-dap.listeners.after.event_initialized["dapui_config"] = function()
-    dapui.open()
-end
-
-dap.listeners.before.event_terminated["dapui_config"] = function()
-    dapui.close()
-end
-
-dap.listeners.before.event_exited["dapui_config"] = function()
-    dapui.close()
-end
+dap.listeners.after.event_initialized["dapui_config"] = dapui.open
+dap.listeners.before.event_terminated["dapui_config"] = dapui.close
+dap.listeners.before.event_exited["dapui_config"] = dapui.close
 
 -- Telescope DAP
 -- ============================================================================
 
---vim.keymap.set("", "", ":lua require('telescope').extensions.dap.commands{}<CR>")
---vim.keymap.set("", "", ":lua require('telescope').extensions.dap.configurations{}<CR>")
---vim.keymap.set("", "", ":lua require('telescope').extensions.dap.list_breakpoints{}<CR>")
---vim.keymap.set("", "", ":lua require('telescope').extensions.dap.variables{}<CR>")
---vim.keymap.set("", "", ":lua require('telescope').extensions.dap.frames{}<CR>")
+-- local telescope = require("telecope")
+--
+-- vim.keymap.set("", "", telescope.extensions.dap.commands)
+-- vim.keymap.set("", "", telescope.extensions.dap.configurations)
+-- vim.keymap.set("", "", telescope.extensions.dap.list_breakpoints)
+-- vim.keymap.set("", "", telescope.extensions.dap.variables)
+-- vim.keymap.set("", "", telescope.extensions.dap.frames)
