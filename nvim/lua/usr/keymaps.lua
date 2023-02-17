@@ -8,7 +8,7 @@ vim.keymap.set("n", "<Right>", "<nop>")
 vim.keymap.set("n", "Q", "<nop>")
 
 -- toggle explorer
-vim.keymap.set("n", "<leader>n", ":Exp<CR> :set number<CR> :set relativenumber<CR>")
+vim.keymap.set("n", "<leader>n", ":Exp<CR>")
 
 -- make Y behave like it should
 vim.keymap.set("n", "Y", "yg$")
