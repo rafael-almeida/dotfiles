@@ -20,7 +20,7 @@ vim.keymap.set("n", "<leader>dt", dap.terminate)
 
 local dap_python = require("dap-python")
 
--- dap_python.test_runner = 'pytest'
+dap_python.test_runner = 'pytest'
 vim.keymap.set("n", "<leader>dM", dap_python.test_method)
 vim.keymap.set("n", "<leader>dC", dap_python.test_class)
 vim.keymap.set("v", "<leader>dS", function()
