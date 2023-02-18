@@ -1,4 +1,5 @@
 vim.g.mapleader = " "
+vim.g.python3_host_prog = "~/.virtualenvs/neovim/bin/python"
 
 local options = {
     termguicolors = true,
