@@ -19,6 +19,7 @@ brew install awscli
 brew install aws-sam-cli
 
 brew install node
+brew install typescript
 brew install go
 brew install rust
 
