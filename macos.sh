@@ -9,6 +9,7 @@ brew install --cask spotify
 brew install --cask iterm2
 brew install --cask kitty
 brew install --cask whatsapp
+brew install --cask authy
 
 brew install git
 brew install zsh
