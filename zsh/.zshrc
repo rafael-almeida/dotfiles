@@ -102,4 +102,4 @@ source $ZSH/oh-my-zsh.sh
 
 # -----------------------------------------------------------------------------
 
-source ~/.virtualenvs/myvenv/bin/activate
+# source ~/.virtualenvs/myvenv/bin/activate
