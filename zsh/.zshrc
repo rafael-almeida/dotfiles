@@ -102,4 +102,5 @@ source $ZSH/oh-my-zsh.sh
 
 # -----------------------------------------------------------------------------
 
-# source ~/.virtualenvs/myvenv/bin/activate
+source ~/.zshrc_private
+alias v=nvim
