@@ -1,5 +1,12 @@
 # dotfiles
 
+```sh
+:PackerInstall
+:PackerCompile
+:TSUpdate
+:TSInstall vim
+```
+
 ## Generate SSH Key
 
 Start the ssh-agent in the background
