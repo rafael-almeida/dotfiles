@@ -1,4 +1,4 @@
+require("usr.options") -- IMPORT FIRST
 require("usr.globals")
-require("usr.options")
 require("usr.keymaps")
 require("usr.packer")

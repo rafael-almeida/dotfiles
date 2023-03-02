@@ -22,12 +22,14 @@ brew install --cask libreoffice
 brew install --cask gimp
 brew install --cask vlc
 brew install --cask whatsapp
+brew install --cask discord
 brew install --cask spotify
 brew install --cask raindropio
 brew install --cask authy
-brew install --cask visual-studio-code
 brew install --cask iterm2
 brew install --cask kitty
+brew install --cask visual-studio-code
+brew install --cask gitkraken
 brew install --cask postman
 brew install --cask stoplight-studio
 brew install --cask nosql-workbench

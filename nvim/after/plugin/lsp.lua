@@ -68,6 +68,20 @@ require('mason-lspconfig').setup_handlers({
             }
         end
 
+        if server == "pylsp" then
+            config.settings = {
+                pylsp = {
+                    plugins = {
+                        Rope = { enabled = true },                                  -- refactoring
+                        yapf = { enabled = true },                                  -- formatter
+                        pylint = { enabled = true },                                -- linter
+                        pycodestyle = { ignore = { 'W503' }, maxLineLength = 200 }, -- style checker
+                        pydocstyle = { enabled = true },                            -- style checker
+                    }
+                }
+            }
+        end
+
         lspconfig[server].setup(config)
     end
 })

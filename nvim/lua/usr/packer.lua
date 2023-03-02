@@ -7,146 +7,159 @@ vim.cmd [[
 ]]
 
 return require("packer").startup(function(use)
-        use("wbthomason/packer.nvim")
+    use("wbthomason/packer.nvim")
 
-        -- Telescope
-        -- ====================================================================
+    -- Telescope
+    -- ====================================================================
 
-        use({
+    use({
+        "nvim-telescope/telescope.nvim",
+        tag = "0.1.1",
+        requires = "nvim-lua/plenary.nvim"
+    })
+
+    -- Treesitter
+    -- ====================================================================
+
+    use({
+        "nvim-treesitter/nvim-treesitter",
+        run = function()
+            local ts_install = require("nvim-treesitter.install")
+            local ts_update = ts_install.update({ with_sync = true })
+            ts_update()
+        end,
+    })
+
+    -- LSP + CMP + NULL-LS
+    -- ====================================================================
+
+    use("neovim/nvim-lspconfig")
+    use("williamboman/mason.nvim")
+    use("williamboman/mason-lspconfig.nvim")
+
+    use("hrsh7th/nvim-cmp")
+    use("hrsh7th/cmp-buffer")
+    use("hrsh7th/cmp-path")
+    use("hrsh7th/cmp-nvim-lsp")
+    use("hrsh7th/cmp-nvim-lua")
+    use("saadparwaiz1/cmp_luasnip")
+
+    use("L3MON4D3/LuaSnip")
+    use("rafamadriz/friendly-snippets")
+
+    use({
+        "jose-elias-alvarez/null-ls.nvim",
+        requires = "nvim-lua/plenary.nvim"
+    })
+
+    -- DAP
+    -- ====================================================================
+
+    use("mfussenegger/nvim-dap")
+
+    use({
+        "rcarriga/nvim-dap-ui",
+        requires = { "mfussenegger/nvim-dap" }
+    })
+
+    use({
+        "theHamsta/nvim-dap-virtual-text",
+        config = function()
+            require("nvim-dap-virtual-text").setup()
+        end
+    })
+
+    use({
+        "nvim-telescope/telescope-dap.nvim",
+        requires = {
+            "mfussenegger/nvim-dap",
             "nvim-telescope/telescope.nvim",
-            tag = "0.1.1",
-            requires = "nvim-lua/plenary.nvim"
-        })
+            { "nvim-treesitter/nvim-treesitter", opt = true },
+        },
+        config = function()
+            require('telescope').load_extension('dap')
+        end
+    })
 
-        -- Treesitter
-        -- ====================================================================
+    use({
+        "mfussenegger/nvim-dap-python",
+        config = function()
+            require("dap-python").setup("~/.virtualenvs/debugpy/bin/python")
+        end
+    })
 
-        use({
-            "nvim-treesitter/nvim-treesitter",
-            run = function()
-                local ts_install = require("nvim-treesitter.install")
-                local ts_update = ts_install.update({ with_sync = true })
-                ts_update()
-            end,
-        })
+    use({
+        "leoluz/nvim-dap-go",
+        config = function()
+            require('dap-go').setup()
+        end
+    })
 
-        -- LSP
-        -- ====================================================================
+    -- Trouble
+    -- ====================================================================
+    use {
+        "folke/trouble.nvim",
+        requires = { "nvim-tree/nvim-web-devicons", opt = true },
+        config = function()
+            require("trouble").setup()
+        end
+    }
 
-        use("neovim/nvim-lspconfig")
-        use("williamboman/mason.nvim")
-        use("williamboman/mason-lspconfig.nvim")
+    -- Git
+    -- ====================================================================
 
-        use("hrsh7th/nvim-cmp")
-        use("hrsh7th/cmp-buffer")
-        use("hrsh7th/cmp-path")
-        use("hrsh7th/cmp-nvim-lsp")
-        use("hrsh7th/cmp-nvim-lua")
-        use("saadparwaiz1/cmp_luasnip")
+    use("tpope/vim-fugitive")
+    use {
+        "lewis6991/gitsigns.nvim",
+        config = function()
+            require("gitsigns").setup()
+        end
+    }
 
-        use("L3MON4D3/LuaSnip")
-        use("rafamadriz/friendly-snippets")
+    -- Undotree
+    -- ====================================================================
 
-        -- DAP
-        -- ====================================================================
+    use("mbbill/undotree")
 
-        use("mfussenegger/nvim-dap")
-        use({
-            "rcarriga/nvim-dap-ui",
-            requires = { "mfussenegger/nvim-dap" }
-        })
+    -- VimWiki
+    -- ====================================================================
 
-        -- optional
-        use({
-            "mfussenegger/nvim-dap-python",
-            config = function()
-                require("dap-python").setup("~/.virtualenvs/debugpy/bin/python")
-            end
-        })
+    use("vimwiki/vimwiki")
 
-        -- optional
-        use({
-            "leoluz/nvim-dap-go",
-            config = function()
-                require('dap-go').setup()
-            end
-        })
+    -- Editing
+    -- ====================================================================
 
-        -- optional
-        use({
-            "theHamsta/nvim-dap-virtual-text",
-            config = function()
-                require("nvim-dap-virtual-text").setup()
-            end
-        })
+    use {
+        'numToStr/Comment.nvim',
+        config = function()
+            require('Comment').setup()
+        end
+    }
 
-        -- optional
-        use({
-            "nvim-telescope/telescope-dap.nvim",
-            requires = {
-                "mfussenegger/nvim-dap",
-                "nvim-telescope/telescope.nvim",
-                { "nvim-treesitter/nvim-treesitter", opt = true },
-            },
-            config = function()
-                require('telescope').load_extension('dap')
-            end
-        })
+    use({
+        "windwp/nvim-autopairs",
+        config = function()
+            require("nvim-autopairs").setup()
+        end
+    })
+    use("tpope/vim-surround")
 
-        -- Git
-        -- ====================================================================
+    -- Multi cursors
+    -- ====================================================================
 
-        use("tpope/vim-fugitive")
-        use {
-            "lewis6991/gitsigns.nvim",
-            config = function()
-                require("gitsigns").setup()
-            end
-        }
+    use("mg979/vim-visual-multi")
 
-        -- Undotree
-        -- ====================================================================
+    -- UI
+    -- ====================================================================
 
-        use("mbbill/undotree")
-
-        -- VimWiki
-        -- ====================================================================
-
-        use("vimwiki/vimwiki")
-
-        -- Editing
-        -- ====================================================================
-
-        use {
-            'numToStr/Comment.nvim',
-            config = function()
-                require('Comment').setup()
-            end
-        }
-
-        use({
-            "windwp/nvim-autopairs",
-            config = function()
-                require("nvim-autopairs").setup()
-            end
-        })
-        use("tpope/vim-surround")
-
-        -- Multi cursors
-        -- ====================================================================
-
-        use("mg979/vim-visual-multi")
-
-        -- UI
-        -- ====================================================================
-
-        use("rafi/awesome-vim-colorschemes")
-        use("lukas-reineke/indent-blankline.nvim")
-        use({
-            "nvim-lualine/lualine.nvim",
-            requires = { "kyazdani42/nvim-web-devicons", opt = true },
-            config = function()
-                require('lualine').setup()
-            end
-        })
-    end)
+    -- TODO: multiple unused themes
+    use("rafi/awesome-vim-colorschemes")
+    use("lukas-reineke/indent-blankline.nvim")
+    use({
+        "nvim-lualine/lualine.nvim",
+        requires = { "nvim-tree/nvim-web-devicons", opt = true },
+        config = function()
+            require('lualine').setup()
+        end
+    })
+end)

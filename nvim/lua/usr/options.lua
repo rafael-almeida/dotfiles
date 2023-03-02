@@ -1,5 +1,8 @@
 vim.g.mapleader = " "
+vim.g.maplocalleader = " "
+
 vim.g.python3_host_prog = "~/.virtualenvs/neovim/bin/python"
+vim.g.netrw_liststyle = 3
 
 local options = {
     termguicolors = true,
