@@ -72,11 +72,23 @@ require('mason-lspconfig').setup_handlers({
             config.settings = {
                 pylsp = {
                     plugins = {
-                        Rope = { enabled = true },                                  -- refactoring
-                        yapf = { enabled = true },                                  -- formatter
-                        pylint = { enabled = true },                                -- linter
-                        pycodestyle = { ignore = { 'W503' }, maxLineLength = 200 }, -- style checker
-                        pydocstyle = { enabled = true },                            -- style checker
+                        autopep8 = { enabled = false },
+                        flake8 = { enabled = true, ignore = { 'W503' }, maxLineLength = 120 },
+                        jedi_completion = { enabled = true },
+                        jedi_definition = { enabled = true },
+                        jedi_hover = { enabled = true },
+                        jedi_references = { enabled = true },
+                        jedi_signature_help = { enabled = true },
+                        jedi_symbols = { enabled = true },
+                        mccabe = { enabled = false },
+                        preload = { enabled = true },
+                        pycodestyle = { enabled = false },
+                        pydocstyle = { enabled = true, convention = 'pep257' },
+                        pyflakes = { enabled = false },
+                        pylint = { enabled = false },
+                        rope_autoimport = { enabled = true, memory = false },
+                        rope_completion = { enabled = false },
+                        yapf = { enabled = true },
                     }
                 }
             }
