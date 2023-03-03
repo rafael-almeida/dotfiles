@@ -47,11 +47,6 @@ return require("packer").startup(function(use)
     use("L3MON4D3/LuaSnip")
     use("rafamadriz/friendly-snippets")
 
-    use({
-        "jose-elias-alvarez/null-ls.nvim",
-        requires = "nvim-lua/plenary.nvim"
-    })
-
     -- DAP
     -- ====================================================================
 
