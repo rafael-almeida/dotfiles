@@ -1,0 +1,171 @@
+sudo apt-get update
+sudo apt-get -y upgrade
+
+# Git 
+# -----------------------------------------------------------------------------
+# TODO: needs a better way to backup ssh
+sudo apt-get install -y git
+
+git config --global user.name "rafael-almeida"
+git config --global user.email "rafael.almeida@example.com"
+git config --global core.editor "vim"
+git config --global init.defaultBranch "main"
+
+echo -ne '\n' | ssh-keygen -t ed25519 
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_ed25519
+cat ~/.ssh/id_ed25519.pub
+read -p "Add the new key to Github (ENTER): "
+
+# Zsh
+# -----------------------------------------------------------------------------
+# TODO: check if defaults to zsh
+sudo apt-get install -y zsh
+chsh -s $(which zsh)
+
+# Oh My Zsh
+# -----------------------------------------------------------------------------
+echo -ne 'Y\n' | sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+# Python
+# -----------------------------------------------------------------------------
+# TODO
+sudo apt-get install -y python3.10-venv
+
+# JavaScript
+# -----------------------------------------------------------------------------
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+nvm install node
+npm install -g npm
+
+# TypeScript
+# -----------------------------------------------------------------------------
+npm install -g typescript
+
+# Go 
+# -----------------------------------------------------------------------------
+curl -L -O "https://go.dev/dl/go1.20.linux-amd64.tar.gz"
+tar -xvf go1.20.linux-amd64.tar.gz
+sudo mv go /usr/local
+rm go1.20.linux-amd64.tar.gz
+
+# Lua 
+# -----------------------------------------------------------------------------
+sudo apt-get install -y lua5.4
+
+# Rust
+# -----------------------------------------------------------------------------
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
+# Mamba 
+# -----------------------------------------------------------------------------
+curl -L -O "https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-x86_64.sh"
+zsh ./Mambaforge-Linux-x86_64.sh
+rm ./Mambaforge-Linux-x86_64.sh
+
+# TMUX
+# -----------------------------------------------------------------------------
+sudo apt-get install -y tmux
+
+# Vim
+# -----------------------------------------------------------------------------
+sudo apt-get install -y vim
+
+# Neovim
+# -----------------------------------------------------------------------------
+curl -L -O "https://github.com/neovim/neovim/releases/download/stable/nvim.appimage"
+chmod u+x nvim.appimage
+sudo mv nvim.appimage /usr/local/bin/nvim
+
+npm install -g neovim
+
+# nvim-dap-python
+mkdir ~/.virtualenvs
+cd ~/.virtualenvs
+python3 -m venv debugpy
+debugpy/bin/python -m pip install debugpy
+
+# dependencies
+sudo apt-get install ripgrep
+sudo apt-get install fd-find
+
+git clone --depth 1 https://github.com/wbthomason/packer.nvim\
+ ~/.local/share/nvim/site/pack/packer/start/packer.nvim
+
+# Docker
+# -----------------------------------------------------------------------------
+
+# install dependencies
+sudo apt-get install ca-certificates curl gnupg lsb-release
+
+# download and add GPG key
+sudo mkdir -m 0755 -p /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpgo
+
+# add repository
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu bionic stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+sudo chmod a+r /etc/apt/keyrings/docker.gpg
+sudo apt-get update
+
+# install Docker Engine, containerd, and Docker Compose.
+sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+# create and add your user to the `docker` group
+#sudo groupadd docker
+#sudo usermod -aG docker $USER
+#newgrp docker
+
+# start Docker and containerd on boot
+sudo systemctl enable docker.service
+sudo systemctl enable containerd.service
+
+# start Docker
+sudo service docker start
+#sudo docker run hello-world
+
+# download and install Docker Desktop
+curl "https://desktop.docker.com/linux/main/amd64/docker-desktop-4.16.2-amd64.deb" -o "docker-desktop-4.16.2-amd64.deb"
+sudo dpkg -i "docker-desktop-4.16.2-amd64.deb"
+rm docker-desktop-4.16.2-amd64.deb
+
+# start Docker Desktop
+sudo systemctl enable docker
+
+
+# AWS CLI
+# -----------------------------------------------------------------------------
+
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install
+rm -rf awscliv2.zip aws
+
+# AWS SAM CLI
+# -----------------------------------------------------------------------------
+#
+curl "https://github.com/aws/aws-sam-cli/releases/latest/download/aws-sam-cli-linux-x86_64.zip" -o "aws-sam-cli-linux-x86_64.zip"
+unzip aws-sam-cli-linux-x86_64.zip -d sam-installation
+sudo ./sam-installation/install
+rm -rf aws-sam-cli-linux-x86_64.zip sam-installation
+
+# Dotfiles
+# -----------------------------------------------------------------------------
+
+git clone git@github.com:rafael-almeida/dotfiles.git ~/dotfiles
+ln -s ~/dotfiles/zsh/.zshrc ~/.zshrc
+ln -s ~/dotfiles/tmux/.tmux.conf ~/.tmux.conf
+ln -s ~/dotfiles/nvim ~/.config/nvim
+
+# Fira Code
+# -----------------------------------------------------------------------------
+
+sudo apt-get install fonts-firacode
+
+# Spotify
+# -----------------------------------------------------------------------------
+
+curl -sS https://download.spotify.com/debian/pubkey_7A3A762FAFD4A51F.gpg | sudo gpg --dearmor --yes -o /etc/apt/trusted.gpg.d/spotify.gpg
+echo "deb http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list
+sudo apt-get update
+sudo apt-get install spotify-client
