@@ -24,6 +24,7 @@ return {
             "cssls",
             "pylsp",
             "tsserver",
+            "ruff_lsp",
         })
 
         lsp.nvim_workspace() -- Fix Undefined global 'vim'
@@ -85,6 +86,9 @@ return {
             on_attach = default_setup,
             settings = {
                 Lua = {
+                    diagnostics = {
+                        globals = { "vim" }, -- Fix Undefined global 'vim' warning
+                    },
                     format = {
                         enable = true,
                         defaultConfig = {
@@ -95,52 +99,113 @@ return {
             }
         })
 
-        require("lspconfig").pylsp.setup({
+
+        require("lspconfig").ruff_lsp.setup({
             on_attach = default_setup,
-            settings = {
-                pylsp = {
-                    configurationSources = { "flake8" },
-                    plugins = {
-                        -- Rope for Completions and renaming
-
-                        -- Pyflakes linter to detect various errors
-                        -- McCabe linter for complexity checking
-                        -- pycodestyle linter for style checking
-                        -- pydocstyle linter for docstring style checking (disabled by default)
-                        -- pylint for code linting (disabled by default)
-                        -- flake8 for error checking (disabled by default)
-
-                        -- code checking
-                        -- flake8 automatically runs pyflakes, pycodestyle, and mccabe
-                        flake8 = { enabled = true, ignore = { "W503", "E203" }, maxLineLength = 120 },
-                        pyflakes = { enabled = false },
-                        pycodestyle = { enabled = false },
-                        mccabe = { enabled = false },
-
-                        -- formatter
-                        black = { enabled = true }, -- TODO: black recommends flake8-bugbear plugin for proper flake8 integration
-                        autopep8 = { enabled = false },
-                        yapf = { enabled = false },
-
-                        isort = { enabled = true } -- TODO: this does not seem to support the `profile` option, as recommended by black
-
-
-                        -- jedi_completion = { enabled = false },
-                        -- jedi_definition = { enabled = false },
-                        -- jedi_hover = { enabled = false },
-                        -- jedi_references = { enabled = false },
-                        -- jedi_signature_help = { enabled = false },
-                        -- jedi_symbols = { enabled = false },
-                        --
-                        -- preload = { enabled = false },
-                        -- pydocstyle = { enabled = false, convention = 'pep257' },
-                        -- pylint = { enabled = false },
-                        -- rope_autoimport = { enabled = false, memory = false },
-                        -- rope_completion = { enabled = false },
-                    }
-                }
+            init_options = {
+                settings = {
+                    args = {}
+                },
             }
         })
+
+        -- require("lspconfig").pylsp.setup({
+        --     on_attach = default_setup,
+        --     settings = {
+        --
+        --         pylsp = {
+        --             configurationSources = { "flake8" },
+        --             plugins = {
+        --                 -- Enabling flake8 for comprehensive error checking, with specific ignores and line length settings
+        --                 flake8 = {
+        --                     ignore = {
+        --                     enabled = true,
+        --                         "W503", -- line break before binary operator
+        --                         "E203" -- whitespace before ':'
+        --                     },
+        --                     maxLineLength = 120
+        --                 },
+        --
+        --                 -- Enabling Black for formatting with a maximum line length of 200
+        --                 black = {
+        --                     enabled = true,
+        --                     extraArgs = { "--line-length", "200" }
+        --                 },
+        --
+        --                 -- Enabling isort for import sorting with configuration
+        --                 isort = {
+        --                     enabled = true,
+        --                     -- Additional configuration for isort can be added here
+        --                 },
+        --
+        --                 -- Optional: Enable pydocstyle for docstring style checking
+        --                 -- pydocstyle = {
+        --                 --     enabled = true,
+        --                 --     convention = 'numpy'  -- or 'pep257'
+        --                 -- },
+        --
+        --                 -- Optional: Enable pylint for advanced linting
+        --                 -- pylint = {
+        --                 --     enabled = true,
+        --                 --     args = { "--rcfile", "~/.pylintrc" }  -- Path to pylint configuration file
+        --                 -- },
+        --
+        --                 -- Disabled linters (since they overlap with flake8)
+        --                 pyflakes = { enabled = false },
+        --                 pycodestyle = { enabled = false },
+        --                 mccabe = { enabled = false },
+        --
+        --                 -- Disabled formatters (since Black and isort are enabled)
+        --                 autopep8 = { enabled = false },
+        --                 yapf = { enabled = false },
+        --
+        --                 -- Additional plugins can be configured as needed
+        --                 -- jedi_completion, jedi_definition, jedi_hover, etc.
+        --             }
+        --         }
+        --         -- pylsp = {
+        --         --     configurationSources = { "flake8" },
+        --         --     plugins = {
+        --         --         -- Rope for Completions and renaming
+        --         --
+        --         --         -- Pyflakes linter to detect various errors
+        --         --         -- McCabe linter for complexity checking
+        --         --         -- pycodestyle linter for style checking
+        --         --         -- pydocstyle linter for docstring style checking (disabled by default)
+        --         --         -- pylint for code linting (disabled by default)
+        --         --         -- flake8 for error checking (disabled by default)
+        --         --
+        --         --         -- code checking
+        --         --         -- flake8 automatically runs pyflakes, pycodestyle, and mccabe
+        --         --         flake8 = { enabled = true, ignore = { "W503", "E203" }, maxLineLength = 120 },
+        --         --         pyflakes = { enabled = false },
+        --         --         pycodestyle = { enabled = false },
+        --         --         mccabe = { enabled = false },
+        --         --
+        --         --         -- formatter
+        --         --         black = { enabled = true }, -- TODO: black recommends flake8-bugbear plugin for proper flake8 integration
+        --         --         autopep8 = { enabled = false },
+        --         --         yapf = { enabled = false },
+        --         --
+        --         --         isort = { enabled = true } -- TODO: this does not seem to support the `profile` option, as recommended by black
+        --         --
+        --         --
+        --         --         -- jedi_completion = { enabled = false },
+        --         --         -- jedi_definition = { enabled = false },
+        --         --         -- jedi_hover = { enabled = false },
+        --         --         -- jedi_references = { enabled = false },
+        --         --         -- jedi_signature_help = { enabled = false },
+        --         --         -- jedi_symbols = { enabled = false },
+        --         --         --
+        --         --         -- preload = { enabled = false },
+        --         --         -- pydocstyle = { enabled = false, convention = 'pep257' },
+        --         --         -- pylint = { enabled = false },
+        --         --         -- rope_autoimport = { enabled = false, memory = false },
+        --         --         -- rope_completion = { enabled = false },
+        --         --     }
+        --         -- }
+        --     }
+        -- })
 
 
         lsp.setup()
