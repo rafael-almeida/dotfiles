@@ -2,7 +2,7 @@ local autocmd = vim.api.nvim_create_autocmd
 local augroup = vim.api.nvim_create_augroup
 
 -- open `help` as a vertical split
--- This is not working properly
+-- This only work when execution `:help` for the first time. All consecutive `:help` will open in horizontal split
 autocmd("FileType", {
     pattern = "help",
     command = "wincmd L | vert resize 90"
