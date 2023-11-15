@@ -22,7 +22,7 @@ return {
             "lua_ls",
             "html",
             "cssls",
-            "pylsp",
+            -- "pylsp",
             "tsserver",
             "ruff_lsp",
         })
@@ -100,14 +100,31 @@ return {
         })
 
 
-        require("lspconfig").ruff_lsp.setup({
+        require("lspconfig").ruff_lsp.setup {
             on_attach = default_setup,
             init_options = {
                 settings = {
-                    args = {}
-                },
+                    lint = {
+                        args = {
+                            -- "E",  # pycodestyle errors
+                            -- "W",  # pycodestyle warnings
+                            -- "F",  # pyflakes
+                            -- "I",  # isort
+                            -- "C",  # flake8-comprehensions
+                            -- "B",  # flake8-bugbear
+                            -- "UP",  # pyupgrade
+                            "--select=C,E,F,I,W",
+                            "--line-length=120"
+                        },
+                    },
+                    format = {
+                        args = {
+                            "--line-length=120"
+                        },
+                    },
+                }
             }
-        })
+        }
 
         -- require("lspconfig").pylsp.setup({
         --     on_attach = default_setup,
