@@ -1,6 +1,8 @@
 local autocmd = vim.api.nvim_create_autocmd
 local augroup = vim.api.nvim_create_augroup
 
+-- TODO: don't show line number in netrw
+
 -- open `help` as a vertical split
 -- This only work when execution `:help` for the first time. All consecutive `:help` will open in horizontal split
 autocmd("FileType", {

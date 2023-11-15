@@ -1,8 +1,8 @@
 vim.opt.termguicolors = true
 
-vim.opt.cursorline = false -- TODO: Verify if disabling cursorline improves scroll performance. 
+vim.opt.cursorline = true
 vim.opt.signcolumn = "yes"
-vim.opt.colorcolumn = "80"
+vim.opt.colorcolumn = { "80", "120" }
 vim.opt.number = true
 vim.opt.relativenumber = true
 
@@ -17,7 +17,7 @@ return {
             style = "night",
             on_highlights = function(h, c)
                 h.BufferLineFill = {
-                    bg = c.bg_dark -- Fix bufferline background color
+                    bg = c.bg_dark -- Fixes bufferline background color
                 }
             end
         },
@@ -42,12 +42,12 @@ return {
         opts = {
             options = {
                 numbers = function(opts)
-                    return opts.raise(opts.ordinal) -- Show tab number as superscript
+                    return opts.raise(opts.ordinal) -- Shows tab number as superscript
                 end,
                 indicator = {
-                    style = "icon",        -- Show separator as icon
+                    style = "icon",        -- Shows separator as icon
                 },
-                show_buffer_icons = false, -- Disable filetype icons
+                show_buffer_icons = false, -- Disables filetype icons
             },
         },
         config = function(_, opts)
@@ -55,7 +55,7 @@ return {
                 items = {
                     require("bufferline.groups")
                         .builtin
-                        .pinned:with({ icon = icons.pin }) -- Change pin icon
+                        .pinned:with({ icon = icons.pin }) -- Changes pin icon
                 },
             }
 

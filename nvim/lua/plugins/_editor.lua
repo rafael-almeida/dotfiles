@@ -26,6 +26,8 @@ return {
             },
         },
         init = function()
+            -- Changes the syntax to Markdown
+            vim.g.vimwiki_global_ext = 0 -- Restricts vimwiki to the paths listed in `vimwiki_list`, i.e., don't treat all markdown files as part of vimwiki
             vim.g.vimwiki_list = {
                 {
                     path = "~/vimwiki",
@@ -33,8 +35,6 @@ return {
                     ext = ".md",
                 },
             }
-
-            vim.g.vimwiki_global_ext = 0 -- Restrict vimwiki to only the paths listed in `vimwiki_list`, i.e., don't treat all markdown files as part of vimwiki
         end
     },
     {
@@ -44,9 +44,8 @@ return {
             {
                 "<leader>u",
                 function()
-                    -- Toggle Undotree and set it as the current window (move the cursor)
+                    -- Toggles Undotree and set it as the current window (move the cursor)
                     vim.cmd("UndotreeToggle")
-
                     for _, win in pairs(vim.api.nvim_list_wins()) do
                         local buf = vim.api.nvim_win_get_buf(win)
                         local buftype = vim.api.nvim_buf_get_option(buf, "filetype")
@@ -61,7 +60,7 @@ return {
             desc = "undotree: Toggle Undotree",
         },
         init = function()
-            vim.g.undotree_WindowLayout = 4 -- Move all windows to the right, and expand the diff window to full width
+            vim.g.undotree_WindowLayout = 4 -- Moves undotree window to the right, and expand the diff window to full width
         end,
     },
     {
@@ -71,7 +70,7 @@ return {
         },
         cmd = { "TroubleToggle", "Trouble" },
         opts = {
-            use_diagnostic_signs = true, -- Use the signs defined in the lsp client
+            use_diagnostic_signs = true, -- Uses the signs defined in the lsp client
         },
         keys = {
             { "<leader>xd", "<Cmd>TroubleToggle document_diagnostics<CR>",  desc = "trouble: Toggle document diagnostics" },
@@ -82,6 +81,7 @@ return {
 
     },
     {
+        -- TODO: This seems to be the slowest plugin to load.
         "numToStr/Comment.nvim",
         dependencies = {
             { "JoosepAlviste/nvim-ts-context-commentstring", lazy = true },
