@@ -59,7 +59,7 @@ return {
             },
             desc = "undotree: Toggle Undotree",
         },
-        init = function()
+        config = function()
             vim.g.undotree_WindowLayout = 4 -- Moves undotree window to the right, and expand the diff window to full width
         end,
     },

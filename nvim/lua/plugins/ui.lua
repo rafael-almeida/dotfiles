@@ -115,7 +115,8 @@ return {
                 char = icons.indent_char,
             },
         },
-        init = function()
+        config = function(_, opts)
+            require("ibl").setup(opts)
             vim.opt.list = true
             vim.opt.listchars:append("space:" .. icons.space_char)
             vim.opt.listchars:append("eol:" .. icons.newline_char)
