@@ -62,12 +62,19 @@ return {
         },
         config = function(_, opts)
             local lsp = require("lspconfig")
+
             for _, server in ipairs(servers) do
+                print("Setting up LSP for " .. server)
+
+                local c = {
+                    on_attach = opts.on_attach,
+                }
+
                 if server == "lua_ls" then
-                    lsp[server].setup({
+                    c.settings = {
                         Lua = {
                             diagnostics = {
-                                globals = { "vim" }, -- Fix Undefined global 'vim' warning
+                                globals = { "vim" }, -- Fix Undefined global "vim" warning
                             },
                             format = {
                                 enable = true,
@@ -76,28 +83,48 @@ return {
                                 }
                             }
                         }
-                    })
-                else
-                    lsp[server].setup(opts)
+                    }
                 end
+
+                if server == "ruff_lsp" then
+                    c.init_options = {
+                        settings = {
+                            lint = {
+                                args = {
+                                    -- https://docs.astral.sh/ruff/rules
+                                    "--select=ALL",
+                                    -- E501: line too long
+                                    "--ignore=E501",
+                                }
+                            },
+                            format = {
+                                args = {
+                                    "--line-length=320",
+                                }
+                            },
+                        }
+                    }
+                end
+
+                lsp[server].setup(c)
             end
 
-            local cmp = require('cmp')
+            local cmp = require("cmp")
 
             cmp.setup({
                 sources = {
-                    { name = 'nvim_lsp' },
+                    { name = "nvim_lsp" },
                 },
                 mapping = cmp.mapping.preset.insert({
                     -- Enter key confirms completion item
-                    ['<CR>'] = cmp.mapping.confirm({ select = false }),
+                    ["<CR>"] = cmp.mapping.confirm({ select = false }),
 
                     -- Ctrl + space triggers completion menu
-                    ['<C-Space>'] = cmp.mapping.complete(),
+                    ["<C-Space>"] = cmp.mapping.complete(),
                 }),
                 snippet = {
                     expand = function(args)
-                        require('luasnip').lsp_expand(args.body)
+                        require("luasnip").lsp_expand(args.body)
                     end,
                 },
             })
