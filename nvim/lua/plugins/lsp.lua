@@ -1,6 +1,7 @@
 local servers = {
     "lua_ls",      -- Lua
     "ruff_lsp",    -- Python
+    "pyright",     -- Python
     "gopls",       -- Go
     "templ",       -- Go
     "biome",       -- JSON, Javascript, Typescript
@@ -84,48 +85,63 @@ return {
                     }
                 end
 
+                if server == "pyright" then
+                    c = {
+                        settings = {
+                            python = {
+                                analysis = {
+                                    ignore = { "**/*" }, -- Disables all linting
+                                },
+                            }
+                        },
+                        on_attach = function(client, bufnr)
+                            opts.on_attach(client, bufnr)
+                            -- Disable formatting capability to prevent conflicts with ruff
+                            client.resolved_capabilities.document_formatting = false
+                            client.resolved_capabilities.document_range_formatting = false
+                        end
+                    }
+                end
+
                 if server == "ruff_lsp" then
                     local selects = {
-                        "F",     -- Pyflakes: Checks for errors in Python source code
-                        "E",     -- pycodestyle: Checks for PEP 8 style compliance
-                        "W",     -- pycodestyle: Checks for PEP 8 style compliance
-                        "C90",   -- mccabe: Checks for complex code
-                        "I",     -- isort: Checks for import order
-                        "N",     -- pep8-naming: Checks for naming conventions
-                        "D",     -- pydocstyle: Checks for docstring conventions
-
-                        "UP",    -- pyupgrade: Checks for outdated Python syntax
-                        "ASYNC", -- flake8-async: Checks for bad async / asyncio practices
-                        "S",     -- flake8-bandit: Checks for common security issues
-                        "BLE",   -- flake8-blind-except: Checks for blind exceptions
-                        "FBT",   -- flake8-boolean-trap: Checks for boolean traps (boolean argument that switches behaviour)
-                        "B",     -- flake8-bugbear: Checks for common bugs and design problems
-                        "A",     -- flake8-builtins: Checks for shadowing builtins
-                        "COM",   -- flake8-commas: Checks for missing trailing commas
-                        "C4",    -- flake8-comprehensions: Checks for bad comprehensions (list, dict, set)
-                        "DTZ",   -- flake8-datetimez: Checks for the usage of unsafe naive datetime class
-                        "ISC",   -- flake8-implicit-str-concat: Checks for string concatenation
-                        "G",     -- flake8-logging-format: Checks for bad logging format
-                        "INP",   -- flake8-no-pep420: Checks for usage of implicit namespace packages
-                        "PIE",   -- flake8-pie: Miscellaneous lints
+                        "F",     -- Pyflakes: Identifies common errors in code
+                        "E",     -- pycodestyle: Enforces PEP 8 style guidelines
+                        "W",     -- pycodestyle: Warns about style and complexity
+                        "C90",   -- mccabe: Checks function cyclomatic complexity
+                        "I",     -- isort: Sorts import statements
+                        "N",     -- pep8-naming: Checks PEP 8 naming conventions
+                        "D",     -- pydocstyle: Ensures docstring conventions
+                        "UP",    -- pyupgrade: Upgrades syntax for newer Python versions
+                        "ASYNC", -- flake8-async: Lints async/await syntax
+                        "S",     -- flake8-bandit: Security-focused static analysis
+                        "BLE",   -- flake8-blind-except: Warns against bare 'except:'
+                        "FBT",   -- flake8-boolean-trap: Detects confusing boolean checks
+                        "B",     -- flake8-bugbear: Finds bugs and design issues
+                        "A",     -- flake8-builtins: Prevents overwriting built-ins
+                        "COM",   -- flake8-commas: Enforces trailing commas
+                        "C4",    -- flake8-comprehensions: Optimizes comprehensions
+                        "DTZ",   -- flake8-datetimez: Safeguards date/time usage
+                        "ISC",   -- flake8-implicit-str-concat: Flags implicit concatenation
+                        "G",     -- flake8-logging-format: Standardizes logging formats
+                        "INP",   -- flake8-no-pep420: Disallows PEP 420 namespaces
+                        "PIE",   -- flake8-pie: Extends error checking
                         "T20",   -- flake8-print: Checks for print statements
-                        "PT",    -- flake8-pytest-style: Checks for common pytest practices
-                        "Q",     -- flake8-quotes: Checks for quotes
-                        "RSE",   -- flake8-raise: Checks for common raise / reraise patterns
-                        "RET",   -- flake8-return: Checks for common return / yield patterns
-                        "SLF",   -- flake8-self: Checks for missing self argument
-                        "SLOT",  -- flake8-slots: Checks for missing __slots__
-                        "SIM",   -- flake8-simplify: Checks for simplifiable statements
-                        "TCH",   -- flake8-type-checking: Checks for type checking related issues
-                        "ARG",   -- flake8-unused-arguments: Checks for unused arguments
-                        "PTH",   -- flake8-use-pathlib: Checks for usage of pathlib
-                        "TRY",   -- tryceratops: Checks for common try / except patterns
-                        "PERF",  -- Perflint: Checks for common performance issues
-                        "FURB",  -- refurb: Checks for common refactoring issues
-                        "LOG",   -- flake8-logging: Checks for common logging issues
-                        "RUF",   -- Ruff-specific rules
-                        "PD",    -- pandas-vet: Checks for common pandas issues
-                        "NPY",   -- NumPy-specific rules: Checks for common NumPy issues
+                        "PT",    -- flake8-pytest-style: Enforces pytest style rules
+                        "Q",     -- flake8-quotes: Standardizes quote usage
+                        "RSE",   -- flake8-raise: Ensures proper exception raising
+                        "RET",   -- flake8-return: Analyzes function returns
+                        "SLF",   -- flake8-self: Checks 'self' usage in methods
+                        "SLOT",  -- flake8-slots: Verifies '__slots__' usage
+                        "SIM",   -- flake8-simplify: Simplifies code structures
+                        "TCH",   -- flake8-type-checking: Ensures proper type hinting
+                        "ARG",   -- flake8-unused-arguments: Finds unused arguments
+                        "PTH",   -- flake8-use-pathlib: Promotes 'pathlib' usage
+                        "TRY",   -- tryceratops: Analyzes try/except blocks
+                        "PERF",  -- Perflint: Identifies performance-impacting patterns
+                        "FURB",  -- refurb: Updates outdated Python syntax
+                        "LOG",   -- flake8-logging: Checks logging usage
+                        "RUF",   -- Ruff-specific rules: Unique to Ruff linter
                     }
 
                     local ignores = {
@@ -143,7 +159,7 @@ return {
                         "D107", -- Missing docstring in __init__
 
                         -- Conflicting lint rules
-                        -- Recommended by Ruff formatter
+                        -- Recommended by Ruff when using their formatter
                         -- None of these are included in Ruff's default configuration
                         -- https://docs.astral.sh/ruff/formatter/#conflicting-lint-rules
                         "W191",   -- tab-indentation
@@ -174,6 +190,7 @@ return {
                         settings = {
                             lint = {
                                 args = {
+                                    -- "--select=ALL",
                                     "--select=" .. table.concat(selects, ","),
                                     "--ignore=" .. table.concat(ignores, ","),
                                 }
