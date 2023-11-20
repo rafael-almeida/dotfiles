@@ -1,3 +1,8 @@
+local nnoremap = function(bufnr, lhs, rhs, desc)
+    local opts = { buffer = bufnr, remap = false, desc = desc }
+    vim.keymap.set("n", lhs, rhs, opts)
+end
+
 local servers = {
     "lua_ls",      -- Lua
     "pyright",     -- Python
@@ -13,12 +18,9 @@ local servers = {
 }
 
 return {
-    -- {
-    --     "folke/neodev.nvim",
-    -- },
     {
         "williamboman/mason.nvim",
-        cmd = "Mason", -- According to the docs, lazy-loading is not recommended
+        cmd = "Mason", -- NOTE: According to the docs, lazy-loading is not recommended.
         build = ":MasonUpdate",
         keys = {
             { "<leader>cm", "<cmd>Mason<cr>", desc = "Mason" }
@@ -28,8 +30,8 @@ return {
         end
     },
     {
-        -- This is optional, and it is only being used to auto install servers
-        -- NOTE: It is the slowers plugin to load. It takes about 20ms to load, while the second slowest takes 10ms (nvim-lspconfig)
+        -- NOTE: This is optional, and it is only being used to auto install servers.
+        -- It is the slowers plugin to load. This takes about 20ms to load, while the second slowest takes 10ms (nvim-lspconfig).
         --
         -- It's important to set up the plugins in the following order:
         --   * mason
@@ -52,45 +54,56 @@ return {
         dependencies = {
             { "williamboman/mason.nvim" },
             { "williamboman/mason-lspconfig.nvim", optional = true },
-            -- { "hrsh7th/nvim-cmp" },
-            -- { "hrsh7th/cmp-nvim-lsp" },
-            -- { "L3MON4D3/LuaSnip" },
-            -- { "folke/neodev.nvim" },
+            { "folke/neodev.nvim" },
+            {
+                "hrsh7th/nvim-cmp",
+                dependencies = {
+                    { "L3MON4D3/LuaSnip" },
+                    { "hrsh7th/cmp-nvim-lsp" },
+                    { "hrsh7th/cmp-buffer" },
+                    { "hrsh7th/cmp-path" },
+                    { "saadparwaiz1/cmp_luasnip" },
+                }
+            },
         },
         keys = {
-            { "<leader>e", vim.diagnostic.open_float, desc = "" },
-            { "[d",        vim.diagnostic.goto_prev,  desc = "" },
-            { "]d",        vim.diagnostic.goto_next,  desc = "" },
-            { "<leader>q", vim.diagnostic.setloclist, desc = "" },
+            { "<leader>e", vim.diagnostic.open_float, desc = "Show diagnostics" },
+            { "[d",        vim.diagnostic.goto_prev,  desc = "Move to previous diagnostic" },
+            { "]d",        vim.diagnostic.goto_next,  desc = "Move to next diagnostic" },
+            { "<leader>q", vim.diagnostic.setloclist, desc = "Add diagnostics to location list" },
         },
         opts = {
             on_attach = function(_, bufnr)
-                -- Enable completion triggered by <c-x><c-o>
-                vim.bo[bufnr].omnifunc = "v:lua.vim.lsp.omnifunc"
+                -- Enables completion triggered by <c-x><c-o>
+                -- vim.bo[bufnr].omnifunc = "v:lua.vim.lsp.omnifunc"
 
-                local bufopts = { buffer = bufnr, remap = false }
-                vim.keymap.set("n", "<leader>R", ":LspRestart<CR>")
-                vim.keymap.set("n", "<leader>wA", vim.lsp.buf.add_workspace_folder, bufopts)
-                vim.keymap.set("n", "<leader>wR", vim.lsp.buf.remove_workspace_folder, bufopts)
-                vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
-                vim.keymap.set("n", "<C-s>", vim.lsp.buf.signature_help, bufopts)
-                vim.keymap.set("n", "gD", vim.lsp.buf.declaration, bufopts)
-                vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)
-                vim.keymap.set("n", "gi", vim.lsp.buf.implementation, bufopts)
-                vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
-                vim.keymap.set("n", "<leader>D", vim.lsp.buf.type_definition, bufopts)
-                vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, bufopts)
-                vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, bufopts)
-                vim.keymap.set("n", "<leader>ft", function()
+                nnoremap(bufnr, "<leader>R", ":LspRestart<CR>", "Restart language server")
+                nnoremap(bufnr, "<leader>wA", vim.lsp.buf.add_workspace_folder, "Add to workspace folders")
+                nnoremap(bufnr, "<leader>wR", vim.lsp.buf.remove_workspace_folder, "Remove from workspace folders")
+                nnoremap(bufnr, "K", vim.lsp.buf.hover, "Display hover information")
+                nnoremap(bufnr, "<C-s>", vim.lsp.buf.signature_help, "Display signature information")
+                nnoremap(bufnr, "gD", vim.lsp.buf.declaration, "Jump to the declaration")
+                nnoremap(bufnr, "gd", vim.lsp.buf.definition, "Jump to the definition")
+                nnoremap(bufnr, "gi", vim.lsp.buf.implementation, "List all implementations")
+                nnoremap(bufnr, "gr", vim.lsp.buf.references, "List all references")
+                nnoremap(bufnr, "<leader>D", vim.lsp.buf.type_definition, "Jump to definition")
+                nnoremap(bufnr, "<leader>rn", vim.lsp.buf.rename, "Rename all references")
+                nnoremap(bufnr, "<leader>ca", vim.lsp.buf.code_action, "Select available code action")
+                nnoremap(bufnr, "<leader>ft", function()
                     vim.lsp.buf.format({ async = true })
-                end, bufopts)
+                end, "Format buffer")
             end,
             custom_settings = {
                 lua_ls = {
                     settings = {
                         Lua = {
                             diagnostics = {
-                                globals = { "vim" }, -- Fix `Undefined global "vim"` warning
+                                globals = {
+                                    "vim" -- Fixes `Undefined global "vim"` warning.
+                                },
+                                disable = {
+                                    "missing-fields" -- Disables `Undefined field` warning. This warning shows up often when using neodev.
+                                },
                             },
                             format = {
                                 defaultConfig = {
@@ -145,7 +158,7 @@ return {
                         "E501", -- line too long
 
                         -- Docstring conventions
-                        -- Don't enforce docstring usage, but enforce the conventions when they do get used
+                        -- Don't enforce docstring usage, but enforce the conventions when they do get used.
                         "D100", -- Missing docstring in public module
                         "D101", -- Missing docstring in public class
                         "D102", -- Missing docstring in public method
@@ -156,8 +169,8 @@ return {
                         "D107", -- Missing docstring in __init__
 
                         -- Conflicting lint rules
-                        -- Recommended by Ruff when using their formatter
-                        -- None of these are included in Ruff's default configuration
+                        -- Recommended when using Ruff formatter.
+                        -- None of these are included in Ruff's default configuration.
                         -- https://docs.astral.sh/ruff/formatter/#conflicting-lint-rules
                         "W191",   -- tab-indentation
                         "E111",   -- indentation-with-invalid-multiple
@@ -174,8 +187,9 @@ return {
                         "ISC001", -- single-line-implicit-string-concatenation
                         "ISC002", -- multi-line-implicit-string-concatenation
 
-                        -- Conflicting lint rules
-                        -- TODO: Disable the following isort settings:
+                        -- Conflicting lint rules (isort)
+                        -- Recommended when using Ruff formatter.
+                        -- None of these are included in Ruff's default configuration.
                         -- force-single-line
                         -- force-wrap-aliases
                         -- lines-after-imports
@@ -213,11 +227,47 @@ return {
             }
         },
         config = function(_, opts)
-            local lsp = require("lspconfig")
+            local neodev = require("neodev")
+            neodev.setup() -- NOTE: This must be configured before lspconfig.
 
-            -- FIXME: This will fail if the server is not installed. We should check if the server is installed before setting it up.
+            local cmp = require("cmp")
+            cmp.setup({
+                sources =
+                    cmp.config.sources(
+                        {
+                            { name = "nvim_lsp", priority = 4 },
+                            { name = "luasnip",  priority = 3 },
+                            { name = "path",     priority = 2, max_item_count = 3 },
+                            { name = "buffer",   priority = 1, max_item_count = 3 },
+                        }
+                    ),
+                snippet = {
+                    expand = function(args)
+                        require("luasnip").lsp_expand(args.body) -- Configures snippet engine. Otherwise, it will throw `snippet engine is not configured` error.
+                    end,
+                },
+                formatting = {
+                    format = function(entry, item)
+                        item.menu = ({
+                            nvim_lsp = "[LSP]",
+                            luasnip  = "[Lua]",
+                            path     = "[Path]",
+                            buffer   = "[Buff]",
+                        })[entry.source.name]
+                        return item
+                    end
+                },
+                mapping = cmp.mapping.preset.insert({
+                    ["<CR>"] = cmp.mapping.confirm({ select = false }),
+                    ["<C-Space>"] = cmp.mapping.complete(),
+                }),
+            })
+
+            local capabilities = require("cmp_nvim_lsp").default_capabilities()
+
+            local lsp = require("lspconfig")
             for _, server in ipairs(servers) do
-                local c = { on_attach = opts.on_attach }
+                local c = { on_attach = opts.on_attach, capabilities = capabilities }
 
                 if not opts.custom_settings[server] then
                     lsp[server].setup(c)
@@ -232,5 +282,5 @@ return {
                 end
             end
         end
-    }
+    },
 }
