@@ -1,7 +1,7 @@
 local servers = {
-    "lua_ls", -- Lua
-    -- "ruff_lsp",    -- Python
-    -- "pyright", -- Python
+    "lua_ls",   -- Lua
+    "pyright",  -- Python
+    "ruff_lsp", -- Python
     -- "gopls",       -- Go
     -- "templ",       -- Go
     -- "biome",       -- JSON, Javascript, Typescript
@@ -25,9 +25,9 @@ return {
         end
     },
     {
-        -- This plugin is not required.
-        -- This is only being used to auto install servers.
-        -- NOTE: It is the slowers plugin to load. It takes about 20ms to load, while the second slowest takes 10ms (nvim-lspconfig).
+        -- This plugin is not required
+        -- This is only being used to auto install servers
+        -- NOTE: It is the slowers plugin to load. It takes about 20ms to load, while the second slowest takes 10ms (nvim-lspconfig)
         --
         -- It's important to set up the plugins in the following order:
         --   * mason
@@ -50,10 +50,10 @@ return {
         dependencies = {
             { "williamboman/mason.nvim" },
             { "williamboman/mason-lspconfig.nvim", optional = true },
-            { "hrsh7th/nvim-cmp" },
-            { "hrsh7th/cmp-nvim-lsp" },
-            { "L3MON4D3/LuaSnip" },
-            { "folke/neodev.nvim" },
+            -- { "hrsh7th/nvim-cmp" },
+            -- { "hrsh7th/cmp-nvim-lsp" },
+            -- { "L3MON4D3/LuaSnip" },
+            -- { "folke/neodev.nvim" },
         },
         keys = {
             { "<leader>e", vim.diagnostic.open_float, desc = "" },
@@ -88,7 +88,7 @@ return {
                     settings = {
                         Lua = {
                             diagnostics = {
-                                globals = { "vim" }, -- Fix Undefined global "vim" warning
+                                globals = { "vim" }, -- Fix `Undefined global "vim"` warning
                             },
                             format = {
                                 enable = true,
@@ -98,15 +98,6 @@ return {
                             }
                         }
                     }
-                },
-                pyright = {
-                    settings = {
-                        -- python = {
-                        --     analysis = {
-                        --         ignore = { "**/*" }, -- Disables all linting
-                        --     },
-                        -- }
-                    },
                 },
                 ruff_lsp = function()
                     local selects = {
@@ -192,21 +183,32 @@ return {
                     }
 
                     return {
-                        settings = {
-                            lint = {
-                                args = {
-                                    "--select=" .. table.concat(selects, ","),
-                                    "--ignore=" .. table.concat(ignores, ","),
-                                }
-                            },
-                            format = {
-                                args = {
-                                    "--line-length=320",
-                                }
-                            },
+                        init_options = {
+                            settings = {
+                                lint = {
+                                    args = {
+                                        "--select=" .. table.concat(selects, ","),
+                                        "--ignore=" .. table.concat(ignores, ","),
+                                    }
+                                },
+                                format = {
+                                    args = {
+                                        "--line-length=320",
+                                    }
+                                },
+                            }
                         }
                     }
                 end,
+                pyright = {
+                    settings = {
+                        python = {
+                            analysis = {
+                                ignore = { "**/*" }, -- Disables linting; managed by Ruff. Pyright is used only for language server features (hover, go to definition, etc).
+                            },
+                        }
+                    },
+                },
             }
         },
         config = function(_, opts)
