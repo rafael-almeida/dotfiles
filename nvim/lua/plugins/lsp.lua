@@ -25,8 +25,7 @@ return {
         end
     },
     {
-        -- This plugin is not required
-        -- This is only being used to auto install servers
+        -- This is optional, and it is only being used to auto install servers
         -- NOTE: It is the slowers plugin to load. It takes about 20ms to load, while the second slowest takes 10ms (nvim-lspconfig)
         --
         -- It's important to set up the plugins in the following order:
