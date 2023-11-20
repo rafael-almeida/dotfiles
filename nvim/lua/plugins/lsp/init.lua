@@ -1,76 +1,91 @@
 local servers = {
-    "lua_ls",      -- Lua
-    "ruff_lsp",    -- Python
-    "pyright",     -- Python
-    "gopls",       -- Go
-    "templ",       -- Go
-    "biome",       -- JSON, Javascript, Typescript
-    "html",        -- HTML
-    "cssls",       -- CSS
-    "tailwindcss", -- Tailwind CSS
-    "svelte",      -- Svelte
-    "marksman",    -- Markdown
+    "lua_ls", -- Lua
+    -- "ruff_lsp",    -- Python
+    -- "pyright", -- Python
+    -- "gopls",       -- Go
+    -- "templ",       -- Go
+    -- "biome",       -- JSON, Javascript, Typescript
+    -- "html",        -- HTML
+    -- "cssls",       -- CSS
+    -- "tailwindcss", -- Tailwind CSS
+    -- "svelte",      -- Svelte
+    -- "marksman",    -- Markdown
 }
 
 return {
     {
         "williamboman/mason.nvim",
-        cmd = "Mason",
+        cmd = "Mason", -- According to the docs, lazy-loading is not recommended
         build = ":MasonUpdate",
         keys = {
-            { "<leader>cm", "<Cmd>Mason<CR>", desc = "Mason" }
+            { "<leader>cm", "<cmd>Mason<cr>", desc = "Mason" }
         },
-        opts = {
-            ensure_installed = servers,
-        },
+        config = function()
+            require("mason").setup()
+        end
     },
     {
+        -- This plugin is not required.
+        -- This is only being used to auto install servers.
+        -- NOTE: It is the slowers plugin to load. It takes about 20ms to load, while the second slowest takes 10ms (nvim-lspconfig).
+        --
+        -- It's important to set up the plugins in the following order:
+        --   * mason
+        --   * mason-lspconfig
+        --   * lspconfig
         "williamboman/mason-lspconfig.nvim",
-        lazy = true,
+        dependencies = {
+            { "williamboman/mason.nvim" },
+        },
         opts = {
             ensure_installed = servers,
         },
+        config = function(_, opts)
+            require("mason-lspconfig").setup(opts)
+        end
     },
     {
         "neovim/nvim-lspconfig",
         event = { "BufReadPost", "BufNewFile", "BufWritePre" },
         dependencies = {
             { "williamboman/mason.nvim" },
-            { "williamboman/mason-lspconfig.nvim" },
-
+            { "williamboman/mason-lspconfig.nvim", optional = true },
             { "hrsh7th/nvim-cmp" },
             { "hrsh7th/cmp-nvim-lsp" },
             { "L3MON4D3/LuaSnip" },
             { "folke/neodev.nvim" },
         },
         keys = {
-            { "K",          vim.lsp.buf.hover,           desc = "Hover" },
-            { "<C-s>",      vim.lsp.buf.signature_help,  desc = "Signature Help" },
-            { "gD",         vim.lsp.buf.declaration,     desc = "Declaration" },
-            { "gd",         vim.lsp.buf.definition,      desc = "Definition" },
-            { "gi",         vim.lsp.buf.implementation,  desc = "Implementation" },
-            { "gr",         vim.lsp.buf.references,      desc = "References" },
-            { "<leader>D",  vim.lsp.buf.type_definition, desc = "Type Definition" },
-            { "<leader>rn", vim.lsp.buf.rename,          desc = "Rename" },
-            { "<leader>ca", vim.lsp.buf.code_action,     desc = "Code Action" },
-            {
-                "<leader>ft",
-                function()
-                    vim.lsp.buf.format({ async = true })
-                end,
-                desc = "Format"
-            },
+            { "<leader>e", vim.diagnostic.open_float, desc = "" },
+            { "[d",        vim.diagnostic.goto_prev,  desc = "" },
+            { "]d",        vim.diagnostic.goto_next,  desc = "" },
+            { "<leader>q", vim.diagnostic.setloclist, desc = "" },
         },
-        config = function(_, opts)
-            local lsp = require("lspconfig")
+        opts = {
+            on_attach = function(_, bufnr)
+                -- Enable completion triggered by <c-x><c-o>
+                vim.bo[bufnr].omnifunc = "v:lua.vim.lsp.omnifunc"
 
-            for _, server in ipairs(servers) do
-                local c = {
-                    on_attach = opts.on_attach,
-                }
-
-                if server == "lua_ls" then
-                    c.settings = {
+                local bufopts = { buffer = bufnr, remap = false }
+                vim.keymap.set("n", "<leader>R", ":LspRestart<CR>")
+                vim.keymap.set("n", "<leader>wA", vim.lsp.buf.add_workspace_folder, bufopts)
+                vim.keymap.set("n", "<leader>wR", vim.lsp.buf.remove_workspace_folder, bufopts)
+                vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
+                vim.keymap.set("n", "<C-s>", vim.lsp.buf.signature_help, bufopts)
+                vim.keymap.set("n", "gD", vim.lsp.buf.declaration, bufopts)
+                vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)
+                vim.keymap.set("n", "gi", vim.lsp.buf.implementation, bufopts)
+                vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
+                vim.keymap.set("n", "<leader>D", vim.lsp.buf.type_definition, bufopts)
+                vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, bufopts)
+                vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, bufopts)
+                vim.keymap.set("n", "<leader>ft", function()
+                    vim.lsp.buf.format({ async = true })
+                end, bufopts)
+            end,
+            custom_settings = {
+                lua_ls = {
+                    settings = {
                         Lua = {
                             diagnostics = {
                                 globals = { "vim" }, -- Fix Undefined global "vim" warning
@@ -83,27 +98,17 @@ return {
                             }
                         }
                     }
-                end
-
-                if server == "pyright" then
-                    c = {
-                        settings = {
-                            python = {
-                                analysis = {
-                                    ignore = { "**/*" }, -- Disables all linting
-                                },
-                            }
-                        },
-                        on_attach = function(client, bufnr)
-                            opts.on_attach(client, bufnr)
-                            -- Disable formatting capability to prevent conflicts with ruff
-                            client.resolved_capabilities.document_formatting = false
-                            client.resolved_capabilities.document_range_formatting = false
-                        end
-                    }
-                end
-
-                if server == "ruff_lsp" then
+                },
+                pyright = {
+                    settings = {
+                        -- python = {
+                        --     analysis = {
+                        --         ignore = { "**/*" }, -- Disables all linting
+                        --     },
+                        -- }
+                    },
+                },
+                ruff_lsp = function()
                     local selects = {
                         "F",     -- Pyflakes: Identifies common errors in code
                         "E",     -- pycodestyle: Enforces PEP 8 style guidelines
@@ -186,11 +191,10 @@ return {
                         -- split-on-trailing-comma
                     }
 
-                    c.init_options = {
+                    return {
                         settings = {
                             lint = {
                                 args = {
-                                    -- "--select=ALL",
                                     "--select=" .. table.concat(selects, ","),
                                     "--ignore=" .. table.concat(ignores, ","),
                                 }
@@ -202,30 +206,27 @@ return {
                             },
                         }
                     }
+                end,
+            }
+        },
+        config = function(_, opts)
+            local lsp = require("lspconfig")
+
+            for _, server in ipairs(servers) do
+                local c = { on_attach = opts.on_attach }
+
+                if not opts.custom_settings[server] then
+                    lsp[server].setup(c)
+                end
+
+                if type(opts.custom_settings[server]) == "function" then
+                    c = vim.tbl_extend("force", c, opts.custom_settings[server]())
+                else
+                    c = vim.tbl_extend("force", c, opts.custom_settings[server])
                 end
 
                 lsp[server].setup(c)
             end
-
-            local cmp = require("cmp")
-
-            cmp.setup({
-                sources = {
-                    { name = "nvim_lsp" },
-                },
-                mapping = cmp.mapping.preset.insert({
-                    -- Enter key confirms completion item
-                    ["<CR>"] = cmp.mapping.confirm({ select = false }),
-
-                    -- Ctrl + space triggers completion menu
-                    ["<C-Space>"] = cmp.mapping.complete(),
-                }),
-                snippet = {
-                    expand = function(args)
-                        require("luasnip").lsp_expand(args.body)
-                    end,
-                },
-            })
-        end,
+        end
     }
 }
