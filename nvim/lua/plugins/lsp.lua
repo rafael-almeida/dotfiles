@@ -1,18 +1,21 @@
 local servers = {
-    "lua_ls",   -- Lua
-    "pyright",  -- Python
-    "ruff_lsp", -- Python
-    -- "gopls",       -- Go
-    -- "templ",       -- Go
-    -- "biome",       -- JSON, Javascript, Typescript
-    -- "html",        -- HTML
-    -- "cssls",       -- CSS
-    -- "tailwindcss", -- Tailwind CSS
-    -- "svelte",      -- Svelte
-    -- "marksman",    -- Markdown
+    "lua_ls",      -- Lua
+    "pyright",     -- Python
+    "ruff_lsp",    -- Python
+    "gopls",       -- Go
+    "templ",       -- Go
+    "biome",       -- JSON, Javascript, Typescript
+    "html",        -- HTML
+    "cssls",       -- CSS
+    "tailwindcss", -- Tailwind CSS
+    "svelte",      -- Svelte
+    "marksman",    -- Markdown
 }
 
 return {
+    -- {
+    --     "folke/neodev.nvim",
+    -- },
     {
         "williamboman/mason.nvim",
         cmd = "Mason", -- According to the docs, lazy-loading is not recommended
@@ -90,7 +93,6 @@ return {
                                 globals = { "vim" }, -- Fix `Undefined global "vim"` warning
                             },
                             format = {
-                                enable = true,
                                 defaultConfig = {
                                     quote_style = "double",
                                 }
@@ -213,20 +215,21 @@ return {
         config = function(_, opts)
             local lsp = require("lspconfig")
 
+            -- FIXME: This will fail if the server is not installed. We should check if the server is installed before setting it up.
             for _, server in ipairs(servers) do
                 local c = { on_attach = opts.on_attach }
 
                 if not opts.custom_settings[server] then
                     lsp[server].setup(c)
-                end
-
-                if type(opts.custom_settings[server]) == "function" then
-                    c = vim.tbl_extend("force", c, opts.custom_settings[server]())
                 else
-                    c = vim.tbl_extend("force", c, opts.custom_settings[server])
-                end
+                    if type(opts.custom_settings[server]) == "function" then
+                        c = vim.tbl_extend("force", c, opts.custom_settings[server]())
+                    else
+                        c = vim.tbl_extend("force", c, opts.custom_settings[server])
+                    end
 
-                lsp[server].setup(c)
+                    lsp[server].setup(c)
+                end
             end
         end
     }
