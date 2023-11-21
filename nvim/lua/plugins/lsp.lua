@@ -52,7 +52,7 @@ return {
         "neovim/nvim-lspconfig",
         event = { "BufReadPost", "BufNewFile", "BufWritePre" },
         dependencies = {
-            { "williamboman/mason.nvim" },
+            { "williamboman/mason.nvim", optional = true },
             { "williamboman/mason-lspconfig.nvim", optional = true },
             { "folke/neodev.nvim" },
             {
@@ -312,6 +312,18 @@ return {
                     lsp[server].setup(c)
                 end
             end
+
+            vim.diagnostic.config({
+                signs = {
+                    severity = { min = vim.diagnostic.severity.ERROR },
+                },
+                underline = {
+                    severity = { min = vim.diagnostic.severity.WARN },
+                },
+                virtual_text = {
+                    source = "if_many",
+                },
+            })
         end
     },
 }
