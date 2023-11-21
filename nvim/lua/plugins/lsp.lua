@@ -60,8 +60,8 @@ return {
                 dependencies = {
                     { "L3MON4D3/LuaSnip" },
                     { "hrsh7th/cmp-nvim-lsp" },
-                    { "hrsh7th/cmp-buffer" },
                     { "hrsh7th/cmp-path" },
+                    { "hrsh7th/cmp-buffer" },
                     { "saadparwaiz1/cmp_luasnip" },
                 }
             },
@@ -74,6 +74,7 @@ return {
         },
         opts = {
             on_attach = function(_, bufnr)
+                -- NOTE: Using nvim-cmp instead.
                 -- Enables completion triggered by <c-x><c-o>
                 -- vim.bo[bufnr].omnifunc = "v:lua.vim.lsp.omnifunc"
 
@@ -190,6 +191,7 @@ return {
                         -- Conflicting lint rules (isort)
                         -- Recommended when using Ruff formatter.
                         -- None of these are included in Ruff's default configuration.
+                        -- https://docs.astral.sh/ruff/formatter/#conflicting-lint-rules
                         -- force-single-line
                         -- force-wrap-aliases
                         -- lines-after-imports
@@ -231,36 +233,65 @@ return {
             neodev.setup() -- NOTE: This must be configured before lspconfig.
 
             local cmp = require("cmp")
+            local luasnip = require("luasnip")
             cmp.setup({
+                snippet = {
+                    expand = function(args)
+                        luasnip.lsp_expand(args.body) -- Configures snippet engine. Otherwise, it will throw `snippet engine is not configured` error.
+                    end,
+                },
                 sources =
                     cmp.config.sources(
                         {
                             { name = "nvim_lsp", priority = 4 },
                             { name = "luasnip",  priority = 3 },
-                            { name = "path",     priority = 2, max_item_count = 3 },
-                            { name = "buffer",   priority = 1, max_item_count = 3 },
+                            { name = "path",     priority = 2, max_item_count = 2 },
+                            { name = "buffer",   priority = 1, max_item_count = 2 },
                         }
                     ),
-                snippet = {
-                    expand = function(args)
-                        require("luasnip").lsp_expand(args.body) -- Configures snippet engine. Otherwise, it will throw `snippet engine is not configured` error.
-                    end,
-                },
                 formatting = {
                     format = function(entry, item)
-                        item.menu = ({
+                        local menu = {
                             nvim_lsp = "[LSP]",
                             luasnip  = "[Lua]",
                             path     = "[Path]",
                             buffer   = "[Buff]",
-                        })[entry.source.name]
+                        }
+
+                        item.menu = menu[entry.source.name]
                         return item
                     end
                 },
-                mapping = cmp.mapping.preset.insert({
-                    ["<CR>"] = cmp.mapping.confirm({ select = false }),
-                    ["<C-Space>"] = cmp.mapping.complete(),
-                }),
+                mapping = {
+                    ["<C-y>"] = cmp.mapping.confirm({ select = true }),
+                    ["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
+                    ["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
+                    ["<C-e>"] = cmp.mapping(function()
+                        if cmp.visible() then
+                            cmp.abort()
+                        else
+                            cmp.complete()
+                        end
+                    end),
+                    ["<C-f>"] = cmp.mapping(function(fallback)
+                        -- Navigates to next snippet placeholder.
+                        -- NOTE: The `fallback` argument is a function that executes the original mapping.
+                        if luasnip.jumpable(1) then
+                            luasnip.jump(1)
+                        else
+                            fallback()
+                        end
+                    end, { "i", "s" }),
+                    ["<C-b>"] = cmp.mapping(function(fallback)
+                        -- Navigates to previous snippet placeholder.
+                        -- NOTE: The `fallback` argument is a function that executes the original mapping.
+                        if luasnip.jumpable(-1) then
+                            luasnip.jump(-1)
+                        else
+                            fallback()
+                        end
+                    end, { "i", "s" }),
+                },
             })
 
             local capabilities = require("cmp_nvim_lsp").default_capabilities()
