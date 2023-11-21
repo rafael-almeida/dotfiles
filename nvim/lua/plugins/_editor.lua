@@ -81,22 +81,28 @@ return {
 
     },
     {
-        -- TODO: This seems to be the slowest plugin to load.
+        -- nvim-ts-context-commentstring sets the commentstring option based on the cursor location in the file.
+        -- This is useful for files with multiple sections, each with a different style for comments (Svelte, Vue, etc).
+        "JoosepAlviste/nvim-ts-context-commentstring",
+        lazy = true,
+        opts = {
+            enable_autocmd = false, -- Disable autocmd, since we're using the Comment.nvim plugin. Trigger the commentstring calculation only when it is actually needed.
+        },
+        config = function(_, opts)
+            require("ts_context_commentstring").setup(opts)
+            vim.g.skip_ts_context_commentstring_module = true
+        end,
+    },
+    {
         "numToStr/Comment.nvim",
         dependencies = {
-            { "JoosepAlviste/nvim-ts-context-commentstring", lazy = true },
+            { "JoosepAlviste/nvim-ts-context-commentstring" },
         },
         event = { "BufRead", "BufNewFile" },
-        config = function(_, opts)
-            -- nvim-ts-context-commentstring sets the commentstring option based on the cursor location in the file.
-            -- This is useful for files with many different sections, each with a different style for comments (Svelte, Vue, etc).
-            local ok, ts_context = pcall(require, "ts_context_commentstring.integrations.comment_nvim")
-
-            if ok and ts_context then
-                opts.pre_hook = ts_context.create_pre_hook()
-            end
-
-            require("Comment").setup(opts)
+        config = function()
+            require("Comment").setup({
+                pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
+            })
         end,
     },
     {

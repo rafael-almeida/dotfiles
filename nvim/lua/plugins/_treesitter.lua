@@ -37,7 +37,7 @@ return {
         dependencies = {
             { 'nvim-treesitter/nvim-treesitter-context',     lazy = true }, -- Shows the current code context, e.g., class name > function name > condition > loop.
             { 'nvim-treesitter/nvim-treesitter-textobjects', lazy = true }, -- Enhances `commentstring` for embedded languages in certain types of files, e.g., React, Svelte, and Vue (html, css, and js in a single file).
-            { 'JoosepAlviste/nvim-ts-context-commentstring', lazy = true }, -- Defines custom text object mappings.
+            -- { 'JoosepAlviste/nvim-ts-context-commentstring', lazy = true }, -- Defines custom text object mappings.
         },
         build = ':TSUpdate',
         event = { 'BufReadPost', 'BufNewFile' },
@@ -58,10 +58,10 @@ return {
             },
 
             -- nvim-ts-context-commentstring
-            context_commentstring = {
-                enable = true,
-                enable_autocmd = false,
-            },
+            --context_commentstring = {
+            --    enable = true,
+            --    enable_autocmd = false,
+            --},
             -- end
 
             -- nvim-treesitter-textobjects
