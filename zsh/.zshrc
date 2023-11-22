@@ -11,6 +11,8 @@ source $ZSH/oh-my-zsh.sh
 # Environment Variables
 # ---------------------------------------
 
+export XDG_CONFIG_HOME="$HOME/.config"
+
 export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
 export PATH="/opt/homebrew/opt/postgresql@16/bin:$PATH"
 

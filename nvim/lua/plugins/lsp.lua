@@ -15,6 +15,7 @@ local servers = {
     "tailwindcss", -- Tailwind CSS
     "svelte",      -- Svelte
     "marksman",    -- Markdown
+    "yamlls",      -- YAML
 }
 
 return {
@@ -52,7 +53,7 @@ return {
         "neovim/nvim-lspconfig",
         event = { "BufReadPost", "BufNewFile", "BufWritePre" },
         dependencies = {
-            { "williamboman/mason.nvim", optional = true },
+            { "williamboman/mason.nvim",           optional = true },
             { "williamboman/mason-lspconfig.nvim", optional = true },
             { "folke/neodev.nvim" },
             {
@@ -229,9 +230,6 @@ return {
             }
         },
         config = function(_, opts)
-            local neodev = require("neodev")
-            neodev.setup() -- NOTE: This must be configured before lspconfig.
-
             local cmp = require("cmp")
             local luasnip = require("luasnip")
             cmp.setup({
@@ -307,6 +305,11 @@ return {
                         c = vim.tbl_extend("force", c, opts.custom_settings[server]())
                     else
                         c = vim.tbl_extend("force", c, opts.custom_settings[server])
+                    end
+
+                    if server == "lua_ls" then
+                        -- NOTE: This must be configured before lspconfig.
+                        require("neodev").setup()
                     end
 
                     lsp[server].setup(c)
