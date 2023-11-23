@@ -24,7 +24,7 @@ return {
         cmd = "Mason", -- NOTE: According to the docs, lazy-loading is not recommended.
         build = ":MasonUpdate",
         keys = {
-            { "<leader>cm", "<cmd>Mason<cr>", desc = "Mason" }
+            { "<leader>cm", "<Cmd>Mason<CR>", desc = "Mason" }
         },
         config = function()
             require("mason").setup()
@@ -79,7 +79,7 @@ return {
                 -- Enables completion triggered by <c-x><c-o>
                 -- vim.bo[bufnr].omnifunc = "v:lua.vim.lsp.omnifunc"
 
-                nnoremap(bufnr, "<leader>R", ":LspRestart<CR>", "Restart language server")
+                nnoremap(bufnr, "<leader>R", "<Cmd>LspRestart<CR>", "Restart language server")
                 nnoremap(bufnr, "<leader>wA", vim.lsp.buf.add_workspace_folder, "Add to workspace folders")
                 nnoremap(bufnr, "<leader>wR", vim.lsp.buf.remove_workspace_folder, "Remove from workspace folders")
                 nnoremap(bufnr, "K", vim.lsp.buf.hover, "Display hover information")

@@ -3,10 +3,10 @@ return {
     cmd = "Telescope",
     version = false,
     dependencies = {
-        { "nvim-lua/plenary.nvim",                    lazy = true },                 -- Required
-        { "nvim-tree/nvim-web-devicons",              lazy = true },                 -- Shows icons
-        { "nvim-treesitter/nvim-treesitter",          lazy = true },                 -- Shows syntax highlighting in preview window
-        { "nvim-telescope/telescope-fzf-native.nvim", lazy = true, build = "make" }, -- Improves sorting performance
+        { "nvim-lua/plenary.nvim" },                                    -- Required
+        { "nvim-tree/nvim-web-devicons" },                              -- Shows icons
+        { "nvim-treesitter/nvim-treesitter" },                          -- Shows syntax highlighting in preview window
+        { "nvim-telescope/telescope-fzf-native.nvim", build = "make" }, -- Improves sorting performance
     },
     keys = {
         -- Find
@@ -17,6 +17,7 @@ return {
         { "<leader>fs", "<Cmd>Telescope live_grep<CR>",              desc = "telescope: Search for text" },
         { "<leader>fw", "<Cmd>Telescope grep_string<CR>",            desc = "telescope: Search for word under the cursor" },
         { "<leader>fp", "<Cmd>Telescope lsp_document_symbols<CR>",   desc = "telescope: Search for symbols in current buffer" },
+        { "<leader>fv", "<Cmd>Telescope vim_options<CR>",            desc = "telescope: Search for vim options" },
         -- Git
         { "<leader>gc", "<Cmd>Telescope git_commits<CR>",            desc = "telescope: List git commits" },
         { "<leader>gs", "<Cmd>Telescope git_status<CR>",             desc = "telescope: List git status" },
@@ -30,8 +31,6 @@ return {
             },
             file_ignore_patterns = { ".git" },
             path_display = { "truncate" }, -- Shows as much of the path as possible
-            -- path_display = { "smart" }, -- Removes as much from the path as possible to only show (might impact performance)
-            -- path_display = { shorten = 4 }, -- Shows only the first 4 characters of each directory
         },
     },
     config = function(_, opts)
