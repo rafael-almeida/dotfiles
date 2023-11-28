@@ -1,5 +1,13 @@
 local autocmd = vim.api.nvim_create_autocmd
 local augroup = vim.api.nvim_create_augroup
+-- Open help as a vertical split
+vim.api.nvim_create_autocmd("BufEnter", {
+    callback = function()
+        if vim.bo.filetype == "help" then
+            vim.cmd("wincmd L | vertical resize 80")
+        end
+    end
+})
 
 -- TODO: don't show line number in netrw
 

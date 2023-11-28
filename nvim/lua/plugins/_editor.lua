@@ -1,10 +1,5 @@
 return {
     {
-        -- TODO: This needs custom keybindings.
-        -- I don't like the current workflow. At the very least, I want to be able to open the panel, and to easily navigate suggestions
-        "github/copilot.vim",
-    },
-    {
         "vimwiki/vimwiki",
         keys = {
             { "<leader>ww", ":vs | :VimwikiIndex<CR>",                  desc = "vimwiki: Open Vimwiki" },
@@ -38,6 +33,23 @@ return {
         end
     },
     {
+        "folke/trouble.nvim",
+        dependencies = {
+            { "nvim-tree/nvim-web-devicons", lazy = true },
+        },
+        cmd = { "TroubleToggle", "Trouble" },
+        opts = {
+            use_diagnostic_signs = true, -- Uses the signs defined in the lsp client
+        },
+        keys = {
+            { "<leader>xd", "<Cmd>TroubleToggle document_diagnostics<CR>",  desc = "trouble: Toggle document diagnostics" },
+            { "<leader>xw", "<Cmd>TroubleToggle workspace_diagnostics<CR>", desc = "trouble: Toggle workspace diagnostics" },
+            { "<leader>xq", "<Cmd>TroubleToggle quickfix<CR>",              desc = "trouble: Toggle quickfix list" },
+            { "<leader>xl", "<Cmd>TroubleToggle loclist<CR>",               desc = "trouble: Toggle location list" },
+        },
+
+    },
+    {
         "mbbill/undotree",
         cmd = { "UndotreeToggle" },
         keys = {
@@ -62,57 +74,5 @@ return {
         config = function()
             vim.g.undotree_WindowLayout = 4 -- Moves undotree window to the right, and expand the diff window to full width
         end,
-    },
-    {
-        "folke/trouble.nvim",
-        dependencies = {
-            { "nvim-tree/nvim-web-devicons", lazy = true },
-        },
-        cmd = { "TroubleToggle", "Trouble" },
-        opts = {
-            use_diagnostic_signs = true, -- Uses the signs defined in the lsp client
-        },
-        keys = {
-            { "<leader>xd", "<Cmd>TroubleToggle document_diagnostics<CR>",  desc = "trouble: Toggle document diagnostics" },
-            { "<leader>xw", "<Cmd>TroubleToggle workspace_diagnostics<CR>", desc = "trouble: Toggle workspace diagnostics" },
-            { "<leader>xq", "<Cmd>TroubleToggle quickfix<CR>",              desc = "trouble: Toggle quickfix list" },
-            { "<leader>xl", "<Cmd>TroubleToggle loclist<CR>",               desc = "trouble: Toggle location list" },
-        },
-
-    },
-    {
-        -- nvim-ts-context-commentstring sets the commentstring option based on the cursor location in the file.
-        -- This is useful for files with multiple sections, each with a different style for comments (Svelte, Vue, etc).
-        "JoosepAlviste/nvim-ts-context-commentstring",
-        lazy = true,
-        opts = {
-            enable_autocmd = false, -- Disable autocmd, since we're using the Comment.nvim plugin. Trigger the commentstring calculation only when it is actually needed.
-        },
-        config = function(_, opts)
-            require("ts_context_commentstring").setup(opts)
-            vim.g.skip_ts_context_commentstring_module = true
-        end,
-    },
-    {
-        "numToStr/Comment.nvim",
-        dependencies = {
-            { "JoosepAlviste/nvim-ts-context-commentstring" },
-        },
-        event = { "BufRead", "BufNewFile" },
-        config = function()
-            require("Comment").setup({
-                pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
-            })
-        end,
-    },
-    {
-        "windwp/nvim-autopairs",
-        event = { "InsertEnter" },
-        config = function()
-            require("nvim-autopairs").setup()
-        end,
-    },
-    {
-        "tpope/vim-surround",
     },
 }

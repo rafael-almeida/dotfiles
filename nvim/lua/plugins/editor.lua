@@ -1,4 +1,4 @@
-local ts_parsers = {
+local parsers = {
     "lua",
     "python",
     "go",
@@ -23,7 +23,7 @@ return {
             { "nvim-treesitter/nvim-treesitter-textobjects" },
         },
         opts = {
-            ensure_installed = ts_parsers,
+            ensure_installed = parsers,
             highlight = { enable = true },
             indent = { enable = true },
             incremental_selection = {
@@ -110,6 +110,7 @@ return {
         end
     },
     {
+        -- Shows the current code context.
         "nvim-treesitter/nvim-treesitter-context",
         dependencies = {
             { "nvim-treesitter/nvim-treesitter" },
@@ -120,5 +121,48 @@ return {
         config = function(_, opts)
             require("treesitter-context").setup(opts)
         end,
-    }
+    },
+    {
+        -- This is useful for files with multiple sections, each with a different style for comments (Svelte, Vue, etc).
+        "JoosepAlviste/nvim-ts-context-commentstring",
+        ft = { "svelte", "vue" },
+        opts = {
+            enable_autocmd = false, -- Commentstring is trigger by Comment.nvim
+        },
+        config = function(_, opts)
+            require("ts_context_commentstring").setup(opts)
+            vim.g.skip_ts_context_commentstring_module = true
+        end,
+    },
+    {
+        "numToStr/Comment.nvim",
+        event = { "BufRead", "BufNewFile" },
+        config = function()
+            local c = {}
+
+            -- Enables commenting for files with multiple sections (Svelte, Vue, etc).
+            local has_ts_context_commentstring, ts_context_commentstring = pcall(require, "ts_context_commentstring")
+            if has_ts_context_commentstring then
+                c.pre_hook = ts_context_commentstring.get_commentstring
+            end
+
+            require("Comment").setup(c)
+        end,
+    },
+    {
+        "windwp/nvim-autopairs",
+        event = { "InsertEnter" },
+        config = function()
+            require("nvim-autopairs").setup()
+        end,
+    },
+    {
+        "tpope/vim-surround",
+        event = { "BufRead", "BufNewFile" },
+    },
+    {
+        -- TODO: There is a better plugin for this called zbirenbaum/copilot.lua
+        "github/copilot.vim",
+        event = { "BufReadPost", "BufNewFile", "BufWritePre", "VeryLazy" },
+    },
 }
