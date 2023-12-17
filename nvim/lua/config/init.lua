@@ -1,17 +1,18 @@
 local M = {}
 
 M.icons = {
-    clock = " ",
-    error = " ",
-    warn = " ",
-    info = " ",
-    hint = " ",
-    pin = "󰐃",
+    diagnostics = {
+        error = " ",
+        warn = " ",
+        info = " ",
+        hint = " ",
+    },
     thick_vert = "▎",
     thin_vert = "│",
-    blankline_char = "",
-    newline_char = "↴",
-    space_char = "⋅",
+    space = "⋅",
+    trail = "•",
+    newline = "↴",
+    pin = "󰐃",
 }
 
 return M

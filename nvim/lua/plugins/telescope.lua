@@ -1,6 +1,5 @@
 return {
     "nvim-telescope/telescope.nvim",
-    cmd = "Telescope",
     version = false,
     dependencies = {
         { "nvim-lua/plenary.nvim" },                                    -- Required
@@ -8,6 +7,7 @@ return {
         { "nvim-treesitter/nvim-treesitter" },                          -- Shows syntax highlighting in preview window
         { "nvim-telescope/telescope-fzf-native.nvim", build = "make" }, -- Improves sorting performance
     },
+    cmd = "Telescope",
     keys = {
         -- Find
         { "<leader>fr", "<Cmd>Telescope resume<CR>",                 desc = "telescope: Open previous picker" },

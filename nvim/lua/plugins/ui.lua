@@ -16,7 +16,8 @@ return {
             style = "night",
             on_highlights = function(h, c)
                 h.BufferLineFill = { bg = c.bg_dark }
-                h.ColorColumn = { bg = "#2d3149" }
+                h.ColorColumn = { bg = c.bg_highlight }
+                h.Whitespace = { fg = c.bg_highlight }
             end
         },
         config = function(_, opts)
@@ -24,12 +25,34 @@ return {
         end,
     },
     {
+        "nvim-lualine/lualine.nvim",
+        dependencies = { "nvim-tree/nvim-web-devicons" },
+        event = { "VeryLazy" },
+        opts = {
+            sections = {
+                lualine_b = {
+                    {
+                        "diagnostics",
+                        symbols = {
+                            error = icons.diagnostics.error,
+                            warn = icons.diagnostics.warn,
+                            info = icons.diagnostics.info,
+                            hint = icons.diagnostics.hint
+                        }
+                    }
+                },
+                lualine_c = {},
+                lualine_x = {
+                    { "filename", path = 1 },
+                },
+            }
+        },
+    },
+    {
         "akinsho/bufferline.nvim",
         version = "*",
-        dependencies = {
-            { "nvim-tree/nvim-web-devicons", lazy = true }
-        },
-        event = "VeryLazy",
+        dependencies = { "nvim-tree/nvim-web-devicons" },
+        event = { "VeryLazy" },
         keys = {
             { "<leader>bp", "<Cmd>BufferLineTogglePin<CR>",            desc = "bufferline: Toggle pin" },
             { "<leader>bl", "<Cmd>BufferLineCloseLeft<CR>",            desc = "bufferline: Close buffers to the left" },
@@ -39,10 +62,7 @@ return {
         },
         opts = {
             options = {
-                -- numbers = function(opts)
-                --     return opts.raise(opts.ordinal) -- Shows tab number as superscript
-                -- end,
-                show_buffer_icons = false, -- Disables filetype icons
+               show_buffer_icons = false, -- Disables filetype icons
             },
         },
         config = function(_, opts)
@@ -58,35 +78,6 @@ return {
         end,
     },
     {
-        "nvim-lualine/lualine.nvim",
-        dependencies = {
-            { "nvim-tree/nvim-web-devicons", lazy = true }
-        },
-        event = "VeryLazy",
-        opts = {
-            -- options = {
-            --     section_separators = ""
-            -- },
-            sections = {
-                lualine_b = {
-                    {
-                        "diagnostics",
-                        symbols = {
-                            error = icons.error,
-                            warn = icons.warn,
-                            info = icons.info,
-                            hint = icons.hint
-                        }
-                    }
-                },
-                lualine_c = {},
-                lualine_x = {
-                    { "filename", path = 1 },
-                },
-            }
-        },
-    },
-    {
         "lukas-reineke/indent-blankline.nvim",
         event = { "BufReadPost", "BufNewFile" },
         main = "ibl",
@@ -96,39 +87,10 @@ return {
                 tab_char = icons.thin_vert, -- The default character is a greater than symbol
             },
         },
-        -- init = function()
-        --     vim.opt.list = true
-        --     vim.opt.listchars:append("space:" .. icons.space_char)
-        --     vim.opt.listchars:append("eol:" .. icons.newline_char)
-        -- end,
-    },
-    {
-        "anuvyklack/windows.nvim",
-        event = "WinNew",
-        dependencies = {
-            { "anuvyklack/middleclass" },
-            { "anuvyklack/animation.nvim" },
-        },
-        keys = {
-            { "<leader>m", "<Cmd>WindowsMaximize<CR>", desc = "windows: Zoom" }
-        },
-        config = function()
-            vim.o.winwidth = 5
-            vim.o.equalalways = false
-            require("windows").setup()
+        init = function()
+            vim.opt.list = true
+            vim.opt.listchars:append("space:" .. icons.space)
+            vim.opt.listchars:append("trail:" .. icons.trail)
         end,
-    },
-    {
-        "folke/twilight.nvim",
-        cmd = "Twilight",
-        opts = {
-            dimming = {
-                alpha = 0.35,
-                inactive = true, -- Dims other windows
-            },
-        },
-        keys = {
-            { "<leader>z", "<Cmd>Twilight<CR>", desc = "twilight: Toggle Twilight" }
-        },
     },
 }

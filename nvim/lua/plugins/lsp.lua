@@ -68,10 +68,10 @@ return {
             },
         },
         keys = {
-            { "<leader>e", vim.diagnostic.open_float, desc = "Show diagnostics" },
-            { "[d",        vim.diagnostic.goto_prev,  desc = "Move to previous diagnostic" },
-            { "]d",        vim.diagnostic.goto_next,  desc = "Move to next diagnostic" },
-            { "<leader>q", vim.diagnostic.setloclist, desc = "Add diagnostics to location list" },
+            { "<leader>e", vim.diagnostic.open_float, desc = "nvim-lspconfig: Show diagnostics" },
+            { "[d",        vim.diagnostic.goto_prev,  desc = "nvim-lspconfig: Move to previous diagnostic" },
+            { "]d",        vim.diagnostic.goto_next,  desc = "nvim-lspconfig: Move to next diagnostic" },
+            { "<leader>q", vim.diagnostic.setloclist, desc = "nvim-lspconfig: Add diagnostics to location list" },
         },
         opts = {
             on_attach = function(_, bufnr)

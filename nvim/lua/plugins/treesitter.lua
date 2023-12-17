@@ -16,9 +16,9 @@ return {
     {
         "nvim-treesitter/nvim-treesitter",
         version = false,
-        cmd = { "TSUpdateSync", "TSUpdate", "TSInstall" },
-        event = { "BufReadPost", "BufNewFile", "BufWritePre", "VeryLazy" },
         build = ":TSUpdate",
+        event = { "BufReadPost", "BufNewFile", "BufWritePre", "VeryLazy" },
+        cmd = { "TSUpdateSync", "TSUpdate", "TSInstall" },
         opts = {
             ensure_installed = parsers,
             highlight = { enable = true },

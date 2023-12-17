@@ -1,39 +1,36 @@
+local icons = require("config").icons
+local commentstring_filetypes = { "svelte" }
+
 return {
     {
-        -- This is useful for files with multiple sections, each with a different style for comments (Svelte, Vue, etc).
-        "JoosepAlviste/nvim-ts-context-commentstring",
-        dependencies = { "nvim-treesitter/nvim-treesitter" },
-        ft = { "svelte" },
-        opts = {
-            enable_autocmd = false, -- Commentstring is trigger by Comment.nvim
-        },
-        config = function(_, opts)
-            require("ts_context_commentstring").setup(opts)
-            vim.g.skip_ts_context_commentstring_module = true
-        end,
-    },
-    {
-        "numToStr/Comment.nvim",
-        event = { "BufRead", "BufNewFile" },
-        config = function()
-            local c = {}
-
-            local ok, ts_context_commentstring = pcall(require, "ts_context_commentstring")
-            if ok then
-                c.pre_hook = ts_context_commentstring.get_commentstring
-            end
-
-            require("Comment").setup(c)
-        end,
-    },
-    {
         "windwp/nvim-autopairs",
-        event = "InsertEnter",
+        event = { "InsertEnter" },
         opts = {}
     },
     {
         "tpope/vim-surround",
         event = { "BufRead", "BufNewFile" },
+    },
+    {
+        "numToStr/Comment.nvim",
+        event = { "BufRead", "BufNewFile" },
+        opts = function(_, opts)
+            if vim.tbl_contains(commentstring_filetypes, vim.bo.filetype) then
+                opts.pre_hook = require("ts_context_commentstring").get_commentstring
+            end
+        end,
+    },
+    {
+        -- This is useful for files with multiple sections, each with a different style for comments (Svelte, Vue, etc).
+        "JoosepAlviste/nvim-ts-context-commentstring",
+        dependencies = { "nvim-treesitter/nvim-treesitter" },
+        ft = commentstring_filetypes,
+        opts = {
+            enable_autocmd = false, -- Commentstring is triggered by Comment.nvim
+        },
+        init = function()
+            vim.g.skip_ts_context_commentstring_module = true
+        end,
     },
     {
         "Wansmer/treesj",
@@ -42,59 +39,9 @@ return {
         opts = {}
     },
     {
-        "smjonas/inc-rename.nvim",
-        cmd = "IncRename",
-    },
-    {
-        "cshuaimin/ssr.nvim",
-        keys = {
-            {
-                "<leader>sR",
-                function()
-                    require("ssr").open()
-                end,
-                mode = { "n", "x" },
-                desc = "ssr: Start structural search and replace",
-            },
-        },
-    },
-    {
-        "vimwiki/vimwiki",
-        keys = {
-            { "<leader>ww", ":vs | :VimwikiIndex<CR>",                  desc = "vimwiki: Open Vimwiki" },
-            { "<leader>wi", ":vs | :VimwikiDiaryIndex<CR>",             desc = "vimwiki: Open Vimwiki diary" },
-            { "<leader>wd", ":vs | :VimwikiMakeDiaryNote<CR>",          desc = "vimwiki: Create a new diary note for today" },
-            { "<leader>wy", ":vs | :VimwikiMakeYesterdayDiaryNote<CR>", desc = "vimwiki: Create a new diary note for yesterday" },
-            { "<leader>wt", ":vs | :VimwikiMakeTomorrowDiaryNote<CR>",  desc = "vimwiki: Create a new diary note for tomorrow" },
-            {
-                "<leader>wU",
-                function()
-                    local filepath = vim.fn.expand("%:p")
-                    if string.match(filepath, "/diary/") then
-                        vim.cmd("VimwikiDiaryGenerateLinks")
-                    else
-                        vim.cmd("VimwikiGenerateLinks")
-                    end
-                end,
-                desc = "vimwiki: Generate links",
-            },
-        },
-        init = function()
-            -- Changes the syntax to Markdown
-            vim.g.vimwiki_global_ext = 0 -- Restricts vimwiki to the paths listed in `vimwiki_list`, i.e., don't treat all markdown files as part of vimwiki
-            vim.g.vimwiki_list = {
-                {
-                    path = "~/vimwiki",
-                    syntax = "markdown",
-                    ext = ".md",
-                },
-            }
-        end
-    },
-    {
         "folke/trouble.nvim",
         dependencies = { "nvim-tree/nvim-web-devicons" },
-        cmd = { "TroubleToggle", "Trouble" },
+        cmd = { "Trouble", "TroubleToggle" },
         keys = {
             { "<leader>xd", "<Cmd>TroubleToggle document_diagnostics<CR>",  desc = "trouble: Toggle document diagnostics" },
             { "<leader>xw", "<Cmd>TroubleToggle workspace_diagnostics<CR>", desc = "trouble: Toggle workspace diagnostics" },
@@ -102,7 +49,13 @@ return {
             { "<leader>xl", "<Cmd>TroubleToggle loclist<CR>",               desc = "trouble: Toggle location list" },
         },
         opts = {
-            use_diagnostic_signs = true, -- Uses the signs defined in the lsp client
+            signs = {
+                error = icons.diagnostics.error,
+                warning = icons.diagnostics.warn,
+                hint = icons.diagnostics.hint,
+                information = icons.diagnostics.info,
+                other = icons.diagnostics.info,
+            },
         },
     },
     {
@@ -130,14 +83,5 @@ return {
         init = function()
             vim.g.undotree_WindowLayout = 4 -- Moves undotree window to the right, and expand the diff window to full width
         end,
-    },
-    {
-        "simrat39/symbols-outline.nvim",
-        dependencies = { "neovim/nvim-lspconfig" },
-        cmd = "SymbolsOutline",
-        keys = {
-            { "<leader>cs", "<cmd>SymbolsOutline<cr>", desc = "Symbols Outline" },
-        },
-        opts = {}
     },
 }
