@@ -21,8 +21,8 @@ local servers = {
 return {
     {
         "williamboman/mason.nvim",
-        cmd = "Mason", -- NOTE: According to the docs, lazy-loading is not recommended.
         build = ":MasonUpdate",
+        -- cmd = "Mason", -- NOTE: According to the docs, lazy-loading is not recommended.
         keys = {
             { "<leader>cm", "<Cmd>Mason<CR>", desc = "Mason" }
         },
@@ -51,7 +51,6 @@ return {
     },
     {
         "neovim/nvim-lspconfig",
-        event = { "BufReadPost", "BufNewFile", "BufWritePre" },
         dependencies = {
             { "williamboman/mason.nvim",           optional = true },
             { "williamboman/mason-lspconfig.nvim", optional = true },
@@ -67,6 +66,7 @@ return {
                 }
             },
         },
+        event = { "BufReadPost", "BufNewFile", "BufWritePre" },
         keys = {
             { "<leader>e", vim.diagnostic.open_float, desc = "nvim-lspconfig: Show diagnostics" },
             { "[d",        vim.diagnostic.goto_prev,  desc = "nvim-lspconfig: Move to previous diagnostic" },

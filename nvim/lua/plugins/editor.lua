@@ -58,30 +58,4 @@ return {
             },
         },
     },
-    {
-        "mbbill/undotree",
-        cmd = { "UndotreeToggle" },
-        keys = {
-            {
-                "<leader>u",
-                function()
-                    -- Toggles Undotree and set it as the current window (move the cursor)
-                    vim.cmd("UndotreeToggle")
-                    for _, win in pairs(vim.api.nvim_list_wins()) do
-                        local buf = vim.api.nvim_win_get_buf(win)
-                        local buftype = vim.api.nvim_buf_get_option(buf, "filetype")
-
-                        if buftype == "undotree" then
-                            vim.api.nvim_set_current_win(win)
-                            break
-                        end
-                    end
-                end
-            },
-            desc = "undotree: Toggle Undotree",
-        },
-        init = function()
-            vim.g.undotree_WindowLayout = 4 -- Moves undotree window to the right, and expand the diff window to full width
-        end,
-    },
 }
