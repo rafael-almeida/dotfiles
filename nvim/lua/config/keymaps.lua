@@ -9,13 +9,13 @@ noremap("n", "<Right>", "<nop>")
 -- Disables Q key
 noremap("n", "Q", "<nop>")
 
--- Toggles explorer
+-- Toggles Explorer
 noremap("n", "<leader>n", ":Exp<CR>")
 
--- Makes Y behave like it should
+-- Ignores line break character when Yanking
 noremap("n", "Y", "yg$")
 
--- Makes P behave like it should
+-- Pastes without replacing register
 noremap("x", "p", '"_dP')
 
 -- Copies to clipboard
@@ -27,13 +27,13 @@ noremap({ "n", "v" }, "<leader>p", '"+p')
 noremap({ "n", "v" }, "<leader>P", '"+P')
 
 -- Deletes to black hole register
-noremap("v", "<space>_", '"_d')
+noremap("v", "<C-_>", '"_d')
 
--- Replace word under cursor
-noremap("n", "<leader>S", ":%s/<C-r><C-w>//gI<Left><Left><Left>")
+-- Replaces word under cursor
+noremap("n", "<leader>S", ":%s/<C-r><C-w>//gI<Left><Left><Left>", { silent = false })
 
 -- Replaces selection
-noremap("v", "<leader>S", '"zy:%s/<C-r>z//gI<Left><Left><Left>')
+noremap("v", "<leader>S", '"zy:%s/<C-r>z//gI<Left><Left><Left>', { silent = false })
 
 -- Centers cursor when moving page
 noremap("n", "<C-d>", "<C-d>zz")
@@ -54,7 +54,7 @@ noremap("n", ">", ">>")
 noremap("v", "<", "<gv")
 noremap("v", ">", ">gv")
 
--- Moves line(s) up and down
+-- Moves lines up and down
 noremap("n", "<C-S-k>", ":m .-2<CR>==g<Esc>")
 noremap("v", "<C-S-k>", ":m \'<-2<CR>gv=gv")
 noremap("i", "<C-S-k>", "<Esc>:m .-2<CR>==gi")
