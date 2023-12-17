@@ -1,131 +1,9 @@
-local parsers = {
-    "lua",
-    "python",
-    "go",
-    "javascript",
-    "typescript",
-    "svelte",
-    "html",
-    "css",
-    "json",
-    "markdown",
-    "yaml",
-}
-
 return {
-    {
-        "nvim-treesitter/nvim-treesitter",
-        version = false,
-        cmd = { "TSUpdateSync", "TSUpdate", "TSInstall" },
-        event = { "BufReadPost", "BufNewFile", "BufWritePre", "VeryLazy" },
-        build = ":TSUpdate",
-        dependencies = {
-            { "nvim-treesitter/nvim-treesitter-textobjects" },
-        },
-        opts = {
-            ensure_installed = parsers,
-            highlight = { enable = true },
-            indent = { enable = true },
-            incremental_selection = {
-                enable = true,
-                keymaps = {
-                    init_selection = "tt",
-                    node_incremental = "tt",
-                    node_decremental = "tT",
-                    scope_incremental = false,
-                },
-            },
-            textobjects = {
-                select = {
-                    enable = true,
-                    lookahead = true,
-                    keymaps = {
-                        ["af"] = "@function.outer",
-                        ["if"] = "@function.inner",
-                        ["ac"] = "@class.outer",
-                        ["ic"] = "@class.inner",
-                        ["ab"] = "@block.outer",
-                        ["ib"] = "@block.inner",
-                        ["al"] = "@loop.outer",
-                        ["il"] = "@loop.inner",
-                        ["is"] = "@statement.inner",
-                        ["as"] = "@statement.outer",
-                        ["ad"] = "@comment.outer",
-                        ["am"] = "@call.outer",
-                        ["im"] = "@call.inner",
-                    },
-                },
-                swap = {
-                    enable = true,
-                    swap_next = {
-                        ["<leader>al"] = "@parameter.inner",
-                    },
-                    swap_previous = {
-                        ["<leader>ah"] = "@parameter.inner",
-                    },
-                },
-                move = {
-                    enable = true,
-                    set_jumps = true,
-                    goto_next_start = {
-                        ["[f"] = "@function.outer",
-                        ["[c"] = "@class.outer",
-                    },
-                    goto_next_end = {
-                        ["]f"] = "@function.outer",
-                        ["]c"] = "@class.outer"
-                    },
-                    goto_previous_start = {
-                        ["[F"] = "@function.outer",
-                        ["[C"] = "@class.outer"
-                    },
-                    goto_previous_end = {
-                        ["]F"] = "@function.outer",
-                        ["]C"] = "@class.outer"
-                    },
-                },
-            },
-
-        },
-        init = function(plugin)
-            -- NOTE: Copied from LazyVim
-            -- Makes sure that the treesitter queries are available early, so other plugins can use them.
-            require("lazy.core.loader").add_to_rtp(plugin)
-            require("nvim-treesitter.query_predicates")
-        end,
-        config = function(_, opts)
-            local ts_repeat_move = require "nvim-treesitter.textobjects.repeatable_move"
-
-            -- Repeats latest textobjects movement
-            vim.keymap.set({ "n", "x", "o" }, ";", ts_repeat_move.repeat_last_move)
-            vim.keymap.set({ "n", "x", "o" }, ",", ts_repeat_move.repeat_last_move_opposite)
-
-            -- ts_repeat_move does not work with f, F, t, T by default. This fixes that.
-            vim.keymap.set({ "n", "x", "o" }, "f", ts_repeat_move.builtin_f)
-            vim.keymap.set({ "n", "x", "o" }, "F", ts_repeat_move.builtin_F)
-            vim.keymap.set({ "n", "x", "o" }, "t", ts_repeat_move.builtin_t)
-            vim.keymap.set({ "n", "x", "o" }, "T", ts_repeat_move.builtin_T)
-
-            require("nvim-treesitter.configs").setup(opts)
-        end
-    },
-    {
-        -- Shows the current code context.
-        "nvim-treesitter/nvim-treesitter-context",
-        dependencies = {
-            { "nvim-treesitter/nvim-treesitter" },
-        },
-        opts = {
-            max_lines = 2,
-        },
-        config = function(_, opts)
-            require("treesitter-context").setup(opts)
-        end,
-    },
     {
         -- This is useful for files with multiple sections, each with a different style for comments (Svelte, Vue, etc).
         "JoosepAlviste/nvim-ts-context-commentstring",
-        ft = { "svelte", "vue" },
+        dependencies = { "nvim-treesitter/nvim-treesitter" },
+        ft = { "svelte" },
         opts = {
             enable_autocmd = false, -- Commentstring is trigger by Comment.nvim
         },
@@ -140,9 +18,8 @@ return {
         config = function()
             local c = {}
 
-            -- Enables commenting for files with multiple sections (Svelte, Vue, etc).
-            local has_ts_context_commentstring, ts_context_commentstring = pcall(require, "ts_context_commentstring")
-            if has_ts_context_commentstring then
+            local ok, ts_context_commentstring = pcall(require, "ts_context_commentstring")
+            if ok then
                 c.pre_hook = ts_context_commentstring.get_commentstring
             end
 
@@ -151,18 +28,116 @@ return {
     },
     {
         "windwp/nvim-autopairs",
-        event = { "InsertEnter" },
-        config = function()
-            require("nvim-autopairs").setup()
-        end,
+        event = "InsertEnter",
+        opts = {}
     },
     {
         "tpope/vim-surround",
         event = { "BufRead", "BufNewFile" },
     },
     {
-        -- TODO: There is a better plugin for this called zbirenbaum/copilot.lua
-        "github/copilot.vim",
-        event = { "BufReadPost", "BufNewFile", "BufWritePre", "VeryLazy" },
+        "Wansmer/treesj",
+        dependencies = { "nvim-treesitter/nvim-treesitter" },
+        event = { "BufRead", "BufNewFile" },
+        opts = {}
+    },
+    {
+        "smjonas/inc-rename.nvim",
+        cmd = "IncRename",
+    },
+    {
+        "cshuaimin/ssr.nvim",
+        keys = {
+            {
+                "<leader>sR",
+                function()
+                    require("ssr").open()
+                end,
+                mode = { "n", "x" },
+                desc = "ssr: Start structural search and replace",
+            },
+        },
+    },
+    {
+        "vimwiki/vimwiki",
+        keys = {
+            { "<leader>ww", ":vs | :VimwikiIndex<CR>",                  desc = "vimwiki: Open Vimwiki" },
+            { "<leader>wi", ":vs | :VimwikiDiaryIndex<CR>",             desc = "vimwiki: Open Vimwiki diary" },
+            { "<leader>wd", ":vs | :VimwikiMakeDiaryNote<CR>",          desc = "vimwiki: Create a new diary note for today" },
+            { "<leader>wy", ":vs | :VimwikiMakeYesterdayDiaryNote<CR>", desc = "vimwiki: Create a new diary note for yesterday" },
+            { "<leader>wt", ":vs | :VimwikiMakeTomorrowDiaryNote<CR>",  desc = "vimwiki: Create a new diary note for tomorrow" },
+            {
+                "<leader>wU",
+                function()
+                    local filepath = vim.fn.expand("%:p")
+                    if string.match(filepath, "/diary/") then
+                        vim.cmd("VimwikiDiaryGenerateLinks")
+                    else
+                        vim.cmd("VimwikiGenerateLinks")
+                    end
+                end,
+                desc = "vimwiki: Generate links",
+            },
+        },
+        init = function()
+            -- Changes the syntax to Markdown
+            vim.g.vimwiki_global_ext = 0 -- Restricts vimwiki to the paths listed in `vimwiki_list`, i.e., don't treat all markdown files as part of vimwiki
+            vim.g.vimwiki_list = {
+                {
+                    path = "~/vimwiki",
+                    syntax = "markdown",
+                    ext = ".md",
+                },
+            }
+        end
+    },
+    {
+        "folke/trouble.nvim",
+        dependencies = { "nvim-tree/nvim-web-devicons" },
+        cmd = { "TroubleToggle", "Trouble" },
+        keys = {
+            { "<leader>xd", "<Cmd>TroubleToggle document_diagnostics<CR>",  desc = "trouble: Toggle document diagnostics" },
+            { "<leader>xw", "<Cmd>TroubleToggle workspace_diagnostics<CR>", desc = "trouble: Toggle workspace diagnostics" },
+            { "<leader>xq", "<Cmd>TroubleToggle quickfix<CR>",              desc = "trouble: Toggle quickfix list" },
+            { "<leader>xl", "<Cmd>TroubleToggle loclist<CR>",               desc = "trouble: Toggle location list" },
+        },
+        opts = {
+            use_diagnostic_signs = true, -- Uses the signs defined in the lsp client
+        },
+    },
+    {
+        "mbbill/undotree",
+        cmd = { "UndotreeToggle" },
+        keys = {
+            {
+                "<leader>u",
+                function()
+                    -- Toggles Undotree and set it as the current window (move the cursor)
+                    vim.cmd("UndotreeToggle")
+                    for _, win in pairs(vim.api.nvim_list_wins()) do
+                        local buf = vim.api.nvim_win_get_buf(win)
+                        local buftype = vim.api.nvim_buf_get_option(buf, "filetype")
+
+                        if buftype == "undotree" then
+                            vim.api.nvim_set_current_win(win)
+                            break
+                        end
+                    end
+                end
+            },
+            desc = "undotree: Toggle Undotree",
+        },
+        init = function()
+            vim.g.undotree_WindowLayout = 4 -- Moves undotree window to the right, and expand the diff window to full width
+        end,
+    },
+    {
+        "simrat39/symbols-outline.nvim",
+        dependencies = { "neovim/nvim-lspconfig" },
+        cmd = "SymbolsOutline",
+        keys = {
+            { "<leader>cs", "<cmd>SymbolsOutline<cr>", desc = "Symbols Outline" },
+        },
+        opts = {}
     },
 }

@@ -30,6 +30,7 @@ brew install --cask gimp
 brew install --cask vlc
 brew install --cask ngrok
 brew install --cask raindropio
+brew install --cask proton-drive
 brew install --cask protonvpn
 brew install --cask spotify
 brew install --cask authy
@@ -39,8 +40,7 @@ brew install --cask qbittorrent
 brew install --cask zoom
 brew install --cask figma
 brew install --cask notion
-brew install --cask iterm2
-brew install --cask kitty
+brew install --cask alacritty
 brew install --cask visual-studio-code
 brew install --cask gitkraken
 brew install --cask stoplight-studio

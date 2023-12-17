@@ -11,14 +11,12 @@ local icons = require("config").icons
 return {
     {
         "folke/tokyonight.nvim",
-        lazy = false,
         priority = 1000,
         opts = {
             style = "night",
             on_highlights = function(h, c)
-                h.BufferLineFill = {
-                    bg = c.bg_dark -- Fixes bufferline background color
-                }
+                h.BufferLineFill = { bg = c.bg_dark }
+                h.ColorColumn = { bg = "#2d3149" }
             end
         },
         config = function(_, opts)
@@ -41,12 +39,9 @@ return {
         },
         opts = {
             options = {
-                numbers = function(opts)
-                    return opts.raise(opts.ordinal) -- Shows tab number as superscript
-                end,
-                indicator = {
-                    style = "icon",        -- Shows separator as icon
-                },
+                -- numbers = function(opts)
+                --     return opts.raise(opts.ordinal) -- Shows tab number as superscript
+                -- end,
                 show_buffer_icons = false, -- Disables filetype icons
             },
         },
@@ -69,13 +64,10 @@ return {
         },
         event = "VeryLazy",
         opts = {
-            options = {
-                section_separators = ""
-            },
+            -- options = {
+            --     section_separators = ""
+            -- },
             sections = {
-                lualine_a = {
-                    { "mode" }
-                },
                 lualine_b = {
                     {
                         "diagnostics",
@@ -91,19 +83,7 @@ return {
                 lualine_x = {
                     { "filename", path = 1 },
                 },
-                lualine_y = { "progress" },
-                lualine_z = { "location" },
-            },
-            inactive_sections = {
-                lualine_a = {},
-                lualine_b = {},
-                lualine_c = {
-                    { "filename", path = 1 },
-                },
-                lualine_x = {},
-                lualine_y = {},
-                lualine_z = {},
-            },
+            }
         },
     },
     {
@@ -112,14 +92,43 @@ return {
         main = "ibl",
         opts = {
             indent = {
-                char = icons.indent_char,
+                char = icons.thin_vert,     -- The default character is a thick vertical line
+                tab_char = icons.thin_vert, -- The default character is a greater than symbol
             },
         },
-        config = function(_, opts)
-            require("ibl").setup(opts)
-            vim.opt.list = true
-            vim.opt.listchars:append("space:" .. icons.space_char)
-            vim.opt.listchars:append("eol:" .. icons.newline_char)
+        -- init = function()
+        --     vim.opt.list = true
+        --     vim.opt.listchars:append("space:" .. icons.space_char)
+        --     vim.opt.listchars:append("eol:" .. icons.newline_char)
+        -- end,
+    },
+    {
+        "anuvyklack/windows.nvim",
+        event = "WinNew",
+        dependencies = {
+            { "anuvyklack/middleclass" },
+            { "anuvyklack/animation.nvim" },
+        },
+        keys = {
+            { "<leader>m", "<Cmd>WindowsMaximize<CR>", desc = "windows: Zoom" }
+        },
+        config = function()
+            vim.o.winwidth = 5
+            vim.o.equalalways = false
+            require("windows").setup()
         end,
-    }
+    },
+    {
+        "folke/twilight.nvim",
+        cmd = "Twilight",
+        opts = {
+            dimming = {
+                alpha = 0.35,
+                inactive = true, -- Dims other windows
+            },
+        },
+        keys = {
+            { "<leader>z", "<Cmd>Twilight<CR>", desc = "twilight: Toggle Twilight" }
+        },
+    },
 }
