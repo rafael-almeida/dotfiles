@@ -1,3 +1,11 @@
+key_bindings:
+  # \x1b[ is the CSI (control sequence introducer)
+  # '74' and '75' are ASCII values for 'J' and 'K'
+  # '5' is the sum of modifier bits (shift:1, alt:2, ctrl:4)
+  # 'u' denotes unicode
+  - { key: J, mods: Control|Shift, chars: "\x1b[74;5u"}
+  - { key: K, mods: Control|Shift, chars: "\x1b[75;5u"}
+
 window:
   padding:
     x: 5

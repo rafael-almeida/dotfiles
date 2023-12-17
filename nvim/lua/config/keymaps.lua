@@ -25,17 +25,13 @@ vim.keymap.set({ "n", "v" }, "<leader>p", '"+p')
 vim.keymap.set({ "n", "v" }, "<leader>P", '"+P')
 
 -- use black hole register
-vim.keymap.set({ "n", "v" }, "<leader>x_", '"_x')
-vim.keymap.set({ "n", "v" }, "<leader>d_", '"_d')
-vim.keymap.set({ "n", "v" }, "<leader>D_", '"_D')
-vim.keymap.set({ "n", "v" }, "<leader>c_", '"_c')
-vim.keymap.set({ "n", "v" }, "<leader>C_", '"_C')
+vim.keymap.set("v", "<space>_", '"_d')
 
 -- replace word under cursor
-vim.keymap.set("n", "<leader>s", ":%s/<C-r><C-w>//gI<Left><Left><Left>")
+vim.keymap.set("n", "<leader>S", ":%s/<C-r><C-w>//gI<Left><Left><Left>")
 
 -- replace selection
-vim.keymap.set("v", "<leader>s", '"zy:%s/<C-r>z//gI<Left><Left><Left>')
+vim.keymap.set("v", "<leader>S", '"zy:%s/<C-r>z//gI<Left><Left><Left>')
 
 -- center cursor when moving page
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
@@ -57,13 +53,13 @@ vim.keymap.set("v", "<", "<gv")
 vim.keymap.set("v", ">", ">gv")
 
 -- move line(s) up and down
-vim.keymap.set("n", "<C-k>", ":m .-2<CR>==g<Esc>")
-vim.keymap.set("v", "<C-k>", ":m \'<-2<CR>gv=gv")
-vim.keymap.set("i", "<C-k>", "<Esc>:m .-2<CR>==gi")
+vim.keymap.set("n", "<C-S-k>", ":m .-2<CR>==g<Esc>")
+vim.keymap.set("v", "<C-S-k>", ":m \'<-2<CR>gv=gv")
+vim.keymap.set("i", "<C-S-k>", "<Esc>:m .-2<CR>==gi")
 
-vim.keymap.set("n", "<C-j>", ":m .+1<CR>==g<Esc>")
-vim.keymap.set("v", "<C-j>", ":m \'>+1<CR>gv=gv")
-vim.keymap.set("i", "<C-j>", "<Esc>:m .+1<CR>==gi")
+vim.keymap.set("n", "<C-S-j>", ":m .+1<CR>==g<Esc>")
+vim.keymap.set("v", "<C-S-j>", ":m \'>+1<CR>gv=gv")
+vim.keymap.set("i", "<C-S-j>", "<Esc>:m .+1<CR>==gi")
 
 -- split windows
 -- TODO: behaves incorrectly for more than 2 windows.
