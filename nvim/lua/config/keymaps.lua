@@ -55,13 +55,13 @@ noremap("v", "<", "<gv")
 noremap("v", ">", ">gv")
 
 -- Moves lines up and down
-noremap("n", "<C-S-k>", ":m .-2<CR>==g<Esc>")
-noremap("v", "<C-S-k>", ":m \'<-2<CR>gv=gv")
-noremap("i", "<C-S-k>", "<Esc>:m .-2<CR>==gi")
+noremap("n", "<C-k>", ":m .-2<CR>==g<Esc>")
+noremap("v", "<C-k>", ":m \'<-2<CR>gv=gv")
+noremap("i", "<C-k>", "<Esc>:m .-2<CR>==gi")
 
-noremap("n", "<C-S-j>", ":m .+1<CR>==g<Esc>")
-noremap("v", "<C-S-j>", ":m \'>+1<CR>gv=gv")
-noremap("i", "<C-S-j>", "<Esc>:m .+1<CR>==gi")
+noremap("n", "<C-j>", ":m .+1<CR>==g<Esc>")
+noremap("v", "<C-j>", ":m \'>+1<CR>gv=gv")
+noremap("i", "<C-j>", "<Esc>:m .+1<CR>==gi")
 
 -- Splits windows
 noremap("n", "<C-W>s", ":split<CR><C-W><C-j><CR>")
