@@ -1,7 +1,8 @@
 local autocmd = vim.api.nvim_create_autocmd
 local augroup = vim.api.nvim_create_augroup
--- Open help as a vertical split
-vim.api.nvim_create_autocmd("BufEnter", {
+
+-- Opens help as a vertical split
+autocmd("BufEnter", {
     callback = function()
         if vim.bo.filetype == "help" then
             vim.cmd("wincmd L | vertical resize 80")
@@ -9,22 +10,13 @@ vim.api.nvim_create_autocmd("BufEnter", {
     end
 })
 
--- TODO: don't show line number in netrw
-
--- open `help` as a vertical split
--- This only work when execution `:help` for the first time. All consecutive `:help` will open in horizontal split
-autocmd("FileType", {
-    pattern = "help",
-    command = "wincmd L | vert resize 90"
-})
-
--- don't insert comment after 'o' or 'O'
+-- Prevents auto-comment on new line
 autocmd("BufEnter", {
     pattern = "*",
     command = "set formatoptions-=o"
 })
 
---  disable cursorline for inactive buffers
+-- Disables cursorline for inactive buffers
 local group = augroup("CursorLineControl", { clear = true })
 
 autocmd("WinEnter", {

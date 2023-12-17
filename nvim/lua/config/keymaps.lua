@@ -1,79 +1,79 @@
--- disable arrow keys
-vim.keymap.set("n", "<Up>", "<nop>")
-vim.keymap.set("n", "<Down>", "<nop>")
-vim.keymap.set("n", "<Left>", "<nop>")
-vim.keymap.set("n", "<Right>", "<nop>")
+local noremap = require("config.utils").noremap
 
--- disable repeat the last recorded register
-vim.keymap.set("n", "Q", "<nop>")
+-- Disables arrow keys
+noremap("n", "<Up>", "<nop>")
+noremap("n", "<Down>", "<nop>")
+noremap("n", "<Left>", "<nop>")
+noremap("n", "<Right>", "<nop>")
 
--- toggle explorer
-vim.keymap.set("n", "<leader>n", ":Exp<CR>")
+-- Disables Q key
+noremap("n", "Q", "<nop>")
 
--- make Y behave like it should
-vim.keymap.set("n", "Y", "yg$")
+-- Toggles explorer
+noremap("n", "<leader>n", ":Exp<CR>")
 
--- make P behave like it should
-vim.keymap.set("x", "p", '"_dP')
+-- Makes Y behave like it should
+noremap("n", "Y", "yg$")
 
--- copy to clipboard
-vim.keymap.set({ "n", "v" }, "<leader>y", '"+y')
-vim.keymap.set({ "n", "v" }, "<leader>Y", '"+Y')
+-- Makes P behave like it should
+noremap("x", "p", '"_dP')
 
--- paste from clipboard
-vim.keymap.set({ "n", "v" }, "<leader>p", '"+p')
-vim.keymap.set({ "n", "v" }, "<leader>P", '"+P')
+-- Copies to clipboard
+noremap({ "n", "v" }, "<leader>y", '"+y')
+noremap({ "n", "v" }, "<leader>Y", '"+Y')
 
--- use black hole register
-vim.keymap.set("v", "<space>_", '"_d')
+-- Pastes from clipboard
+noremap({ "n", "v" }, "<leader>p", '"+p')
+noremap({ "n", "v" }, "<leader>P", '"+P')
 
--- replace word under cursor
-vim.keymap.set("n", "<leader>S", ":%s/<C-r><C-w>//gI<Left><Left><Left>")
+-- Deletes to black hole register
+noremap("v", "<space>_", '"_d')
 
--- replace selection
-vim.keymap.set("v", "<leader>S", '"zy:%s/<C-r>z//gI<Left><Left><Left>')
+-- Replace word under cursor
+noremap("n", "<leader>S", ":%s/<C-r><C-w>//gI<Left><Left><Left>")
 
--- center cursor when moving page
-vim.keymap.set("n", "<C-d>", "<C-d>zz")
-vim.keymap.set("n", "<C-u>", "<C-u>zz")
+-- Replaces selection
+noremap("v", "<leader>S", '"zy:%s/<C-r>z//gI<Left><Left><Left>')
 
--- center cursor when searching
-vim.keymap.set("n", "n", "nzzzv")
-vim.keymap.set("n", "N", "Nzzzv")
+-- Centers cursor when moving page
+noremap("n", "<C-d>", "<C-d>zz")
+noremap("n", "<C-u>", "<C-u>zz")
 
--- maintain cursor's position after line join
-vim.keymap.set("n", "J", "mzJ`z")
+-- Centers cursor when searching
+noremap("n", "n", "nzzzv")
+noremap("n", "N", "Nzzzv")
 
--- indent line on single key press
-vim.keymap.set("n", "<", "<<")
-vim.keymap.set("n", ">", ">>")
+-- Maintains cursor's position after line join
+noremap("n", "J", "mzJ`z")
 
--- maintain visual mode after indent
-vim.keymap.set("v", "<", "<gv")
-vim.keymap.set("v", ">", ">gv")
+-- Indents line on single key press
+noremap("n", "<", "<<")
+noremap("n", ">", ">>")
 
--- move line(s) up and down
-vim.keymap.set("n", "<C-S-k>", ":m .-2<CR>==g<Esc>")
-vim.keymap.set("v", "<C-S-k>", ":m \'<-2<CR>gv=gv")
-vim.keymap.set("i", "<C-S-k>", "<Esc>:m .-2<CR>==gi")
+-- Maintains visual mode after indent
+noremap("v", "<", "<gv")
+noremap("v", ">", ">gv")
 
-vim.keymap.set("n", "<C-S-j>", ":m .+1<CR>==g<Esc>")
-vim.keymap.set("v", "<C-S-j>", ":m \'>+1<CR>gv=gv")
-vim.keymap.set("i", "<C-S-j>", "<Esc>:m .+1<CR>==gi")
+-- Moves line(s) up and down
+noremap("n", "<C-S-k>", ":m .-2<CR>==g<Esc>")
+noremap("v", "<C-S-k>", ":m \'<-2<CR>gv=gv")
+noremap("i", "<C-S-k>", "<Esc>:m .-2<CR>==gi")
 
--- split windows
--- TODO: behaves incorrectly for more than 2 windows.
--- When I open a third window, it navigates to the right most one, instead of the nearly created window
-vim.keymap.set("n", "<C-W>s", ":split<CR><C-W><C-j><CR>")
-vim.keymap.set("n", "<C-W>v", ":vsplit<CR><C-W><C-l><CR>")
+noremap("n", "<C-S-j>", ":m .+1<CR>==g<Esc>")
+noremap("v", "<C-S-j>", ":m \'>+1<CR>gv=gv")
+noremap("i", "<C-S-j>", "<Esc>:m .+1<CR>==gi")
 
--- navigate windows
-vim.keymap.set("n", "<C-W>k", "<C-W><C-k>")
-vim.keymap.set("n", "<C-W>j", "<C-W><C-j>")
-vim.keymap.set("n", "<C-W>h", "<C-W><C-h>")
-vim.keymap.set("n", "<C-W>l", "<C-W><C-l>")
+-- Splits windows
+noremap("n", "<C-W>s", ":split<CR><C-W><C-j><CR>")
+noremap("n", "<C-W>v", ":vsplit<CR><C-W><C-l><CR>")
 
--- navigate buffers
-vim.keymap.set("n", "<S-h>", ":bprevious<CR>")
-vim.keymap.set("n", "<S-l>", ":bnext<CR>")
-vim.keymap.set("n", "<S-q>", ":bd<CR>")
+-- Navigates windows
+noremap("n", "<C-W>k", "<C-W><C-k>")
+noremap("n", "<C-W>j", "<C-W><C-j>")
+noremap("n", "<C-W>h", "<C-W><C-h>")
+noremap("n", "<C-W>l", "<C-W><C-l>")
+
+-- Navigates buffers
+noremap("n", "<S-h>", ":bprevious<CR>")
+noremap("n", "<S-l>", ":bnext<CR>")
+noremap("n", "<S-q>", ":bd<CR>")

@@ -1,6 +1,4 @@
-vim.g.netrw_banner = 0
-
---vim.g.python3_host_prog = '~/.virtualenvs/neovim/bin/python'
+vim.g.python3_host_prog = '~/.virtualenvs/neovim/bin/python'
 
 local options = {
     scrolloff = 10,
@@ -15,7 +13,7 @@ local options = {
     hlsearch = false,
     swapfile = false,
     undofile = true,
-    --updatetime = 50,
+    updatetime = 100,
     --undodir = os.getenv('HOME') .. '/.vim/undodir',
 }
 

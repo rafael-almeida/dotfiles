@@ -1,5 +1,7 @@
 vim.opt.termguicolors = true
 
+vim.g.netrw_banner = 0
+
 vim.opt.cursorline = true
 vim.opt.signcolumn = "yes"
 vim.opt.colorcolumn = { "80", "120" }
