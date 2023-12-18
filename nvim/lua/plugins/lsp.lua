@@ -11,6 +11,7 @@ local servers = {
     "templ",       -- Go
     "biome",       -- JSON, Javascript, Typescript
     "html",        -- HTML
+    "htmx",        -- HTML
     "cssls",       -- CSS
     "tailwindcss", -- Tailwind CSS
     "svelte",      -- Svelte
@@ -21,14 +22,12 @@ local servers = {
 return {
     {
         "williamboman/mason.nvim",
+        enabled = true,
         build = ":MasonUpdate",
-        -- cmd = "Mason", -- NOTE: According to the docs, lazy-loading is not recommended.
         keys = {
             { "<leader>cm", "<Cmd>Mason<CR>", desc = "Mason" }
         },
-        config = function()
-            require("mason").setup()
-        end
+        opts = {}
     },
     {
         -- NOTE: This is optional, and it is only being used to auto install servers.
@@ -39,15 +38,13 @@ return {
         --   * mason-lspconfig
         --   * lspconfig
         "williamboman/mason-lspconfig.nvim",
+        enabled = false,
         dependencies = {
             { "williamboman/mason.nvim" },
         },
         opts = {
             ensure_installed = servers,
         },
-        config = function(_, opts)
-            require("mason-lspconfig").setup(opts)
-        end
     },
     {
         "neovim/nvim-lspconfig",
