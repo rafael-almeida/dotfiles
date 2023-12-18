@@ -58,7 +58,10 @@ return {
             {
                 "hrsh7th/nvim-cmp",
                 dependencies = {
-                    { "L3MON4D3/LuaSnip" },
+                    {
+                        "L3MON4D3/LuaSnip",
+                        dependencies = { "rafamadriz/friendly-snippets" },
+                    },
                     { "hrsh7th/cmp-nvim-lsp" },
                     { "hrsh7th/cmp-path" },
                     { "hrsh7th/cmp-buffer" },
@@ -230,8 +233,12 @@ return {
             }
         },
         config = function(_, opts)
+            -- friendly-snippets
+            require("luasnip.loaders.from_vscode").lazy_load()
+
             local cmp = require("cmp")
             local luasnip = require("luasnip")
+
             cmp.setup({
                 snippet = {
                     expand = function(args)
