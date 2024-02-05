@@ -16,6 +16,9 @@ export XDG_CONFIG_HOME="$HOME/.config"
 export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
 export PATH="/opt/homebrew/opt/postgresql@16/bin:$PATH"
 
+# Mason.nvim
+export PATH="$HOME/.local/share/nvim/mason/bin/:$PATH"
+
 # ---------------------------------------
 # iTerm and Tmux Integration
 # ---------------------------------------
@@ -31,6 +34,7 @@ fi
 
 alias v=nvim
 alias dt="cd ~/dotfiles && nvim ."
+alias air="~/go/bin/air"
 
 # ---------------------------------------
 # Custom/Private Configurations
@@ -38,3 +42,4 @@ alias dt="cd ~/dotfiles && nvim ."
 
 # Source private zsh configurations, if available
 [[ -f ~/.zshrc_private ]] && source ~/.zshrc_private
+export HOMEBREW_NO_AUTO_UPDATE=1

@@ -1,5 +1,5 @@
 local icons = require("config").icons
-local commentstring_filetypes = { "svelte" }
+local commentstring_filetypes = { "svelte", "typescriptreact" }
 
 return {
     {
@@ -12,25 +12,21 @@ return {
         event = { "BufRead", "BufNewFile" },
     },
     {
-        "numToStr/Comment.nvim",
-        event = { "BufRead", "BufNewFile" },
-        opts = function(_, opts)
-            if vim.tbl_contains(commentstring_filetypes, vim.bo.filetype) then
-                opts.pre_hook = require("ts_context_commentstring").get_commentstring
-            end
-        end,
-    },
-    {
-        -- This is useful for files with multiple sections, each with a different style for comments (Svelte, Vue, etc).
         "JoosepAlviste/nvim-ts-context-commentstring",
         dependencies = { "nvim-treesitter/nvim-treesitter" },
         ft = commentstring_filetypes,
         opts = {
             enable_autocmd = false, -- Commentstring is triggered by Comment.nvim
         },
-        init = function()
-            vim.g.skip_ts_context_commentstring_module = true
-        end,
+    },
+    {
+        "numToStr/Comment.nvim",
+        event = { "BufRead", "BufNewFile" },
+        opts = {
+            pre_hook = function(ctx)
+                return require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook()(ctx)
+            end,
+        }
     },
     {
         "Wansmer/treesj",

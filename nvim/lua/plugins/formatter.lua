@@ -1,0 +1,34 @@
+return {
+    -- "mhartington/formatter.nvim",
+    -- events = "BufWritePost",
+    -- ft = { "javascript" },
+    -- keys = {
+    --     {
+    --         "<leader>ft",
+    --         function()
+    --         end,
+    --     },
+    -- },
+    -- opts = function()
+    --     local util = require("formatter.util")
+    --
+    --     local prettierd_config = {
+    --         exe = "prettierd",
+    --         args = {
+    --             util.escape_path(util.get_current_buffer_file_path()),
+    --             "--tab-width=4",
+    --         },
+    --         stdin = true,
+    --     }
+    --
+    --     return {
+    --         filetype = {
+    --             typescript = { function() return prettierd_config end },
+    --             typescriptreact = { function() return prettierd_config end },
+    --             javascript = { function() return prettierd_config end },
+    --             javascriptreact = { function() return prettierd_config end },
+    --             json = { function() return prettierd_config end },
+    --         }
+    --     }
+    -- end,
+}

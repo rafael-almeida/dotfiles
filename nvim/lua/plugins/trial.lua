@@ -42,4 +42,15 @@ return {
             { "<leader>z", "<Cmd>Twilight<CR>", desc = "twilight: Toggle Twilight" }
         },
     },
+    {
+        "folke/todo-comments.nvim",
+        dependencies = { "nvim-lua/plenary.nvim" },
+        opts = { 
+            signs = false,
+            highlight = {
+                keyword = "fg",
+                pattern = [[.*<(KEYWORDS)\s*]]
+            }
+        }
+    }
 }

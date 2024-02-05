@@ -4,19 +4,20 @@ local nnoremap = function(bufnr, lhs, rhs, desc)
 end
 
 local servers = {
-    "lua_ls",      -- Lua
-    "pyright",     -- Python
-    "ruff_lsp",    -- Python
-    "gopls",       -- Go
-    "templ",       -- Go
-    "biome",       -- JSON, Javascript, Typescript
-    "html",        -- HTML
-    "htmx",        -- HTML
-    "cssls",       -- CSS
-    "tailwindcss", -- Tailwind CSS
-    "svelte",      -- Svelte
-    "marksman",    -- Markdown
-    "yamlls",      -- YAML
+    "lua_ls",       -- Lua
+    "pyright",      -- Python
+    "ruff_lsp",     -- Python
+    "gopls",        -- Go
+    "templ",        -- Go
+    "biome",        -- JSON, Javascript, Typescript
+    "html",         -- HTML
+    "htmx",         -- HTML
+    "cssls",        -- CSS
+    "tailwindcss",  -- Tailwind CSS
+    "svelte",       -- Svelte
+    "marksman",     -- Markdown
+    "yamlls",       -- YAML
+    "rust_analyzer" -- Rust
 }
 
 return {
@@ -76,6 +77,7 @@ return {
         opts = {
             on_attach = function(_, bufnr)
                 -- NOTE: Using nvim-cmp instead.
+                --
                 -- Enables completion triggered by <c-x><c-o>
                 -- vim.bo[bufnr].omnifunc = "v:lua.vim.lsp.omnifunc"
 
@@ -91,9 +93,12 @@ return {
                 nnoremap(bufnr, "<leader>D", vim.lsp.buf.type_definition, "Jump to definition")
                 nnoremap(bufnr, "<leader>rn", vim.lsp.buf.rename, "Rename all references")
                 nnoremap(bufnr, "<leader>ca", vim.lsp.buf.code_action, "Select available code action")
-                nnoremap(bufnr, "<leader>ft", function()
-                    vim.lsp.buf.format({ async = true })
-                end, "Format buffer")
+
+                -- NOTE: Format is handled by conform.nvim
+                --
+                -- nnoremap(bufnr, "<leader>ft", function()
+                --     vim.lsp.buf.format({ async = true })
+                -- end, "Format buffer")
             end,
             custom_settings = {
                 lua_ls = {
@@ -315,6 +320,7 @@ return {
                         -- NOTE: This must be configured before lspconfig.
                         require("neodev").setup()
                     end
+
 
                     lsp[server].setup(c)
                 end
