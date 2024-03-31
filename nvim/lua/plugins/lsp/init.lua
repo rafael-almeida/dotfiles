@@ -4,23 +4,35 @@ local nnoremap = function(bufnr, lhs, rhs, desc)
 end
 
 local servers = {
-    "lua_ls",       -- Lua
-    "pyright",      -- Python
-    "ruff_lsp",     -- Python
-    "gopls",        -- Go
-    "templ",        -- Go
-    "biome",        -- JSON, Javascript, Typescript
-    "html",         -- HTML
-    "htmx",         -- HTML
-    "cssls",        -- CSS
-    "tailwindcss",  -- Tailwind CSS
-    "svelte",       -- Svelte
-    "marksman",     -- Markdown
-    "yamlls",       -- YAML
-    "rust_analyzer" -- Rust
+    "lua_ls",
+
+    "pyright",
+    "ruff_lsp",
+
+    "gopls",
+    "templ",
+
+    "rust_analyzer",
+
+    -- FIXME: This is not working. It does not show any diagnostics. 
+    -- If I can only use this as a formatter, I will use Prettier instead since it is more popular.
+    -- "biome", 
+
+    "tsserver",
+    "volar",
+    "svelte",
+
+    "html",
+    "cssls",
+    "tailwindcss",
+
+    "htmx",
+
+    "marksman",
+    "yamlls",
 }
 
--- It's important to set up the plugins in the following order:
+-- NOTE: It's IMPORTANT to set up the plugins in the following order:
 --   * mason
 --   * mason-lspconfig
 --   * lspconfig
@@ -36,7 +48,7 @@ return {
     },
     {
         -- NOTE: This is optional, and it is only being used to auto install servers.
-        -- It is the slowers plugin to load. This takes about 20ms to load, while the second slowest takes 10ms (nvim-lspconfig).
+        -- It is the slowers plugin to load (20ms).
         "williamboman/mason-lspconfig.nvim",
         enabled = false,
         dependencies = {
@@ -75,11 +87,6 @@ return {
         },
         opts = {
             on_attach = function(_, bufnr)
-                -- NOTE: Using nvim-cmp instead.
-                --
-                -- Enables completion triggered by <c-x><c-o>
-                -- vim.bo[bufnr].omnifunc = "v:lua.vim.lsp.omnifunc"
-
                 nnoremap(bufnr, "<leader>R", "<Cmd>LspRestart<CR>", "Restart language server")
                 nnoremap(bufnr, "<leader>wA", vim.lsp.buf.add_workspace_folder, "Add to workspace folders")
                 nnoremap(bufnr, "<leader>wR", vim.lsp.buf.remove_workspace_folder, "Remove from workspace folders")
@@ -92,14 +99,9 @@ return {
                 nnoremap(bufnr, "<leader>D", vim.lsp.buf.type_definition, "Jump to definition")
                 nnoremap(bufnr, "<leader>rn", vim.lsp.buf.rename, "Rename all references")
                 nnoremap(bufnr, "<leader>ca", vim.lsp.buf.code_action, "Select available code action")
-
-                -- NOTE: Format is handled by conform.nvim
-                --
-                -- nnoremap(bufnr, "<leader>ft", function()
-                --     vim.lsp.buf.format({ async = true })
-                -- end, "Format buffer")
             end,
             custom_settings = {
+                -- TODO: Look custom settings instead of hardcoding each of them.
                 lua_ls = function()
                     return require("plugins.lsp.servers.lua_ls")
                 end,
@@ -108,6 +110,9 @@ return {
                 end,
                 pyright = function()
                     return require("plugins.lsp.servers.pyright")
+                end,
+                volar = function()
+                    return require("plugins.lsp.servers.volar")
                 end,
             }
         },
@@ -216,4 +221,28 @@ return {
             })
         end
     },
+    {
+        "stevearc/conform.nvim",
+        event = { "BufReadPre", "BufNewFile" },
+        cmd = { "ConformInfo" },
+        keys = {
+            {
+                "<leader>ft",
+                function()
+                    require("conform").format({ async = true, lsp_fallback = true })
+                end,
+            },
+        },
+        opts = {
+            formatters_by_ft = {
+                vue = { "prettier" },
+                javascript = { "prettier" },
+                typescript = { "prettier" },
+                javascriptreact = { "prettier" },
+                typescriptreact = { "prettier" },
+                json = { "prettier" },
+                markdown = { "prettier" },
+            },
+        }
+    }
 }
