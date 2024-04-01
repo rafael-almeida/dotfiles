@@ -10,6 +10,17 @@ autocmd("BufEnter", {
     end
 })
 
+autocmd("BufRead", {
+    desc = "Open Neotree on enter",
+    once = true,
+    callback = function()
+        if not vim.g.neotree_opened then
+            vim.cmd "Neotree show"
+            vim.g.neotree_opened = true
+        end
+    end,
+})
+
 -- Prevents auto-comment on new line
 autocmd("BufEnter", {
     pattern = "*",
@@ -17,27 +28,29 @@ autocmd("BufEnter", {
 })
 
 -- Disables cursorline for inactive buffers
-local group = augroup("CursorLineControl", { clear = true })
+augroup("CursorLineControl", { clear = true })
 
 autocmd("WinEnter", {
-    group = group,
+    group = "CursorLineControl",
     callback = function()
         vim.opt_local.cursorline = true
     end,
 })
 
 autocmd("WinLeave", {
-    group = group,
+    group = "CursorLineControl",
     callback = function()
-        vim.opt_local.cursorline = false
+        if vim.bo.filetype ~= "neo-tree" then
+            vim.opt_local.cursorline = false
+        end
     end,
 })
 
 autocmd("FileType", {
-    group = group,
+    group = "CursorLineControl",
+    pattern = "TelescopePrompt",
     callback = function()
         vim.opt_local.cursorline = false
     end,
-    pattern = "TelescopePrompt"
 })
 -- end
