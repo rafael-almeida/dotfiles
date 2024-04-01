@@ -64,7 +64,7 @@ return {
         },
         opts = {
             options = {
-               show_buffer_icons = false, -- Disables filetype icons
+                show_buffer_icons = false, -- Disables filetype icons
             },
         },
         config = function(_, opts)
@@ -93,6 +93,14 @@ return {
             vim.opt.list = true
             vim.opt.listchars:append("space:" .. icons.space)
             vim.opt.listchars:append("trail:" .. icons.trail)
+        end,
+    },
+    {
+        -- TODO: Add this to tailwindcss autocomplete
+        "norcalli/nvim-colorizer.lua",
+        event = { "BufReadPost", "BufNewFile" },
+        config = function()
+            require("colorizer").setup()
         end,
     },
 }

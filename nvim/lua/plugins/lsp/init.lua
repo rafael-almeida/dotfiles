@@ -14,9 +14,9 @@ local servers = {
 
     "rust_analyzer",
 
-    -- FIXME: This is not working. It does not show any diagnostics. 
+    -- FIXME: This is not working. It does not show any diagnostics.
     -- If I can only use this as a formatter, I will use Prettier instead since it is more popular.
-    -- "biome", 
+    -- "biome",
 
     "tsserver",
     "volar",
@@ -142,12 +142,18 @@ return {
                     format = function(entry, item)
                         local menu = {
                             nvim_lsp = "[LSP]",
-                            luasnip  = "[Lua]",
+                            luasnip  = "[Snip]",
                             path     = "[Path]",
                             buffer   = "[Buff]",
                         }
 
                         item.menu = menu[entry.source.name]
+
+                        local ok, tailwindcss_colorizer_cmp = pcall(require, "tailwindcss-colorizer-cmp")
+                        if ok then
+                            return tailwindcss_colorizer_cmp.formatter(entry, item)
+                        end
+
                         return item
                     end
                 },
@@ -164,19 +170,19 @@ return {
                     end),
                     ["<C-f>"] = cmp.mapping(function(fallback)
                         -- Navigates to next snippet placeholder.
-                        -- NOTE: The `fallback` argument is a function that executes the original mapping.
                         if luasnip.jumpable(1) then
                             luasnip.jump(1)
                         else
+                            -- NOTE: `fallback` executes the original mapping.
                             fallback()
                         end
                     end, { "i", "s" }),
                     ["<C-b>"] = cmp.mapping(function(fallback)
                         -- Navigates to previous snippet placeholder.
-                        -- NOTE: The `fallback` argument is a function that executes the original mapping.
                         if luasnip.jumpable(-1) then
                             luasnip.jump(-1)
                         else
+                            -- NOTE: `fallback` executes the original mapping.
                             fallback()
                         end
                     end, { "i", "s" }),
@@ -199,7 +205,7 @@ return {
                     end
 
                     if server == "lua_ls" then
-                        -- NOTE: This must be configured before lspconfig.
+                        -- NOTE: This MUST be configured before lspconfig.
                         require("neodev").setup()
                     end
 
@@ -244,5 +250,22 @@ return {
                 markdown = { "prettier" },
             },
         }
-    }
+    },
+    {
+        "roobert/tailwindcss-colorizer-cmp.nvim",
+        ft = {
+            "html",
+            "javascript",
+            "typescript",
+            "javascriptreact",
+            "typescriptreact",
+            "svelte",
+            "vue",
+        },
+        config = function()
+            require("tailwindcss-colorizer-cmp").setup({
+                color_square_width = 15,
+            })
+        end
+    },
 }
