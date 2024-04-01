@@ -4,10 +4,10 @@ local parsers = {
     "lua",
     "python",
     "go",
-    "rust",
     "javascript",
     "typescript",
     "tsx",
+    "vue",
     "svelte",
     "html",
     "css",
@@ -25,6 +25,7 @@ return {
         cmd = { "TSUpdateSync", "TSUpdate", "TSInstall" },
         opts = {
             ensure_installed = parsers,
+            auto_install = true,
             highlight = { enable = true },
             indent = { enable = true },
             incremental_selection = {
@@ -106,7 +107,7 @@ return {
     {
         "nvim-treesitter/nvim-treesitter-textobjects",
         dependencies = { "nvim-treesitter/nvim-treesitter" },
-        config = function ()
+        config = function()
             local ts_repeat_move = require "nvim-treesitter.textobjects.repeatable_move"
 
             -- Repeats latest textobjects movement

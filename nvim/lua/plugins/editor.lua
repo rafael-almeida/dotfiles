@@ -2,32 +2,14 @@ local icons = require("config").icons
 
 return {
     {
-        "nvim-neo-tree/neo-tree.nvim",
-        branch = "v3.x",
-        dependencies = {
-            { "nvim-lua/plenary.nvim" },
-            { "MunifTanjim/nui.nvim" },
-            { "nvim-tree/nvim-web-devicons" },
-        },
-        cmd = "Neotree",
-        keys = {
-            {
-                "<leader>n",
-                "<Cmd>Neotree toggle reveal float<CR>",
-                desc = "neotree: Toggle"
-            }
-        },
-    },
-    {
         "numToStr/Comment.nvim",
         dependencies = {
             {
-                -- FIXME: This does not work on Vue files
                 "JoosepAlviste/nvim-ts-context-commentstring",
                 dependencies = { "nvim-treesitter/nvim-treesitter" },
-                ft = { "vue", "svelte", "typescriptreact" },
+                ft = { "vue", "svelte", "javascriptreact", "typescriptreact" },
                 opts = {
-                    enable_autocmd = false, -- Commentstring is triggered by Comment.nvim
+                    enable_autocmd = false,
                 },
             },
         },
@@ -73,4 +55,15 @@ return {
             },
         },
     },
+    {
+        "folke/todo-comments.nvim",
+        dependencies = { "nvim-lua/plenary.nvim" },
+        opts = {
+            signs = false,
+            highlight = {
+                keyword = "fg",
+                pattern = [[.*<(KEYWORDS)\s*]]
+            }
+        }
+    }
 }

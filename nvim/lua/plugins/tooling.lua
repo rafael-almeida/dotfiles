@@ -9,6 +9,17 @@ return {
             { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
         },
         cmd = "Telescope",
+        opts = {
+            defaults = {
+                layout_config = {
+                    preview_width = 0.70,
+                    width = 0.95,
+                    height = 0.99,
+                },
+                file_ignore_patterns = { ".git" },
+                path_display = { "truncate" }, -- Shows as much of the path as possible
+            },
+        },
         keys = {
             -- Find
             { "<leader>fr", "<Cmd>Telescope resume<CR>",                 desc = "telescope: Open previous picker" },
@@ -23,17 +34,6 @@ return {
             { "<leader>gc", "<Cmd>Telescope git_commits<CR>",            desc = "telescope: List git commits" },
             { "<leader>gs", "<Cmd>Telescope git_status<CR>",             desc = "telescope: List git status" },
         },
-        opts = {
-            defaults = {
-                layout_config = {
-                    preview_width = 0.70,
-                    width = 0.95,
-                    height = 0.99,
-                },
-                file_ignore_patterns = { ".git" },
-                path_display = { "truncate" }, -- Shows as much of the path as possible
-            },
-        },
         config = function(_, opts)
             require("telescope").setup(opts)
             require("telescope").load_extension("fzf")
@@ -46,7 +46,7 @@ return {
             {
                 "<leader>u",
                 function()
-                    -- Toggles Undotree and set it as the current window (move the cursor)
+                    -- Toggles Undotree and set it as the current buffer
                     vim.cmd("UndotreeToggle")
                     for _, win in pairs(vim.api.nvim_list_wins()) do
                         local buf = vim.api.nvim_win_get_buf(win)
@@ -65,27 +65,4 @@ return {
             vim.g.undotree_WindowLayout = 4 -- Moves undotree window to the right, and expand the diff window to full width
         end,
     },
-    {
-        "iamcco/markdown-preview.nvim",
-        build = "cd app && npm install",
-        ft = { "markdown" },
-        init = function()
-            vim.g.mkdp_filetypes = { "markdown" }
-        end,
-    },
-    -- {
-    --     "toppair/peek.nvim",
-    --     build = "deno task --quiet build:fast",
-    --     ft = { "markdown" },
-    --     config = function()
-    --         local peek = require("peek")
-    --         vim.api.nvim_create_user_command("MarkdownPreview", function()
-    --             if peek.is_open() then
-    --                 peek.close()
-    --             else
-    --                 peek.open()
-    --             end
-    --         end, {})
-    --     end,
-    -- },
 }
