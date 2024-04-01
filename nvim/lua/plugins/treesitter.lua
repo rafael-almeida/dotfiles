@@ -24,8 +24,8 @@ return {
         event = { "BufReadPost", "BufNewFile", "BufWritePre", "VeryLazy" },
         cmd = { "TSUpdateSync", "TSUpdate", "TSInstall" },
         opts = {
-            ensure_installed = parsers,
             auto_install = true,
+            ensure_installed = parsers,
             highlight = { enable = true },
             indent = { enable = true },
             incremental_selection = {
