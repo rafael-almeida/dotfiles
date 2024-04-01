@@ -1,26 +1,36 @@
 local icons = require("config").icons
-local commentstring_filetypes = { "svelte", "typescriptreact" }
 
 return {
     {
-        "windwp/nvim-autopairs",
-        event = { "InsertEnter" },
-        opts = {}
-    },
-    {
-        "tpope/vim-surround",
-        event = { "BufRead", "BufNewFile" },
-    },
-    {
-        "JoosepAlviste/nvim-ts-context-commentstring",
-        dependencies = { "nvim-treesitter/nvim-treesitter" },
-        ft = commentstring_filetypes,
-        opts = {
-            enable_autocmd = false, -- Commentstring is triggered by Comment.nvim
+        "nvim-neo-tree/neo-tree.nvim",
+        branch = "v3.x",
+        dependencies = {
+            { "nvim-lua/plenary.nvim" },
+            { "MunifTanjim/nui.nvim" },
+            { "nvim-tree/nvim-web-devicons" },
+        },
+        cmd = "Neotree",
+        keys = {
+            {
+                "<leader>n",
+                "<Cmd>Neotree toggle reveal float<CR>",
+                desc = "neotree: Toggle"
+            }
         },
     },
     {
         "numToStr/Comment.nvim",
+        dependencies = {
+            {
+                -- FIXME: This does not work on Vue files
+                "JoosepAlviste/nvim-ts-context-commentstring",
+                dependencies = { "nvim-treesitter/nvim-treesitter" },
+                ft = { "vue", "svelte", "typescriptreact" },
+                opts = {
+                    enable_autocmd = false, -- Commentstring is triggered by Comment.nvim
+                },
+            },
+        },
         event = { "BufRead", "BufNewFile" },
         opts = {
             pre_hook = function(ctx)
@@ -29,10 +39,19 @@ return {
         }
     },
     {
+        "windwp/nvim-autopairs",
+        event = { "InsertEnter" },
+        config = true
+    },
+    {
+        "tpope/vim-surround",
+        event = { "BufRead", "BufNewFile" },
+    },
+    {
         "Wansmer/treesj",
         dependencies = { "nvim-treesitter/nvim-treesitter" },
         event = { "BufRead", "BufNewFile" },
-        opts = {}
+        config = true
     },
     {
         "folke/trouble.nvim",

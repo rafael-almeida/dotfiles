@@ -96,7 +96,6 @@ return {
         end,
     },
     {
-        -- TODO: Add this to tailwindcss autocomplete
         "norcalli/nvim-colorizer.lua",
         event = { "BufReadPost", "BufNewFile" },
         config = function()

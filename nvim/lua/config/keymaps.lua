@@ -10,7 +10,7 @@ noremap("n", "<Right>", "<nop>")
 noremap("n", "Q", "<nop>")
 
 -- Toggles Explorer
-noremap("n", "<leader>n", ":Exp<CR>")
+-- noremap("n", "<leader>n", ":Exp<CR>")
 
 -- Ignores line break character when Yanking
 noremap("n", "Y", "yg$")

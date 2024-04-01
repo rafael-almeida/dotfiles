@@ -14,10 +14,6 @@ local servers = {
 
     "rust_analyzer",
 
-    -- FIXME: This is not working. It does not show any diagnostics.
-    -- If I can only use this as a formatter, I will use Prettier instead since it is more popular.
-    -- "biome",
-
     "tsserver",
     "volar",
     "svelte",
@@ -229,16 +225,7 @@ return {
     },
     {
         "stevearc/conform.nvim",
-        event = { "BufReadPre", "BufNewFile" },
         cmd = { "ConformInfo" },
-        keys = {
-            {
-                "<leader>ft",
-                function()
-                    require("conform").format({ async = true, lsp_fallback = true })
-                end,
-            },
-        },
         opts = {
             formatters_by_ft = {
                 vue = { "prettier" },
@@ -249,7 +236,16 @@ return {
                 json = { "prettier" },
                 markdown = { "prettier" },
             },
-        }
+        },
+        keys = {
+            {
+                "<leader>ft",
+                function()
+                    require("conform").format({ async = true, lsp_fallback = true })
+                end,
+                desc = "conform: Format"
+            },
+        },
     },
     {
         "roobert/tailwindcss-colorizer-cmp.nvim",
