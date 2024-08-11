@@ -1,4 +1,4 @@
-local noremap = require("config.utils").noremap
+local util = require("config.util")
 
 local parsers = {
     "lua",
@@ -111,14 +111,14 @@ return {
             local ts_repeat_move = require "nvim-treesitter.textobjects.repeatable_move"
 
             -- Repeats latest textobjects movement
-            noremap({ "n", "x", "o" }, ";", ts_repeat_move.repeat_last_move)
-            noremap({ "n", "x", "o" }, ",", ts_repeat_move.repeat_last_move_opposite)
+            util.noremap({ "n", "x", "o" }, ";", ts_repeat_move.repeat_last_move)
+            util.noremap({ "n", "x", "o" }, ",", ts_repeat_move.repeat_last_move_opposite)
 
             -- ts_repeat_move does not work with f, F, t, T by default. This fixes that.
-            noremap({ "n", "x", "o" }, "f", ts_repeat_move.builtin_f)
-            noremap({ "n", "x", "o" }, "F", ts_repeat_move.builtin_F)
-            noremap({ "n", "x", "o" }, "t", ts_repeat_move.builtin_t)
-            noremap({ "n", "x", "o" }, "T", ts_repeat_move.builtin_T)
+            util.noremap({ "n", "x", "o" }, "f", ts_repeat_move.builtin_f)
+            util.noremap({ "n", "x", "o" }, "F", ts_repeat_move.builtin_F)
+            util.noremap({ "n", "x", "o" }, "t", ts_repeat_move.builtin_t)
+            util.noremap({ "n", "x", "o" }, "T", ts_repeat_move.builtin_T)
         end
     },
 }

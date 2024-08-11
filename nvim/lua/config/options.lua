@@ -1,4 +1,4 @@
-vim.g.python3_host_prog = '~/.virtualenvs/neovim/bin/python'
+vim.g.python3_host_prog = "~/.virtualenvs/neovim/bin/python"
 
 local options = {
     scrolloff = 10,
@@ -8,6 +8,7 @@ local options = {
     smartindent = true,
     expandtab = true,
     tabstop = 4,
+    -- NOTE: indent is 2 for js/ts files (see autocmds).
     softtabstop = 4,
     shiftwidth = 4,
     hlsearch = false,

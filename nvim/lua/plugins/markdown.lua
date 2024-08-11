@@ -1,15 +1,14 @@
 return {
     {
         "iamcco/markdown-preview.nvim",
-        build = "cd app && npm install",
-        cmd = "MarkdownPreviewToggle",
+        cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+        ft = { "markdown" },
+        build = function() vim.fn["mkdp#util#install"]() end,
         keys = {
             { "<leader>cp", "<Cmd>MarkdownPreviewToggle<CR>", desc = "markdown: Preview markdown" },
         },
-        init = function()
-            vim.g.mkdp_filetypes = { "markdown" }
-        end,
-    },
+    }
+
     -- {
     --     "lukas-reineke/headlines.nvim",
     --     dependencies = "nvim-treesitter/nvim-treesitter",

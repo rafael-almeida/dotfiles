@@ -97,7 +97,7 @@ return {
     },
     {
         "norcalli/nvim-colorizer.lua",
-        event = { "BufReadPost", "BufNewFile" },
+        cmd = { "ColorizerToggle" },
         config = function()
             require("colorizer").setup()
         end,

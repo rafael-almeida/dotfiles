@@ -1,4 +1,7 @@
 return {
+    -- {
+    --     dir = "/Users/rafael/development/jupyter-nvim",
+    -- },
     {
         -- TODO: Make signs consistent with LSP
         "nvim-neo-tree/neo-tree.nvim",
@@ -34,7 +37,7 @@ return {
         keys = {
             {
                 "<leader>N",
-                "<Cmd>Neotree toggle reveal<CR>",
+                "<Cmd>Neotree toggle float reveal<CR>",
                 desc = "neotree: Toggle",
             }
         },

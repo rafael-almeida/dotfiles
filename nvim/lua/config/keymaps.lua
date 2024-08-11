@@ -1,79 +1,79 @@
-local noremap = require("config.utils").noremap
+local util = require("config.util")
 
 -- Disables arrow keys
-noremap("n", "<Up>", "<nop>")
-noremap("n", "<Down>", "<nop>")
-noremap("n", "<Left>", "<nop>")
-noremap("n", "<Right>", "<nop>")
+util.noremap("n", "<Up>", "<nop>")
+util.noremap("n", "<Down>", "<nop>")
+util.noremap("n", "<Left>", "<nop>")
+util.noremap("n", "<Right>", "<nop>")
 
 -- Disables Q key
-noremap("n", "Q", "<nop>")
+util.noremap("n", "Q", "<nop>")
 
 -- Toggles Explorer
-noremap("n", "<leader>n", ":Exp<CR>")
+util.noremap("n", "<leader>n", ":Exp<CR>")
 
 -- Ignores line break character when Yanking
-noremap("n", "Y", "yg$")
+util.noremap("n", "Y", "yg$")
 
 -- Pastes without replacing register
-noremap("x", "p", '"_dP')
+util.noremap("x", "p", '"_dP')
 
 -- Copies to clipboard
-noremap({ "n", "v" }, "<leader>y", '"+y')
-noremap({ "n", "v" }, "<leader>Y", '"+Y')
+util.noremap({ "n", "v" }, "<leader>y", '"+y')
+util.noremap({ "n", "v" }, "<leader>Y", '"+Y')
 
 -- Pastes from clipboard
-noremap({ "n", "v" }, "<leader>p", '"+p')
-noremap({ "n", "v" }, "<leader>P", '"+P')
+util.noremap({ "n", "v" }, "<leader>p", '"+p')
+util.noremap({ "n", "v" }, "<leader>P", '"+P')
 
 -- Deletes to black hole register
-noremap("v", "<C-_>", '"_d')
+util.noremap("v", "<C-_>", '"_d')
 
 -- Replaces word under cursor
-noremap("n", "<leader>S", ":%s/<C-r><C-w>//gI<Left><Left><Left>", { silent = false })
+util.noremap("n", "<leader>S", ":%s/<C-r><C-w>//gI<Left><Left><Left>", { silent = false })
 
 -- Replaces selection
-noremap("v", "<leader>S", '"zy:%s/<C-r>z//gI<Left><Left><Left>', { silent = false })
+util.noremap("v", "<leader>S", '"zy:%s/<C-r>z//gI<Left><Left><Left>', { silent = false })
 
 -- Centers cursor when moving page
-noremap("n", "<C-d>", "<C-d>zz")
-noremap("n", "<C-u>", "<C-u>zz")
+util.noremap("n", "<C-d>", "<C-d>zz")
+util.noremap("n", "<C-u>", "<C-u>zz")
 
 -- Centers cursor when searching
-noremap("n", "n", "nzzzv")
-noremap("n", "N", "Nzzzv")
+util.noremap("n", "n", "nzzzv")
+util.noremap("n", "N", "Nzzzv")
 
 -- Maintains cursor's position after line join
-noremap("n", "J", "mzJ`z")
+util.noremap("n", "J", "mzJ`z")
 
 -- Indents line on single key press
-noremap("n", "<", "<<")
-noremap("n", ">", ">>")
+util.noremap("n", "<", "<<")
+util.noremap("n", ">", ">>")
 
 -- Maintains visual mode after indent
-noremap("v", "<", "<gv")
-noremap("v", ">", ">gv")
+util.noremap("v", "<", "<gv")
+util.noremap("v", ">", ">gv")
 
 -- Moves lines up and down
-noremap("n", "<C-k>", ":m .-2<CR>==g<Esc>")
-noremap("v", "<C-k>", ":m \'<-2<CR>gv=gv")
-noremap("i", "<C-k>", "<Esc>:m .-2<CR>==gi")
+util.noremap("n", "<C-k>", ":m .-2<CR>==g<Esc>")
+util.noremap("v", "<C-k>", ":m \'<-2<CR>gv=gv")
+util.noremap("i", "<C-k>", "<Esc>:m .-2<CR>==gi")
 
-noremap("n", "<C-j>", ":m .+1<CR>==g<Esc>")
-noremap("v", "<C-j>", ":m \'>+1<CR>gv=gv")
-noremap("i", "<C-j>", "<Esc>:m .+1<CR>==gi")
+util.noremap("n", "<C-j>", ":m .+1<CR>==g<Esc>")
+util.noremap("v", "<C-j>", ":m \'>+1<CR>gv=gv")
+util.noremap("i", "<C-j>", "<Esc>:m .+1<CR>==gi")
 
 -- Splits windows
-noremap("n", "<C-W>s", ":split<CR><C-W><C-j><CR>")
-noremap("n", "<C-W>v", ":vsplit<CR><C-W><C-l><CR>")
+util.noremap("n", "<C-W>s", ":split<CR><C-W><C-j><CR>")
+util.noremap("n", "<C-W>v", ":vsplit<CR><C-W><C-l><CR>")
 
 -- Navigates windows
-noremap("n", "<C-W>k", "<C-W><C-k>")
-noremap("n", "<C-W>j", "<C-W><C-j>")
-noremap("n", "<C-W>h", "<C-W><C-h>")
-noremap("n", "<C-W>l", "<C-W><C-l>")
+util.noremap("n", "<C-W>k", "<C-W><C-k>")
+util.noremap("n", "<C-W>j", "<C-W><C-j>")
+util.noremap("n", "<C-W>h", "<C-W><C-h>")
+util.noremap("n", "<C-W>l", "<C-W><C-l>")
 
 -- Navigates buffers
-noremap("n", "<S-h>", ":bprevious<CR>")
-noremap("n", "<S-l>", ":bnext<CR>")
-noremap("n", "<S-q>", ":bd<CR>")
+util.noremap("n", "<S-h>", ":bprevious<CR>")
+util.noremap("n", "<S-l>", ":bnext<CR>")
+util.noremap("n", "<S-q>", ":bd<CR>")
