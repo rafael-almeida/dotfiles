@@ -25,4 +25,19 @@ return {
             },
         },
     },
+    {
+        "roobert/tailwindcss-colorizer-cmp.nvim",
+        ft = {
+            "html",
+            "javascript",
+            "typescript",
+            "javascriptreact",
+            "typescriptreact",
+        },
+        config = function()
+            require("tailwindcss-colorizer-cmp").setup({
+                color_square_width = 15,
+            })
+        end
+    },
 }
