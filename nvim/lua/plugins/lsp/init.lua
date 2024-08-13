@@ -4,8 +4,8 @@
 --     },
 -- })
 
--- vim.diagnostic.config({
 --     signs = {
+-- vim.diagnostic.config({
 --         severity = { min = vim.diagnostic.severity.ERROR },
 --     },
 --     underline = {
@@ -15,6 +15,9 @@
 --         source = "if_many",
 --     },
 -- })
+
+-- TODO: Extract this to a separate module and reuse across plugins.
+-- local FileEvent = { "BufReadPost", "BufNewFile", "BufWritePre" },
 
 local util = require("config.util")
 local server_settings = require("plugins.lsp.servers")
@@ -29,7 +32,7 @@ local servers = {
     "cssls",
     "tailwindcss",
     "marksman",
-    -- "templ",
+    "templ",
 }
 
 local lsp_keymaps = {
@@ -46,10 +49,8 @@ local lsp_keymaps = {
     { "<leader>D",  vim.lsp.buf.type_definition, "Jump to definition" },
     { "<leader>rn", vim.lsp.buf.rename,          "Rename all references" },
     { "<leader>ca", vim.lsp.buf.code_action,     "Select available code action" },
-    -- { "<leader>wA", vim.lsp.buf.add_workspace_folder,    "Add to workspace folders" },
-    -- { "<leader>wR", vim.lsp.buf.remove_workspace_folder, "Remove from workspace folders" },
-    -- { "<leader>wL", vim.lsp.buf.list_workspace_folders,  "List workspace folders" },
 }
+
 
 return {
     {
@@ -74,7 +75,9 @@ return {
         dependencies = {
             {
                 "L3MON4D3/LuaSnip",
+                version = "v2.3",
                 dependencies = { "rafamadriz/friendly-snippets" },
+                build = "make install_jsregexp"
             },
             { "hrsh7th/cmp-nvim-lsp" },
             { "hrsh7th/cmp-path" },
@@ -83,6 +86,10 @@ return {
         },
         config = function()
             -- friendly-snippets
+            -- Quoting from the README:
+            -- If you're using LuaSnip make sure to use require("luasnip.loaders.from_vscode").lazy_load(),
+            -- and add friendly-snippets as a dependency for LuaSnip, otherwise snippets might not be detected.
+            -- If you don't use lazy_load() you might notice a slower startup-time
             require("luasnip.loaders.from_vscode").lazy_load()
 
             local cmp = require("cmp")
@@ -91,7 +98,8 @@ return {
             cmp.setup({
                 snippet = {
                     expand = function(args)
-                        luasnip.lsp_expand(args.body) -- Configures snippet engine. Otherwise, it will throw `snippet engine is not configured` error.
+                        -- Configures snippet engine. Otherwise, it will throw `snippet engine is not configured` error.
+                        luasnip.lsp_expand(args.body)
                     end,
                 },
                 sources =
@@ -123,9 +131,10 @@ return {
                     end
                 },
                 mapping = {
+                    -- Confirms completion menu.
                     ["<C-y>"] = cmp.mapping.confirm({ select = true }),
-                    ["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
-                    ["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
+
+                    -- Toggles completion menu.
                     ["<C-e>"] = cmp.mapping(function()
                         if cmp.visible() then
                             cmp.abort()
@@ -133,24 +142,46 @@ return {
                             cmp.complete()
                         end
                     end),
-                    ["<C-f>"] = cmp.mapping(function(fallback)
-                        -- Navigates to next snippet placeholder.
-                        if luasnip.jumpable(1) then
+
+                    -- Navigates to next menu item / snippet placeholder.
+                    ["<C-n>"] = cmp.mapping(function(fallback)
+                        if cmp.visible() then
+                            cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
+                        elseif luasnip.jumpable(1) then
                             luasnip.jump(1)
                         else
-                            -- NOTE: `fallback` executes the original mapping.
                             fallback()
                         end
                     end, { "i", "s" }),
-                    ["<C-b>"] = cmp.mapping(function(fallback)
-                        -- Navigates to previous snippet placeholder.
-                        if luasnip.jumpable(-1) then
+
+                    -- Navigates to previous menu item / snippet placeholder.
+                    ["<C-p>"] = cmp.mapping(function(fallback)
+                        if cmp.visible() then
+                            cmp.select_prev_item({ behavior = cmp.SelectBehavior.Select })
+                        elseif luasnip.jumpable(-1) then
                             luasnip.jump(-1)
                         else
-                            -- NOTE: `fallback` executes the original mapping.
                             fallback()
                         end
                     end, { "i", "s" }),
+
+                    -- TODO Delete these once the above mappings are confirmed to work.
+                    -- ["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
+                    -- ["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
+                    -- ["<C-f>"] = cmp.mapping(function(fallback)
+                    --     if luasnip.jumpable(1) then
+                    --         luasnip.jump(1)
+                    --     else
+                    --         fallback()
+                    --     end
+                    -- end, { "i", "s" }),
+                    -- ["<C-b>"] = cmp.mapping(function(fallback)
+                    --     if luasnip.jumpable(-1) then
+                    --         luasnip.jump(-1)
+                    --     else
+                    --         fallback()
+                    --     end
+                    -- end, { "i", "s" }),
                 },
             })
         end
@@ -158,7 +189,6 @@ return {
     {
         "neovim/nvim-lspconfig",
         lazy = false,
-        -- event = { "BufReadPost", "BufNewFile", "BufWritePre" },
         dependencies = {
             { "williamboman/mason.nvim",           optional = true },
             { "williamboman/mason-lspconfig.nvim", optional = true },
@@ -166,6 +196,10 @@ return {
             { "folke/neodev.nvim" }, -- TODO: replace this with folke/lazydev.nvim (neovim >= 0.10)
         },
         keys = {
+            -- TODO:
+            -- These keymaps might be better suited in a separate module. 
+            -- <leader>tp: Set filetype is not dependent on lsp.
+            -- I am not sure if vim.diagnostics is dependent on lsp.
             {
                 "<leader>tp",
                 function()
@@ -193,7 +227,11 @@ return {
             end
         },
         config = function(_, opts)
-            local capabilities = require("cmp_nvim_lsp").default_capabilities()
+            -- Copied from ThePrimeagen's config. I am not sure if this is necessary. At some point, I will investigate.
+            local capabilities = vim.tbl_deep_extend(
+                "force", {}, vim.lsp.protocol.make_client_capabilities(), require("cmp_nvim_lsp").default_capabilities()
+            )
+
             local lsp = require("lspconfig")
 
             for _, server in ipairs(servers) do
