@@ -9,3 +9,5 @@
 	insteadOf = https://github.com/
 [push]
 	autoSetupRemote = true
+[alias]
+    ac = git add -A && git commit

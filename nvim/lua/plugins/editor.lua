@@ -1,3 +1,7 @@
+-- disable netrw
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
 return {
     -- {
     --     dir = "/Users/rafael/development/jupyter-nvim",
@@ -13,6 +17,7 @@ return {
         },
         cmd = "Neotree",
         opts = {
+            hijack_netrw_behavior = "open_default",
             add_blank_line_at_top = true,
             close_if_last_window = true,
             filesystem = {
@@ -33,6 +38,10 @@ return {
                     leave_dirs_open = true,
                 },
             },
+            window = {
+
+                width = 25,
+            }
         },
         keys = {
             {

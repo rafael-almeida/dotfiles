@@ -1,4 +1,6 @@
---- Sets a non-recursive and silent keymap.
+local FileEvent = { "BufReadPost", "BufNewFile", "BufWritePre" }
+
+--- Set a non-recursive and silent keymap.
 --
 -- @param mode string          The mode in which the keymap is set (e.g., 'n' for normal mode).
 -- @param lhs  string          The left-hand side of the keymap; the key combination.
@@ -10,7 +12,7 @@ local function noremap(mode, lhs, rhs, opts)
 end
 
 
---- Sets a non-recursive and silent keymap in normal mode.
+--- Set a non-recursive and silent keymap in normal mode.
 --
 -- @param bufnr number          The buffer number in which the keymap is set.
 -- @param lhs   string          The left-hand side of the keymap; the key combination.
@@ -21,7 +23,7 @@ local nnoremap = function(bufnr, lhs, rhs, desc)
     vim.keymap.set("n", lhs, rhs, opts)
 end
 
---- Extends a table with another table or the result of a function.
+--- Extend a table with another table or the result of a function.
 --
 -- @param tbl   table          The table to extend.
 -- @param other table|function The table or function to extend the table with.
@@ -39,6 +41,7 @@ local tbl_extend = function(tbl, other)
 end
 
 M = {
+    FileEvent = FileEvent,
     noremap = noremap,
     nnoremap = nnoremap,
     tbl_extend = tbl_extend,

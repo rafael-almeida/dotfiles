@@ -1,3 +1,7 @@
+-- TODO:
+-- Check if there is overlaps between plugins. I wonder if I need so many git plugins.
+-- `vim-fugitive` seems to do a lot of things already.
+-- Maybe add comment notes on what each plugin does differently.
 return {
     {
         "lewis6991/gitsigns.nvim",
@@ -12,7 +16,7 @@ return {
     },
     {
         "tpope/vim-fugitive",
-        cmd = { "Git" },
+        -- cmd = { "Git" },
         keys = {
             -- Related keymaps currently in use:
             --  <leader>gs

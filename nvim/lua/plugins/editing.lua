@@ -1,18 +1,7 @@
 return {
     {
         "stevearc/conform.nvim",
-        enable = false,
-        cmd = { "ConformInfo" },
-        opts = {
-            formatters_by_ft = {
-                javascript = { "prettier" },
-                typescript = { "prettier" },
-                javascriptreact = { "prettier" },
-                typescriptreact = { "prettier" },
-                json = { "prettier" },
-                markdown = { "prettier" },
-            },
-        },
+        -- cmd = { "ConformInfo" },
         keys = {
             {
                 "<leader>ft",
@@ -22,6 +11,16 @@ return {
                     )
                 end,
                 desc = "conform: Format"
+            },
+        },
+        opts = {
+            formatters_by_ft = {
+                javascript = { "prettier" },
+                typescript = { "prettier" },
+                javascriptreact = { "prettier" },
+                typescriptreact = { "prettier" },
+                json = { "prettier" },
+                markdown = { "prettier" },
             },
         },
     },

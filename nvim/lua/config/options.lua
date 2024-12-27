@@ -2,20 +2,21 @@ vim.g.python3_host_prog = "~/.virtualenvs/neovim/bin/python"
 
 local options = {
     scrolloff = 10,
+
     splitright = true,
     splitbelow = true,
+
     wrap = false,
     smartindent = true,
     expandtab = true,
     tabstop = 4,
-    -- NOTE: indent is 2 for js/ts files (see autocmds).
     softtabstop = 4,
     shiftwidth = 4,
     hlsearch = false,
     swapfile = false,
     undofile = true,
     updatetime = 100,
-    --undodir = os.getenv('HOME') .. '/.vim/undodir',
+    undodir = os.getenv('HOME') .. '/.vim/undodir',
 }
 
 for k, v in pairs(options) do

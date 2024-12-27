@@ -15,10 +15,6 @@
 --         source = "if_many",
 --     },
 -- })
-
--- TODO: Extract this to a separate module and reuse across plugins.
--- local FileEvent = { "BufReadPost", "BufNewFile", "BufWritePre" },
-
 local util = require("config.util")
 local server_settings = require("plugins.lsp.servers")
 
@@ -33,13 +29,19 @@ local servers = {
     "tailwindcss",
     "marksman",
     "templ",
+    "volar",
+    "tsserver",
 }
 
 local lsp_keymaps = {
-    { "<leader>R", function()
-        vim.cmd("LspRestart")
-        vim.cmd("echomsg 'LSP reloaded'")
-    end, "Restart language server" },
+    {
+        "<leader>R",
+        function()
+            vim.cmd("LspRestart")
+            vim.cmd("echomsg 'LSP reloaded!'")
+        end,
+        "Restart language server"
+    },
     { "K",          vim.lsp.buf.hover,           "Display hover information" },
     { "<C-s>",      vim.lsp.buf.signature_help,  "Display signature information" },
     { "gD",         vim.lsp.buf.declaration,     "Jump to the declaration" },
@@ -56,9 +58,6 @@ return {
     {
         "williamboman/mason.nvim",
         build = ":MasonUpdate",
-        keys = {
-            { "<leader>cm", "<Cmd>Mason<CR>", desc = "Mason" }
-        },
         opts = {}
     },
     {
@@ -98,26 +97,25 @@ return {
             cmp.setup({
                 snippet = {
                     expand = function(args)
-                        -- Configures snippet engine. Otherwise, it will throw `snippet engine is not configured` error.
+                        -- Configure snippet engine. Otherwise, it will throw `snippet engine is not configured` error.
                         luasnip.lsp_expand(args.body)
                     end,
                 },
-                sources =
-                    cmp.config.sources(
-                        {
-                            { name = "nvim_lsp", priority = 4 },
-                            { name = "luasnip",  priority = 3 },
-                            { name = "path",     priority = 2, max_item_count = 2 },
-                            { name = "buffer",   priority = 1, max_item_count = 2 },
-                        }
-                    ),
+                sources = cmp.config.sources({
+                    { name = "copilot" },
+                    { name = "nvim_lsp" },
+                    { name = "luasnip" },
+                    { name = "buffer" },
+                    { name = "path" },
+                }),
                 formatting = {
                     format = function(entry, item)
                         local menu = {
+                            copilot  = "[Copilot]",
                             nvim_lsp = "[LSP]",
                             luasnip  = "[Snip]",
-                            path     = "[Path]",
                             buffer   = "[Buff]",
+                            path     = "[Path]",
                         }
 
                         item.menu = menu[entry.source.name]
@@ -131,10 +129,10 @@ return {
                     end
                 },
                 mapping = {
-                    -- Confirms completion menu.
+                    -- Confirm completion menu
                     ["<C-y>"] = cmp.mapping.confirm({ select = true }),
 
-                    -- Toggles completion menu.
+                    -- Toggle completion menu
                     ["<C-e>"] = cmp.mapping(function()
                         if cmp.visible() then
                             cmp.abort()
@@ -143,7 +141,11 @@ return {
                         end
                     end),
 
-                    -- Navigates to next menu item / snippet placeholder.
+                    -- Navigate menu items
+                    ["<C-u>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior, count = 5 }),
+                    ["<C-d>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior, count = 5 }),
+
+                    -- Navigate to next menu item / snippet placeholder
                     ["<C-n>"] = cmp.mapping(function(fallback)
                         if cmp.visible() then
                             cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
@@ -154,7 +156,7 @@ return {
                         end
                     end, { "i", "s" }),
 
-                    -- Navigates to previous menu item / snippet placeholder.
+                    -- Navigate to previous menu item / snippet placeholder
                     ["<C-p>"] = cmp.mapping(function(fallback)
                         if cmp.visible() then
                             cmp.select_prev_item({ behavior = cmp.SelectBehavior.Select })
@@ -164,25 +166,24 @@ return {
                             fallback()
                         end
                     end, { "i", "s" }),
-
-                    -- TODO Delete these once the above mappings are confirmed to work.
-                    -- ["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
-                    -- ["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
-                    -- ["<C-f>"] = cmp.mapping(function(fallback)
-                    --     if luasnip.jumpable(1) then
-                    --         luasnip.jump(1)
-                    --     else
-                    --         fallback()
-                    --     end
-                    -- end, { "i", "s" }),
-                    -- ["<C-b>"] = cmp.mapping(function(fallback)
-                    --     if luasnip.jumpable(-1) then
-                    --         luasnip.jump(-1)
-                    --     else
-                    --         fallback()
-                    --     end
-                    -- end, { "i", "s" }),
                 },
+            })
+
+            cmp.setup.cmdline("/", {
+                mapping = cmp.mapping.preset.cmdline(),
+                sources = {
+                    { name = "buffer" }
+                }
+            })
+
+            cmp.setup.cmdline(":", {
+                mapping = cmp.mapping.preset.cmdline(),
+                sources = cmp.config.sources({
+                    { name = "path" }
+                }, {
+                    { name = "cmdline" }
+                }),
+                matching = { disallow_symbol_nonprefix_matching = false }
             })
         end
     },
@@ -196,24 +197,6 @@ return {
             { "folke/neodev.nvim" }, -- TODO: replace this with folke/lazydev.nvim (neovim >= 0.10)
         },
         keys = {
-            -- TODO:
-            -- These keymaps might be better suited in a separate module. 
-            -- <leader>tp: Set filetype is not dependent on lsp.
-            -- I am not sure if vim.diagnostics is dependent on lsp.
-            {
-                "<leader>tp",
-                function()
-                    local ft = vim.fn.input("Filetype: ")
-
-                    if ft == "" then
-                        vim.cmd("echohl WarningMsg | echomsg 'No filetype provided!' | echohl None")
-                        return;
-                    end
-
-                    vim.bo.filetype = ft
-                end,
-                desc = "Set filetype"
-            },
             { "<leader>e", vim.diagnostic.open_float, desc = "Show diagnostics" },
             { "[d",        vim.diagnostic.goto_prev,  desc = "Move to previous diagnostic" },
             { "]d",        vim.diagnostic.goto_next,  desc = "Move to next diagnostic" },
