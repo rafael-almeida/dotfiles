@@ -10,7 +10,7 @@ util.noremap("n", "<Right>", "<nop>")
 util.noremap("n", "Q", "<nop>")
 
 -- Toggle Explorer
--- util.noremap("n", "<leader>n", ":Exp<CR>")
+-- util.noremap("n", "<leader>n", ":Exp<cr>")
 
 -- Ignore line break character when Yanking
 util.noremap("n", "Y", "yg$")
@@ -55,17 +55,17 @@ util.noremap("v", "<", "<gv")
 util.noremap("v", ">", ">gv")
 
 -- Move lines up and down
-util.noremap("n", "<C-k>", ":m .-2<CR>==g<Esc>")
-util.noremap("v", "<C-k>", ":m \'<-2<CR>gv=gv")
-util.noremap("i", "<C-k>", "<Esc>:m .-2<CR>==gi")
+util.noremap("n", "<C-k>", ":m .-2<cr>==g<Esc>")
+util.noremap("v", "<C-k>", ":m \'<-2<cr>gv=gv")
+util.noremap("i", "<C-k>", "<Esc>:m .-2<cr>==gi")
 
-util.noremap("n", "<C-j>", ":m .+1<CR>==g<Esc>")
-util.noremap("v", "<C-j>", ":m \'>+1<CR>gv=gv")
-util.noremap("i", "<C-j>", "<Esc>:m .+1<CR>==gi")
+util.noremap("n", "<C-j>", ":m .+1<cr>==g<Esc>")
+util.noremap("v", "<C-j>", ":m \'>+1<cr>gv=gv")
+util.noremap("i", "<C-j>", "<Esc>:m .+1<cr>==gi")
 
 -- Split windows
-util.noremap("n", "<C-W>s", ":split<CR><C-W><C-j><CR>")
-util.noremap("n", "<C-W>v", ":vsplit<CR><C-W><C-l><CR>")
+util.noremap("n", "<C-W>s", ":split<cr><C-W><C-j><cr>")
+util.noremap("n", "<C-W>v", ":vsplit<cr><C-W><C-l><cr>")
 
 -- Navigate windows
 util.noremap("n", "<C-W>k", "<C-W><C-k>")
@@ -74,9 +74,9 @@ util.noremap("n", "<C-W>h", "<C-W><C-h>")
 util.noremap("n", "<C-W>l", "<C-W><C-l>")
 
 -- Navigate buffers
-util.noremap("n", "<S-h>", ":bprevious<CR>")
-util.noremap("n", "<S-l>", ":bnext<CR>")
-util.noremap("n", "<S-q>", ":bd<CR>")
+util.noremap("n", "<S-h>", ":bprevious<cr>")
+util.noremap("n", "<S-l>", ":bnext<cr>")
+util.noremap("n", "<S-q>", ":bd<cr>")
 
 -- Set filetype
 util.noremap("n", "<leader>tp", function()

@@ -56,11 +56,11 @@ return {
         dependencies = { "nvim-tree/nvim-web-devicons" },
         event = { "VeryLazy" },
         keys = {
-            { "<leader>bp", "<cmd>BufferLineTogglePin<CR>",            desc = "bufferline: Toggle pin" },
-            { "<leader>bl", "<cmd>BufferLineCloseLeft<CR>",            desc = "bufferline: Close buffers to the left" },
-            { "<leader>br", "<cmd>BufferLineCloseRight<CR>",           desc = "bufferline: Close buffers to the right" },
-            { "<leader>bc", "<cmd>BufferLineCloseOthers<CR>",          desc = "bufferline: Close other buffers" },
-            { "<leader>bC", "<cmd>BufferLineGroupClose ungrouped<CR>", desc = "bufferline: Close non-pinned buffers" },
+            { "<leader>bp", "<cmd>BufferLineTogglePin<cr>",            desc = "bufferline: Toggle pin" },
+            { "<leader>bl", "<cmd>BufferLineCloseLeft<cr>",            desc = "bufferline: Close buffers to the left" },
+            { "<leader>br", "<cmd>BufferLineCloseRight<cr>",           desc = "bufferline: Close buffers to the right" },
+            { "<leader>bc", "<cmd>BufferLineCloseOthers<cr>",          desc = "bufferline: Close other buffers" },
+            { "<leader>bC", "<cmd>BufferLineGroupClose ungrouped<cr>", desc = "bufferline: Close non-pinned buffers" },
         },
         opts = {
             options = {

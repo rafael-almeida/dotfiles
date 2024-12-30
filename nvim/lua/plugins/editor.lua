@@ -130,18 +130,16 @@ return {
                     leave_dirs_open = true,
                 },
             },
+            window = {
+                width = 30,
+            }
         },
         keys = {
             {
                 "<leader>N",
-                "<cmd>Neotree toggle float<CR>",
+                "<cmd>Neotree toggle<cr>",
                 desc = "neotree: Toggle sidebar",
-            },
-            -- {
-            --     "<leader>N",
-            --     "<cmd>Neotree toggle<CR>",
-            --     desc = "neotree: Toggle sidebar",
-            -- }
+            }
         },
     },
     {
@@ -171,17 +169,17 @@ return {
         end,
         keys = {
             -- Find
-            { "<leader>fr", "<cmd>Telescope resume<CR>",                 desc = "telescope: Open previous picker" },
-            { "<leader>fh", "<cmd>Telescope help_tags<CR>",              desc = "telescope: Search for help tags" },
-            { "<leader>fk", "<cmd>Telescope keymaps<CR>",                desc = "telescope: Search for keybindings" },
-            { "<leader>ff", "<cmd>Telescope find_files hidden=true<CR>", desc = "telescope: Search for files (includes hidden)" },
-            { "<leader>fs", "<cmd>Telescope live_grep<CR>",              desc = "telescope: Search for text" },
-            { "<leader>fw", "<cmd>Telescope grep_string<CR>",            desc = "telescope: Search for word under the cursor" },
-            { "<leader>fp", "<cmd>Telescope lsp_document_symbols<CR>",   desc = "telescope: Search for symbols in current buffer" },
-            { "<leader>fv", "<cmd>Telescope vim_options<CR>",            desc = "telescope: Search for vim options" },
+            { "<leader>fr", "<cmd>Telescope resume<cr>",                 desc = "telescope: Open previous picker" },
+            { "<leader>fh", "<cmd>Telescope help_tags<cr>",              desc = "telescope: Search for help tags" },
+            { "<leader>fk", "<cmd>Telescope keymaps<cr>",                desc = "telescope: Search for keybindings" },
+            { "<leader>ff", "<cmd>Telescope find_files hidden=true<cr>", desc = "telescope: Search for files (includes hidden)" },
+            { "<leader>fs", "<cmd>Telescope live_grep<cr>",              desc = "telescope: Search for text" },
+            { "<leader>fw", "<cmd>Telescope grep_string<cr>",            desc = "telescope: Search for word under the cursor" },
+            { "<leader>fp", "<cmd>Telescope lsp_document_symbols<cr>",   desc = "telescope: Search for symbols in current buffer" },
+            { "<leader>fv", "<cmd>Telescope vim_options<cr>",            desc = "telescope: Search for vim options" },
             -- Git
-            { "<leader>gc", "<cmd>Telescope git_commits<CR>",            desc = "telescope: List git commits" },
-            { "<leader>gs", "<cmd>Telescope git_status<CR>",             desc = "telescope: List git status" },
+            { "<leader>gc", "<cmd>Telescope git_commits<cr>",            desc = "telescope: List git commits" },
+            { "<leader>gs", "<cmd>Telescope git_status<cr>",             desc = "telescope: List git status" },
         },
     },
     {
@@ -248,11 +246,11 @@ return {
     {
         "vimwiki/vimwiki",
         keys = {
-            { "<leader>ww", ":vs | :VimwikiIndex<CR>",                  desc = "vimwiki: Open Vimwiki" },
-            { "<leader>wi", ":vs | :VimwikiDiaryIndex<CR>",             desc = "vimwiki: Open Vimwiki diary" },
-            { "<leader>wd", ":vs | :VimwikiMakeDiaryNote<CR>",          desc = "vimwiki: Create a new diary note for today" },
-            { "<leader>wy", ":vs | :VimwikiMakeYesterdayDiaryNote<CR>", desc = "vimwiki: Create a new diary note for yesterday" },
-            { "<leader>wt", ":vs | :VimwikiMakeTomorrowDiaryNote<CR>",  desc = "vimwiki: Create a new diary note for tomorrow" },
+            { "<leader>ww", ":vs | :VimwikiIndex<cr>",                  desc = "vimwiki: Open Vimwiki" },
+            { "<leader>wi", ":vs | :VimwikiDiaryIndex<cr>",             desc = "vimwiki: Open Vimwiki diary" },
+            { "<leader>wd", ":vs | :VimwikiMakeDiaryNote<cr>",          desc = "vimwiki: Create a new diary note for today" },
+            { "<leader>wy", ":vs | :VimwikiMakeYesterdayDiaryNote<cr>", desc = "vimwiki: Create a new diary note for yesterday" },
+            { "<leader>wt", ":vs | :VimwikiMakeTomorrowDiaryNote<cr>",  desc = "vimwiki: Create a new diary note for tomorrow" },
             {
                 "<leader>wU",
                 function()

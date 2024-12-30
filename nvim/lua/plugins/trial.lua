@@ -17,7 +17,7 @@ return {
         dependencies = { "neovim/nvim-lspconfig" },
         cmd = "SymbolsOutline",
         keys = {
-            { "<leader>cs", "<cmd>SymbolsOutline<CR>", desc = "Symbols Outline" },
+            { "<leader>cs", "<cmd>SymbolsOutline<cr>", desc = "Symbols Outline" },
         },
         opts = {}
     },
@@ -39,7 +39,7 @@ return {
             },
         },
         keys = {
-            { "<leader>z", "<cmd>Twilight<CR>", desc = "twilight: Toggle Twilight" }
+            { "<leader>z", "<cmd>Twilight<cr>", desc = "twilight: Toggle Twilight" }
         },
     },
 }
