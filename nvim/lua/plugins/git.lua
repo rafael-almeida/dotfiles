@@ -9,23 +9,22 @@ return {
                 desc = "gitsigns: Stage hunk",
             },
         },
-        opts = {
-            numhl = true,
-        },
+        opts = {},
     },
     {
         "tpope/vim-fugitive",
         cmd = "Git",
         keys = {
-            -- Related keymaps currently in use:
-            --  <leader>gs
-            --  <leader>gc
-            { "<leader>gg", "<cmd>Git<cr>",       desc = "vim-fugitive: Open git status" },
-            { "<leader>gp", "<cmd>Git pull<cr>",  desc = "vim-fugitive: Pull from remote" },
-            { "<leader>gP", "<cmd>Git push<cr>",  desc = "vim-fugitive: Push to remote" },
-            { "<leader>gA", "<cmd>Git add %<cr>", desc = "vim-fugitive: Add current file" },
-            { "<leader>gb", "<cmd>Git blame<cr>", desc = "vim-fugitive: Open git blame" },
-            { "<leader>gl", "<cmd>Git log<cr>",   desc = "vim-fugitive: Open git log" },
+            -- These keymaps are used by Telescope:
+            -- { "<leader>gc", "<cmd>Telescope git_commits<cr>", desc = "telescope: List git commits" },
+            -- { "<leader>gs", "<cmd>Telescope git_status<cr>",  desc = "telescope: List git status" },
+            { "<leader>gg", "<cmd>Git<cr>",         desc = "View git status" },
+            { "<leader>gp", "<cmd>Git pull<cr>",    desc = "Pull from remote repository" },
+            { "<leader>gP", "<cmd>Git push<cr>",    desc = "Push changes to remote repository" },
+            { "<leader>gA", "<cmd>Git add %<cr>",   desc = "Stage current file" },
+            { "<leader>gb", "<cmd>Git blame<cr>",   desc = "Show git blame for current file" },
+            { "<leader>gl", "<cmd>Git log<cr>",     desc = "View git commit log" },
+            { "<leader>gd", "<cmd>Gvdiffsplit<cr>", desc = "Open git diff tool" },
         },
     },
     -- {
