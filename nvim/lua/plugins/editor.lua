@@ -78,13 +78,80 @@ return {
         }
     },
     {
+        "lewis6991/gitsigns.nvim",
+        event = { "BufReadPre", "BufNewFile" },
+        keys = {
+            {
+                "<leader>ga",
+                "<cmd>Gitsigns stage_hunk<cr>",
+                desc = "gitsigns: Stage hunk",
+            },
+        },
+        opts = {},
+    },
+    {
+        "tpope/vim-fugitive",
+        cmd = "Git",
+        keys = {
+            -- These keymaps are used by Telescope:
+            -- { "<leader>gc", "<cmd>Telescope git_commits<cr>", desc = "telescope: List git commits" },
+            -- { "<leader>gs", "<cmd>Telescope git_status<cr>",  desc = "telescope: List git status" },
+            { "<leader>gg", "<cmd>Git<cr>",         desc = "View git status" },
+            { "<leader>gp", "<cmd>Git pull<cr>",    desc = "Pull from remote repository" },
+            { "<leader>gP", "<cmd>Git push<cr>",    desc = "Push changes to remote repository" },
+            { "<leader>gA", "<cmd>Git add %<cr>",   desc = "Stage current file" },
+            { "<leader>gb", "<cmd>Git blame<cr>",   desc = "Show git blame for current file" },
+            { "<leader>gl", "<cmd>Git log<cr>",     desc = "View git commit log" },
+            { "<leader>gd", "<cmd>Gvdiffsplit<cr>", desc = "Open git diff tool" },
+        },
+    },
+    -- {
+    --     "sindrets/diffview.nvim",
+    --     cmd = "DiffviewOpen",
+    --     keys = function()
+    --         local is_open = false
+    --         return {
+    --             {
+    --                 "<leader>gd",
+    --                 function()
+    --                     if is_open then
+    --                         vim.cmd("DiffviewClose")
+    --                     else
+    --                         vim.cmd("DiffviewOpen")
+    --                     end
+    --                     is_open = not is_open
+    --                 end,
+    --                 desc = "diffview: Toggle DiffView"
+    --             },
+    --         }
+    --     end,
+    --     opts = {
+    --         file_panel = {
+    --             win_config = {
+    --                 width = 30,
+    --             },
+    --         }
+    --     },
+    -- },
+    -- {
+    --     "rhysd/git-messenger.vim",
+    --     cmd = "GitMessenger",
+    --     keys = {
+    --         {
+    --             "<leader>gh",
+    --             "<cmd>GitMessenger<cr>",
+    --             desc = "git-messenger: Show commit message for the current line",
+    --         },
+    --     },
+    -- },
+    {
         "stevearc/oil.nvim",
         dependencies = {
             { "nvim-tree/nvim-web-devicons" }
         },
         cmd = "Oil",
         init = function()
-            --- disable netrw
+            --- Disables netrw.
             vim.g.loaded_netrw = 1
             vim.g.loaded_netrwPlugin = 1
         end,
@@ -97,13 +164,6 @@ return {
                 end,
                 desc = "oil: Toggle floating window",
             },
-            -- {
-            --     "<leader>n",
-            --     function()
-            --         require("oil").open()
-            --     end,
-            --     desc = "oil: Open current directory",
-            -- }
         },
     },
     {
@@ -213,7 +273,6 @@ return {
         },
     },
     {
-        -- TODO: Persist undo history.
         "mbbill/undotree",
         cmd = "UndotreeToggle",
         keys = {
@@ -244,6 +303,45 @@ return {
         }
     },
     {
+        -- NOTE: WIP
+        "MeanderingProgrammer/render-markdown.nvim",
+        dependencies = {
+            { "nvim-treesitter/nvim-treesitter" },
+            { "nvim-tree/nvim-web-devicons" }
+        },
+        ft = { "markdown" },
+        opts = {
+            heading = {
+                sign = false,
+                position = "inline",
+                icons = { "󰉫 ", "󰉬 ", "󰉭 ", "󰉮 ", "󰉯 ", "󰉰 " },
+            },
+            link = {
+                enabled = false,
+            },
+            bullet = {
+                icons = { "─" }
+            }
+        },
+    },
+    {
+        -- NOTE: Search alternative that does not require deno.
+        "toppair/peek.nvim",
+        build = "deno task --quiet build:fast",
+        ft = { "markdown" },
+        config = function()
+            local peek = require("peek")
+            vim.api.nvim_create_user_command("MarkdownPreviewToggle", function()
+                if peek.is_open() then
+                    peek.close()
+                else
+                    peek.open()
+                end
+            end, {})
+        end,
+    },
+    {
+        -- NOTE: Decide if this is being used.
         "vimwiki/vimwiki",
         keys = {
             { "<leader>ww", ":vs | :VimwikiIndex<cr>",                  desc = "vimwiki: Open Vimwiki" },

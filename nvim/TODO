@@ -1,4 +1,0 @@
-- Usage of Neotree and netrw is inconsistent.
-- Reduce Neotree sidebar width.
-- conform prettier does not work unless it is installed in the workspace. I would like it to work regardless of whether or not it is installed in the project.
-- Add remap to select all content in a buffer
