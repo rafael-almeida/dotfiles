@@ -7,8 +7,8 @@ return {
         "lewis6991/gitsigns.nvim",
         event = { "BufReadPre", "BufNewFile" },
         keys = {
-            { "<leader>gD", "<Cmd>Gitsigns preview_hunk<CR>", desc = "gitsigns: Open hunk diff" },
-            { "<leader>gA", "<Cmd>Gitsigns stage_hunk<CR>",   desc = "gitsigns: Stage hunk" },
+            { "<leader>gD", "<cmd>Gitsigns preview_hunk<CR>", desc = "gitsigns: Open hunk diff" },
+            { "<leader>gA", "<cmd>Gitsigns stage_hunk<CR>",   desc = "gitsigns: Stage hunk" },
         },
         opts = {
             numhl = true,
@@ -21,12 +21,12 @@ return {
             -- Related keymaps currently in use:
             --  <leader>gs
             --  <leader>gc
-            { "<leader>gg", "<Cmd>Git<CR>",       desc = "vim-fugitive: Open git status" },
-            { "<leader>gp", "<Cmd>Git pull<CR>",  desc = "vim-fugitive: Pull from remote" },
-            { "<leader>gP", "<Cmd>Git push<CR>",  desc = "vim-fugitive: Push to remote" },
-            { "<leader>ga", "<Cmd>Git add %<CR>", desc = "vim-fugitive: Add current file to git" },
-            { "<leader>gb", "<Cmd>Git blame<CR>", desc = "vim-fugitive: Open git blame" },
-            { "<leader>gl", "<Cmd>Git log<CR>",   desc = "vim-fugitive: Open git log" },
+            { "<leader>gg", "<cmd>Git<CR>",       desc = "vim-fugitive: Open git status" },
+            { "<leader>gp", "<cmd>Git pull<CR>",  desc = "vim-fugitive: Pull from remote" },
+            { "<leader>gP", "<cmd>Git push<CR>",  desc = "vim-fugitive: Push to remote" },
+            { "<leader>ga", "<cmd>Git add %<CR>", desc = "vim-fugitive: Add current file to git" },
+            { "<leader>gb", "<cmd>Git blame<CR>", desc = "vim-fugitive: Open git blame" },
+            { "<leader>gl", "<cmd>Git log<CR>",   desc = "vim-fugitive: Open git log" },
         },
     },
     {
@@ -54,7 +54,7 @@ return {
         "rhysd/git-messenger.vim",
         cmd = { "GitMessenger" },
         keys = {
-            { "<leader>gh", "<Cmd>GitMessenger<CR>", desc = "git-messenger: Show commit message for the current line" },
+            { "<leader>gh", "<cmd>GitMessenger<CR>", desc = "git-messenger: Show commit message for the current line" },
         },
     },
 }

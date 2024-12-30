@@ -1,13 +1,112 @@
--- disable netrw
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
-
 return {
-    -- {
-    --     dir = "/Users/rafael/development/jupyter-nvim",
-    -- },
     {
-        -- TODO: Make signs consistent with LSP
+        "numToStr/Comment.nvim",
+        dependencies = {
+            {
+                "JoosepAlviste/nvim-ts-context-commentstring",
+                dependencies = {
+                    { "nvim-treesitter/nvim-treesitter" }
+                },
+                opts = {
+                    enable_autocmd = false,
+                },
+            },
+        },
+        event = { "BufReadPre", "BufNewFile" },
+        opts = {
+            pre_hook = function()
+                require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook()
+            end
+        }
+    },
+    {
+        "windwp/nvim-autopairs",
+        event = { "InsertEnter" },
+        opts = {}
+    },
+    {
+        "windwp/nvim-ts-autotag",
+        dependencies = {
+            { "nvim-treesitter/nvim-treesitter" }
+        },
+        ft = { "astro", "glimmer", "handlebars", "html", "javascript", "jsx", "markdown", "php", "rescript", "svelte", "tsx", "twig", "typescript", "vue", "xml" },
+        opts = {}
+    },
+    {
+        "tpope/vim-surround",
+        event = { "BufReadPre", "BufNewFile" },
+    },
+    {
+        "Wansmer/treesj",
+        dependencies = {
+            { "nvim-treesitter/nvim-treesitter" }
+        },
+        opts = {
+            max_join_length = 9999,
+        },
+        keys = {
+            {
+                "<leader>m",
+                function()
+                    require("treesj").toggle()
+                end,
+                desc = "treesj: Toggle between single-line and multi-line",
+            },
+            {
+                "<leader>M",
+                function()
+                    require("treesj").toggle({
+                        split = {
+                            recursive = true,
+                        },
+                    })
+                end,
+                desc = "treesj: Toggle between single-line and multi-line (recursively)",
+            },
+        },
+    },
+    {
+        "MagicDuck/grug-far.nvim",
+        cmd = "GrugFar",
+        opts = {},
+        keys = {
+            {
+                "<leader>sr",
+                "<cmd>GrugFar<cr>",
+                desc = "grug-far: Search and Replace"
+            }
+        }
+    },
+    {
+        "stevearc/oil.nvim",
+        dependencies = {
+            { "nvim-tree/nvim-web-devicons" }
+        },
+        cmd = "Oil",
+        init = function()
+            --- disable netrw
+            vim.g.loaded_netrw = 1
+            vim.g.loaded_netrwPlugin = 1
+        end,
+        opts = {},
+        keys = {
+            {
+                "<leader>n",
+                function()
+                    require("oil").toggle_float()
+                end,
+                desc = "oil: Toggle floating window",
+            },
+            -- {
+            --     "<leader>n",
+            --     function()
+            --         require("oil").open()
+            --     end,
+            --     desc = "oil: Open current directory",
+            -- }
+        },
+    },
+    {
         "nvim-neo-tree/neo-tree.nvim",
         branch = "v3.x",
         dependencies = {
@@ -17,48 +116,42 @@ return {
         },
         cmd = "Neotree",
         opts = {
-            hijack_netrw_behavior = "open_default",
-            add_blank_line_at_top = true,
-            close_if_last_window = true,
+            close_if_last_window = true, -- This is highly desirable.
             filesystem = {
                 filtered_items = {
                     visible = true,
-                    -- hide_dotfiles = false,
-                    -- hide_gitignored = false,
-                    never_show = { "node_modules" },
+                    never_show = {
+                        ".git",
+                        "node_modules",
+                    },
                 },
                 follow_current_file = {
                     enabled = true,
                     leave_dirs_open = true,
                 },
             },
-            buffers = {
-                follow_current_file = {
-                    enabled = true,
-                    leave_dirs_open = true,
-                },
-            },
-            window = {
-
-                width = 25,
-            }
         },
         keys = {
             {
                 "<leader>N",
-                "<Cmd>Neotree toggle float reveal<CR>",
-                desc = "neotree: Toggle",
-            }
+                "<cmd>Neotree toggle float<CR>",
+                desc = "neotree: Toggle sidebar",
+            },
+            -- {
+            --     "<leader>N",
+            --     "<cmd>Neotree toggle<CR>",
+            --     desc = "neotree: Toggle sidebar",
+            -- }
         },
     },
     {
         "nvim-telescope/telescope.nvim",
-        version = false,
+        tag = "0.1.8",
         dependencies = {
             { "nvim-lua/plenary.nvim" },
-            { "nvim-tree/nvim-web-devicons" },
             { "nvim-treesitter/nvim-treesitter" },
             { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
+            { "nvim-tree/nvim-web-devicons" },
         },
         cmd = "Telescope",
         opts = {
@@ -69,7 +162,7 @@ return {
                     height = 0.99,
                 },
                 file_ignore_patterns = { ".git" },
-                path_display = { "truncate" }, -- Shows as much of the path as possible
+                path_display = { "truncate" }, -- Shows as much of the path as possible.
             },
         },
         config = function(_, opts)
@@ -78,57 +171,79 @@ return {
         end,
         keys = {
             -- Find
-            { "<leader>fr", "<Cmd>Telescope resume<CR>",                 desc = "telescope: Open previous picker" },
-            { "<leader>fh", "<Cmd>Telescope help_tags<CR>",              desc = "telescope: Search for help tags" },
-            { "<leader>fk", "<Cmd>Telescope keymaps<CR>",                desc = "telescope: Search for keybindings" },
-            { "<leader>ff", "<Cmd>Telescope find_files hidden=true<CR>", desc = "telescope: Search for files (includes hidden)" },
-            { "<leader>fs", "<Cmd>Telescope live_grep<CR>",              desc = "telescope: Search for text" },
-            { "<leader>fw", "<Cmd>Telescope grep_string<CR>",            desc = "telescope: Search for word under the cursor" },
-            { "<leader>fp", "<Cmd>Telescope lsp_document_symbols<CR>",   desc = "telescope: Search for symbols in current buffer" },
-            { "<leader>fv", "<Cmd>Telescope vim_options<CR>",            desc = "telescope: Search for vim options" },
+            { "<leader>fr", "<cmd>Telescope resume<CR>",                 desc = "telescope: Open previous picker" },
+            { "<leader>fh", "<cmd>Telescope help_tags<CR>",              desc = "telescope: Search for help tags" },
+            { "<leader>fk", "<cmd>Telescope keymaps<CR>",                desc = "telescope: Search for keybindings" },
+            { "<leader>ff", "<cmd>Telescope find_files hidden=true<CR>", desc = "telescope: Search for files (includes hidden)" },
+            { "<leader>fs", "<cmd>Telescope live_grep<CR>",              desc = "telescope: Search for text" },
+            { "<leader>fw", "<cmd>Telescope grep_string<CR>",            desc = "telescope: Search for word under the cursor" },
+            { "<leader>fp", "<cmd>Telescope lsp_document_symbols<CR>",   desc = "telescope: Search for symbols in current buffer" },
+            { "<leader>fv", "<cmd>Telescope vim_options<CR>",            desc = "telescope: Search for vim options" },
             -- Git
-            { "<leader>gc", "<Cmd>Telescope git_commits<CR>",            desc = "telescope: List git commits" },
-            { "<leader>gs", "<Cmd>Telescope git_status<CR>",             desc = "telescope: List git status" },
+            { "<leader>gc", "<cmd>Telescope git_commits<CR>",            desc = "telescope: List git commits" },
+            { "<leader>gs", "<cmd>Telescope git_status<CR>",             desc = "telescope: List git status" },
         },
     },
     {
-        -- NOTE: This plugin has a v3 beta
-        -- TODO: Make signs consistent with LSP
         "folke/trouble.nvim",
-        dependencies = { "nvim-tree/nvim-web-devicons" },
-        cmd = { "Trouble", "TroubleToggle" },
+        dependencies = {
+            "nvim-tree/nvim-web-devicons"
+        },
+        cmd = "Trouble",
+        opts = {},
         keys = {
-            { "<leader>xd", "<Cmd>TroubleToggle document_diagnostics<CR>",  desc = "trouble: Toggle document diagnostics" },
-            { "<leader>xw", "<Cmd>TroubleToggle workspace_diagnostics<CR>", desc = "trouble: Toggle workspace diagnostics" },
-            { "<leader>xq", "<Cmd>TroubleToggle quickfix<CR>",              desc = "trouble: Toggle quickfix list" },
-            { "<leader>xl", "<Cmd>TroubleToggle loclist<CR>",               desc = "trouble: Toggle location list" },
+            {
+                "<leader>xd",
+                "<cmd>Trouble diagnostics toggle focus=true<cr>",
+                desc = "trouble: Toggle document diagnostics",
+            },
+            {
+                "<leader>xw",
+                "<cmd>Trouble diagnostics toggle focus=true filter.buf=0<cr>",
+                desc = "trouble: Toggle workspace diagnostics",
+            },
+            {
+                "<leader>xl",
+                "<cmd>Trouble loclist toggle focus=true<cr>",
+                desc = "trouble: Toggle quickfix list",
+            },
+            {
+                "<leader>xq",
+                "<cmd>Trouble qflist toggle focus=true<cr>",
+                desc = "trouble: Toggle location list",
+            },
         },
     },
     {
+        -- TODO: Persist undo history.
         "mbbill/undotree",
-        cmd = { "UndotreeToggle" },
+        cmd = "UndotreeToggle",
         keys = {
             {
                 "<leader>u",
                 function()
-                    -- Toggles Undotree and set it as the current buffer
                     vim.cmd("UndotreeToggle")
-                    for _, win in pairs(vim.api.nvim_list_wins()) do
-                        local buf = vim.api.nvim_win_get_buf(win)
-                        local buftype = vim.api.nvim_buf_get_option(buf, "filetype")
-
-                        if buftype == "undotree" then
-                            vim.api.nvim_set_current_win(win)
-                            break
-                        end
-                    end
+                    require("config.util").go_to_win_of_type("undotree")
                 end
             },
             desc = "undotree: Toggle Undotree",
         },
         init = function()
-            vim.g.undotree_WindowLayout = 4 -- Moves undotree window to the right, and expand the diff window to full width
+            vim.g.undotree_WindowLayout = 4 --  Positions the undotree window on the right and sets the diff window to full width.
         end,
+    },
+    {
+        "folke/todo-comments.nvim",
+        dependencies = {
+            { "nvim-lua/plenary.nvim" }
+        },
+        opts = {
+            signs = false,
+            highlight = {
+                keyword = "fg",
+                pattern = [[.*<(KEYWORDS)\s*]]
+            }
+        }
     },
     {
         "vimwiki/vimwiki",
@@ -152,66 +267,10 @@ return {
             },
         },
         init = function()
-            -- Changes the syntax to Markdown
-            vim.g.vimwiki_global_ext = 0 -- Restricts vimwiki to the paths listed in `vimwiki_list`, i.e., don't treat all markdown files as part of vimwiki
             vim.g.vimwiki_list = {
-                {
-                    path = "~/vimwiki",
-                    syntax = "markdown",
-                    ext = ".md",
-                },
+                { path = "~/vimwiki", syntax = "markdown", ext = ".md" }, -- Changes the syntax to Markdown.
             }
+            vim.g.vimwiki_global_ext = 0                                  -- Restricts vimwiki to the paths listed in `vimwiki_list`, i.e., don't treat all markdown files as part of vimwiki.
         end
     },
-    {
-        "numToStr/Comment.nvim",
-        dependencies = {
-            {
-                "JoosepAlviste/nvim-ts-context-commentstring",
-                dependencies = { "nvim-treesitter/nvim-treesitter" },
-                ft = { "vue", "svelte", "javascriptreact", "typescriptreact" },
-                opts = {
-                    enable_autocmd = false,
-                },
-            },
-        },
-        event = { "BufRead", "BufNewFile" },
-        opts = {
-            pre_hook = function(ctx)
-                return require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook()(ctx)
-            end,
-        }
-    },
-    {
-        "Wansmer/treesj",
-        dependencies = { "nvim-treesitter/nvim-treesitter" },
-        event = { "BufRead", "BufNewFile" },
-        config = true,
-    },
-    {
-        "windwp/nvim-autopairs",
-        event = { "InsertEnter" },
-        config = true
-    },
-    {
-        "windwp/nvim-ts-autotag",
-        dependencies = { "nvim-treesitter/nvim-treesitter" },
-        ft = { "html", "javascript", "typescript", "javascriptreact", "typescriptreact", "svelte", "vue", "tsx", "jsx", "xml", "markdown" },
-        config = true,
-    },
-    {
-        "tpope/vim-surround",
-        event = { "BufRead", "BufNewFile" },
-    },
-    {
-        "folke/todo-comments.nvim",
-        dependencies = { "nvim-lua/plenary.nvim" },
-        opts = {
-            signs = false,
-            highlight = {
-                keyword = "fg",
-                pattern = [[.*<(KEYWORDS)\s*]]
-            }
-        }
-    }
 }

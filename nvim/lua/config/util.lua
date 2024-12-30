@@ -1,4 +1,5 @@
-local FileEvent = { "BufReadPost", "BufNewFile", "BufWritePre" }
+local M = {}
+
 
 --- Set a non-recursive and silent keymap.
 --
@@ -6,7 +7,7 @@ local FileEvent = { "BufReadPost", "BufNewFile", "BufWritePre" }
 -- @param lhs  string          The left-hand side of the keymap; the key combination.
 -- @param rhs  string|function The right-hand side of the keymap; the command to execute, or a Lua function.
 -- @param opts table|nil       Additional options for the keymap.
-local function noremap(mode, lhs, rhs, opts)
+M.noremap = function(mode, lhs, rhs, opts)
     opts = vim.tbl_extend("force", { noremap = true, silent = true }, opts or {})
     vim.keymap.set(mode, lhs, rhs, opts)
 end
@@ -18,7 +19,7 @@ end
 -- @param lhs   string          The left-hand side of the keymap; the key combination.
 -- @param rhs   string|function The right-hand side of the keymap; the command to execute, or a Lua function.
 -- @param desc  string          The description of the keymap.
-local nnoremap = function(bufnr, lhs, rhs, desc)
+M.nnoremap = function(bufnr, lhs, rhs, desc)
     local opts = { buffer = bufnr, remap = false, desc = desc }
     vim.keymap.set("n", lhs, rhs, opts)
 end
@@ -32,7 +33,7 @@ end
 -- @see vim.tbl_extend
 -- @usage vim_tbl_extend({ a = 1 }, { b = 2 }) -- { a = 1, b = 2 }
 -- @usage vim_tbl_extend({ a = 1 }, function() return { b = 2 } end) -- { a = 1, b = 2 }
-local tbl_extend = function(tbl, other)
+M.tbl_extend = function(tbl, other)
     if type(other) == "function" then
         return vim.tbl_extend("force", tbl, other())
     else
@@ -40,11 +41,17 @@ local tbl_extend = function(tbl, other)
     end
 end
 
-M = {
-    FileEvent = FileEvent,
-    noremap = noremap,
-    nnoremap = nnoremap,
-    tbl_extend = tbl_extend,
-}
+
+M.go_to_win_of_type = function(filetype)
+    for _, win in pairs(vim.api.nvim_list_wins()) do
+        local buf = vim.api.nvim_win_get_buf(win)
+
+        if vim.bo[buf].filetype == filetype then
+            vim.api.nvim_set_current_win(win)
+            break
+        end
+    end
+end
+
 
 return M
