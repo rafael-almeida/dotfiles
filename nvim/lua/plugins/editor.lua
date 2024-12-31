@@ -1,3 +1,4 @@
+-- Last reviewed on 2024-12-30
 return {
     {
         "numToStr/Comment.nvim",
@@ -105,6 +106,8 @@ return {
             { "<leader>gd", "<cmd>Gvdiffsplit<cr>", desc = "Open git diff tool" },
         },
     },
+
+    -- TODO: Decide if this is being used:
     -- {
     --     "sindrets/diffview.nvim",
     --     cmd = "DiffviewOpen",
@@ -133,6 +136,8 @@ return {
     --         }
     --     },
     -- },
+
+    -- TODO: Decide if this is being used:
     -- {
     --     "rhysd/git-messenger.vim",
     --     cmd = "GitMessenger",
@@ -144,6 +149,7 @@ return {
     --         },
     --     },
     -- },
+
     {
         "stevearc/oil.nvim",
         dependencies = {
@@ -290,20 +296,8 @@ return {
         end,
     },
     {
-        "folke/todo-comments.nvim",
-        dependencies = {
-            { "nvim-lua/plenary.nvim" }
-        },
-        opts = {
-            signs = false,
-            highlight = {
-                keyword = "fg",
-                pattern = [[.*<(KEYWORDS)\s*]]
-            }
-        }
-    },
-    {
-        -- NOTE: WIP
+        -- TODO: Customize plugin
+        -- TODO: Render vimwiki files
         "MeanderingProgrammer/render-markdown.nvim",
         dependencies = {
             { "nvim-treesitter/nvim-treesitter" },
@@ -325,13 +319,17 @@ return {
         },
     },
     {
-        -- NOTE: Search alternative that does not require deno.
+        -- TODO: Search alternatives that do not require deno.
         "toppair/peek.nvim",
         build = "deno task --quiet build:fast",
-        ft = { "markdown" },
-        config = function()
+        ft = "markdown",
+        opts = {
+            theme = "light",
+        },
+        config = function(_, opts)
             local peek = require("peek")
-            vim.api.nvim_create_user_command("MarkdownPreviewToggle", function()
+            peek.setup(opts)
+            vim.api.nvim_create_user_command("PeekToggle", function()
                 if peek.is_open() then
                     peek.close()
                 else
@@ -341,7 +339,7 @@ return {
         end,
     },
     {
-        -- NOTE: Decide if this is being used.
+        -- TODO: Decide if this is being used:
         "vimwiki/vimwiki",
         keys = {
             { "<leader>ww", ":vs | :VimwikiIndex<cr>",                  desc = "vimwiki: Open Vimwiki" },
@@ -369,4 +367,49 @@ return {
             vim.g.vimwiki_global_ext = 0                                  -- Restricts vimwiki to the paths listed in `vimwiki_list`, i.e., don't treat all markdown files as part of vimwiki.
         end
     },
+    {
+        "smjonas/inc-rename.nvim",
+        cmd = "IncRename",
+        keys = {
+            {
+                "<leader>ri",
+                ":IncRename ",
+                desc = "Incremental Rename",
+            },
+        },
+        opts = {}
+    },
+    {
+        "folke/twilight.nvim",
+        cmd = "Twilight",
+        opts = {
+            dimming = {
+                alpha = 0.35,
+                inactive = true, -- Dims other windows.
+            },
+        },
+        keys = {
+            {
+                "<leader>z",
+                "<cmd>Twilight<cr>",
+                desc = "twilight: Toggle Twilight",
+            }
+        },
+    },
+    -- {
+    --     -- NOTE: Deprecated.
+    --     "simrat39/symbols-outline.nvim",
+    --     dependencies = {
+    --         { "neovim/nvim-lspconfig" }
+    --     },
+    --     cmd = "SymbolsOutline",
+    --     keys = {
+    --         {
+    --             "<leader>cs",
+    --             "<cmd>SymbolsOutline<cr>",
+    --             desc = "Symbols Outline",
+    --         },
+    --     },
+    --     opts = {}
+    -- },
 }

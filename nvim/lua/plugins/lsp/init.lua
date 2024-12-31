@@ -21,7 +21,7 @@ local server_settings = require("plugins.lsp.servers")
 local servers = {
     "lua_ls",
     "pyright",
-    "ruff_lsp",
+    "ruff",
     "gopls",
     "html",
     "htmx",
@@ -30,7 +30,7 @@ local servers = {
     "marksman",
     "templ",
     "volar",
-    "tsserver",
+    "ts_ls",
 }
 
 local lsp_keymaps = {
@@ -54,8 +54,13 @@ local lsp_keymaps = {
 }
 
 
+-- NOTE: Set up the plugins in the following order:
+-- mason.nvim
+-- mason-lspconfig.nvim
+-- lspconfig servers
 return {
     {
+
         "williamboman/mason.nvim",
         build = ":MasonUpdate",
         opts = {}

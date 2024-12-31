@@ -96,6 +96,19 @@ return {
         end,
     },
     {
+        "folke/todo-comments.nvim",
+        dependencies = {
+            { "nvim-lua/plenary.nvim" }
+        },
+        opts = {
+            signs = false,
+            highlight = {
+                keyword = "fg",
+                pattern = [[.*<(KEYWORDS)\s*]]
+            }
+        }
+    },
+    {
         "norcalli/nvim-colorizer.lua",
         cmd = { "ColorizerToggle" },
         config = function()

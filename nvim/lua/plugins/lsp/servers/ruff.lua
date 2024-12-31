@@ -1,5 +1,5 @@
--- FIXME: ruff_lsp fails when `:set typefile=python` on a new buffer. 
--- LSP[ruff_lsp] Ruff: Lint failed (error: a value is required for '--stdin-filename <STDIN_FILENAME>' but none was supplied
+-- FIXME: ruff fails when `:set typefile=python` on a new buffer. 
+-- LSP[ruff] Ruff: Lint failed (error: a value is required for '--stdin-filename <STDIN_FILENAME>' but none was supplied
 
 local selects = {
     "F",     -- Pyflakes: Identifies common errors in code

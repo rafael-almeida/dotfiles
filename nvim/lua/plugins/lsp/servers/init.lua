@@ -1,8 +1,8 @@
 M = {
     lua_ls = require("plugins.lsp.servers.lua_ls"),
     pyright = require("plugins.lsp.servers.pyright"),
-    ruff_lsp = require("plugins.lsp.servers.ruff_lsp"),
-    tsserver = require("plugins.lsp.servers.tsserver"),
+    ruff = require("plugins.lsp.servers.ruff"),
+    ts_ls = require("plugins.lsp.servers.ts_ls"),
     volar = require("plugins.lsp.servers.volar"),
 }
 

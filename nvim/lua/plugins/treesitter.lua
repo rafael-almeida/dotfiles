@@ -1,51 +1,33 @@
-local util = require("config.util")
-
-local parsers = {
-    "lua",
-    "python",
-    "go",
-    "javascript",
-    "typescript",
-    "tsx",
-    "vue",
-    "svelte",
-    "html",
-    "css",
-    "json",
-    "markdown",
-    "yaml",
-}
-
 return {
     {
         "nvim-treesitter/nvim-treesitter",
-        version = false,
         build = ":TSUpdate",
-        event = { "BufReadPost", "BufNewFile", "BufWritePre", "VeryLazy" },
-        cmd = { "TSUpdateSync", "TSUpdate", "TSInstall" },
+        main = "nvim-treesitter.configs",
         opts = {
             auto_install = true,
-            ensure_installed = parsers,
+            ensure_installed = { "lua", "python", "go", "javascript", "typescript", "html", "css", "json", "markdown", "yaml" },
             highlight = { enable = true },
             indent = { enable = true },
+            -- TODO: Decide how useful these really are:
             incremental_selection = {
                 enable = true,
                 keymaps = {
-                    init_selection = "tt",
                     node_incremental = "tt",
-                    node_decremental = "tT",
+                    node_decremental = "TT",
                     scope_incremental = false,
                 },
             },
+            -- Uses `nvim-treesitter-textobjects`.
+            -- TODO: Decide how useful these really are:
             textobjects = {
                 select = {
                     enable = true,
                     lookahead = true,
                     keymaps = {
-                        ["af"] = "@function.outer",
-                        ["if"] = "@function.inner",
                         ["ac"] = "@class.outer",
                         ["ic"] = "@class.inner",
+                        ["af"] = "@function.outer",
+                        ["if"] = "@function.inner",
                         ["ab"] = "@block.outer",
                         ["ib"] = "@block.inner",
                         ["al"] = "@loop.outer",
@@ -57,6 +39,26 @@ return {
                         ["im"] = "@call.inner",
                     },
                 },
+                move = {
+                    enable = true,
+                    set_jumps = true,
+                    goto_next_start = {
+                        ["[c"] = "@class.outer",
+                        ["[f"] = "@function.outer",
+                    },
+                    goto_next_end = {
+                        ["]c"] = "@class.outer",
+                        ["]f"] = "@function.outer",
+                    },
+                    goto_previous_start = {
+                        ["[C"] = "@class.outer",
+                        ["[F"] = "@function.outer",
+                    },
+                    goto_previous_end = {
+                        ["]C"] = "@class.outer",
+                        ["]F"] = "@function.outer",
+                    },
+                },
                 swap = {
                     enable = true,
                     swap_next = {
@@ -66,59 +68,35 @@ return {
                         ["<leader>ah"] = "@parameter.inner",
                     },
                 },
-                move = {
-                    enable = true,
-                    set_jumps = true,
-                    goto_next_start = {
-                        ["[f"] = "@function.outer",
-                        ["[c"] = "@class.outer",
-                    },
-                    goto_next_end = {
-                        ["]f"] = "@function.outer",
-                        ["]c"] = "@class.outer"
-                    },
-                    goto_previous_start = {
-                        ["[F"] = "@function.outer",
-                        ["[C"] = "@class.outer"
-                    },
-                    goto_previous_end = {
-                        ["]F"] = "@function.outer",
-                        ["]C"] = "@class.outer"
-                    },
-                },
             },
 
-        },
-        main = "nvim-treesitter.configs",
-        init = function(plugin)
-            -- NOTE: Copied from LazyVim
-            -- Makes sure that the treesitter queries are available early, so other plugins can use them.
-            require("lazy.core.loader").add_to_rtp(plugin)
-            require("nvim-treesitter.query_predicates")
-        end,
-    },
-    {
-        "nvim-treesitter/nvim-treesitter-context",
-        dependencies = { "nvim-treesitter/nvim-treesitter" },
-        opts = {
-            max_lines = 2,
         },
     },
     {
         "nvim-treesitter/nvim-treesitter-textobjects",
-        dependencies = { "nvim-treesitter/nvim-treesitter" },
-        config = function()
-            local ts_repeat_move = require "nvim-treesitter.textobjects.repeatable_move"
-
-            -- Repeats latest textobjects movement
-            util.noremap({ "n", "x", "o" }, ";", ts_repeat_move.repeat_last_move)
-            util.noremap({ "n", "x", "o" }, ",", ts_repeat_move.repeat_last_move_opposite)
-
-            -- ts_repeat_move does not work with f, F, t, T by default. This fixes that.
-            util.noremap({ "n", "x", "o" }, "f", ts_repeat_move.builtin_f)
-            util.noremap({ "n", "x", "o" }, "F", ts_repeat_move.builtin_F)
-            util.noremap({ "n", "x", "o" }, "t", ts_repeat_move.builtin_t)
-            util.noremap({ "n", "x", "o" }, "T", ts_repeat_move.builtin_T)
-        end
+        dependencies = {
+            { "nvim-treesitter/nvim-treesitter" },
+        },
+        -- TODO: Is this really necessary?
+        -- config = function()
+        --     local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
+        --     -- Ensures ; goes forward and , goes backward regardless of the last direction
+        --     vim.keymap.set({ "n", "x", "o" }, ";", ts_repeat_move.repeat_last_move_next)
+        --     vim.keymap.set({ "n", "x", "o" }, ",", ts_repeat_move.repeat_last_move_previous)
+        --     -- Makes builtin f, F, t, T also repeatable with ; and ,
+        --     vim.keymap.set({ "n", "x", "o" }, "f", ts_repeat_move.builtin_f_expr, { expr = true })
+        --     vim.keymap.set({ "n", "x", "o" }, "F", ts_repeat_move.builtin_F_expr, { expr = true })
+        --     vim.keymap.set({ "n", "x", "o" }, "t", ts_repeat_move.builtin_t_expr, { expr = true })
+        --     vim.keymap.set({ "n", "x", "o" }, "T", ts_repeat_move.builtin_T_expr, { expr = true })
+        -- end
+    },
+    {
+        "nvim-treesitter/nvim-treesitter-context",
+        dependencies = {
+            { "nvim-treesitter/nvim-treesitter" }
+        },
+        opts = {
+            max_lines = 2,
+        },
     },
 }
