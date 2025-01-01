@@ -156,11 +156,11 @@ return {
             { "nvim-tree/nvim-web-devicons" }
         },
         cmd = "Oil",
-        init = function()
-            --- Disables netrw.
-            vim.g.loaded_netrw = 1
-            vim.g.loaded_netrwPlugin = 1
-        end,
+        -- init = function()
+        --     --- Disables netrw.
+        --     vim.g.loaded_netrw = 1
+        --     vim.g.loaded_netrwPlugin = 1
+        -- end,
         opts = {},
         keys = {
             {
