@@ -256,7 +256,7 @@ return {
     },
     {
         "stevearc/conform.nvim",
-        -- cmd = { "ConformInfo" },
+        cmd = "ConformInfo",
         keys = {
             {
                 "<leader>ft",
@@ -269,6 +269,7 @@ return {
             },
         },
         opts = {
+            -- NOTE: The formatters must be installed globally or in the project's root.
             formatters_by_ft = {
                 javascript = { "prettier" },
                 typescript = { "prettier" },
