@@ -15,9 +15,9 @@ return {
         },
         event = { "BufReadPre", "BufNewFile" },
         opts = {
-            pre_hook = function()
-                require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook()
-            end
+            pre_hook = function(ctx)
+                return require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook()(ctx)
+            end,
         }
     },
     {
@@ -150,28 +150,30 @@ return {
     --     },
     -- },
 
-    {
-        "stevearc/oil.nvim",
-        dependencies = {
-            { "nvim-tree/nvim-web-devicons" }
-        },
-        cmd = "Oil",
-        -- init = function()
-        --     --- Disables netrw.
-        --     vim.g.loaded_netrw = 1
-        --     vim.g.loaded_netrwPlugin = 1
-        -- end,
-        opts = {},
-        keys = {
-            {
-                "<leader>n",
-                function()
-                    require("oil").toggle_float()
-                end,
-                desc = "oil: Toggle floating window",
-            },
-        },
-    },
+    -- TODO: Decide if this is being used:
+    -- {
+    --     "stevearc/oil.nvim",
+    --     dependencies = {
+    --         { "nvim-tree/nvim-web-devicons" }
+    --     },
+    --     cmd = "Oil",
+    --     -- init = function()
+    --     --     --- Disables netrw.
+    --     --     vim.g.loaded_netrw = 1
+    --     --     vim.g.loaded_netrwPlugin = 1
+    --     -- end,
+    --     opts = {},
+    --     keys = {
+    --         {
+    --             "<leader>n",
+    --             function()
+    --                 require("oil").toggle_float()
+    --             end,
+    --             desc = "oil: Toggle floating window",
+    --         },
+    --     },
+    -- },
+
     {
         "nvim-neo-tree/neo-tree.nvim",
         branch = "v3.x",
