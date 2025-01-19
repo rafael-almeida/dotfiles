@@ -10,7 +10,7 @@ util.noremap("n", "<Right>", "<nop>")
 util.noremap("n", "Q", "<nop>")
 
 -- Toggle Explorer
--- util.noremap("n", "<leader>n", ":Exp<cr>")
+util.noremap("n", "<leader>n", ":Exp<cr>")
 
 -- Ignore line break character when Yanking
 util.noremap("n", "Y", "yg$")
