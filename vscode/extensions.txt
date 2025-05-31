@@ -1,0 +1,16 @@
+alefragnani.bookmarks
+bradlc.vscode-tailwindcss
+charliermarsh.ruff
+dbaeumer.vscode-eslint
+eamodio.gitlens
+esbenp.prettier-vscode
+github.copilot
+github.copilot-chat
+ms-python.debugpy
+ms-python.python
+ms-python.vscode-pylance
+ms-python.vscode-python-envs
+ritwickdey.liveserver
+streetsidesoftware.code-spell-checker
+vscodevim.vim
+yoavbls.pretty-ts-errors

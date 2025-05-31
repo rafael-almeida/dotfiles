@@ -5,3 +5,22 @@
     - [ ] Render vimwiki as markdown
 - [ ] Persist undo history.
 
+
+- [] comment-ts does not work properly in tsx files.
+```md
+  <Stack.Screen
+    options={{
+      headerTitle: workoutName,
+      headerLeft: () => (
+        <Pressable>
+          <Feather name="chevron-left" size={20} color="black" />
+        </Pressable>
+      ),
+      headerRight: () => (
+        {/* <Pressable> */}                                       <---
+        {/*   <Feather name="edit" size={18} color="black" /> */}  <--- It should have generated js comments
+        {/* </Pressable> */}                                      <---
+      ),
+    }}
+  />
+```

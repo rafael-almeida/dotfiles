@@ -1,0 +1,29 @@
+{
+  "[json][jsonc][javascript][typescript][javascriptreact][typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.tabSize": 2
+  },
+  "[python]": {
+    "editor.defaultFormatter": "charliermarsh.ruff"
+  },
+  "editor.fontFamily": "FiraCode Nerd Font, monospace",
+  "editor.fontLigatures": true,
+  "editor.fontSize": 16,
+  "editor.formatOnSave": true,
+  "editor.minimap.enabled": false,
+  "explorer.confirmDelete": false,
+  "extensions.experimental.affinity": {
+    "asvetliakov.vscode-neovim": 1
+  },
+  "ruff.lint.select": [
+    "E", // pycodestyle
+    "F", // Pyflakes
+    "UP", // pyupgrade
+    "B", // flake8-bugbear
+    "SIM", // flake8-simplify
+    "I" // isort
+  ],
+  "terminal.integrated.fontSize": 16,
+  "window.zoomLevel": 1,
+  "workbench.startupEditor": "none"
+}
