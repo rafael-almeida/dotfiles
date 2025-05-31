@@ -1,30 +1,36 @@
 # VSCode Configuration
 
-This folder stores my Visual Studio Code settings and extensions.
+This folder stores my Visual Studio Code settings and extensions list.
 
 ## Key Files
 
-- **`scripts/`**: Installation scripts.
-- **`snippets/`**: Custom code snippets.
 - **`settings.json`**: Custom editor settings.
+- **`snippets/`**: Custom code snippets.
 - **`extensions.txt`**: A list of my preferred extensions.
+- **`scripts/`**: Installation scripts.
 
-## Quick Setup
+## Commands
 
 ```bash
-cd ~/dotfiles/vscode/scripts
+cd ~/dotfiles/vscode
 ```
 
-1. **Link Configuration Files:**
+**Link Configuration Files:**
 
-   ```bash
-   chmod +x create_symlinks.sh
-   ./create_symlinks.sh
-   ```
+```bash
+VSCODE_USER="$HOME/Library/Application Support/Code/User"
+ln -sf "$PWD/settings.json" "$VSCODE_USER/settings.json"
+ln -sf "$PWD/snippets" "$VSCODE_USER/snippets"
+```
 
-2. **Install Extensions:**
+**Install Extensions:**
 
-   ```bash
-   chmod +x install_extensions.sh
-   ./install_extensions.sh
-   ```
+```bash
+while read extension; do code --install-extension "$extension" --force; done < extensions.txt
+```
+
+**Update Extensions List:**
+
+```bash
+code --list-extensions > extensions.txt
+```

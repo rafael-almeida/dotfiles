@@ -1,6 +1,10 @@
+aaron-bond.better-comments
 alefragnani.bookmarks
+asvetliakov.vscode-neovim
 bradlc.vscode-tailwindcss
+chakrounanas.turbo-console-log
 charliermarsh.ruff
+christian-kohler.path-intellisense
 dbaeumer.vscode-eslint
 eamodio.gitlens
 esbenp.prettier-vscode
@@ -14,3 +18,4 @@ ritwickdey.liveserver
 streetsidesoftware.code-spell-checker
 vscodevim.vim
 yoavbls.pretty-ts-errors
+yzhang.markdown-all-in-one
