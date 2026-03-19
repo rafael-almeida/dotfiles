@@ -88,6 +88,7 @@ return {
         { "<leader>h", group = "Hunk" },
         { "<leader>c", group = "Code" },
         { "<leader>r", group = "Rename" },
+        { "<leader>a", group = "AI" },
       })
     end,
   },
