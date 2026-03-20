@@ -13,7 +13,8 @@ return {
           "html", "css", "go", "rust",
         },
         auto_install = true,
-        highlight = { enable = true },
+        -- tmux: treesitter highlighting is inaccurate, fall back to vim regex
+        highlight = { enable = true, disable = { "tmux" } },
         indent = { enable = true },
       })
     end,

@@ -3,5 +3,7 @@
 !.gitignore
 !nvim/
 !nvim/**
+nvim/.claude/
 !tmux/
 !tmux/**
+tmux/plugins/
