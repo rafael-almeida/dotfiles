@@ -38,5 +38,8 @@ opt.undofile = true
 opt.updatetime = 250
 opt.timeoutlen = 300
 
+-- Auto-reload files changed outside Neovim
+opt.autoread = true
+
 -- Completion
 opt.completeopt = "menu,menuone,noselect"

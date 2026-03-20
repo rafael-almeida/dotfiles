@@ -21,6 +21,11 @@ autocmd("BufReadPost", {
   end,
 })
 
+-- Auto-reload files changed on disk (e.g. when Claude Code edits a file while Neovim is in a background pane)
+vim.fn.timer_start(1000, function()
+  vim.cmd("silent! checktime")
+end, { ["repeat"] = -1 })
+
 -- Auto-resize splits on terminal resize
 autocmd("VimResized", {
   group = augroup("resize_splits", { clear = true }),
