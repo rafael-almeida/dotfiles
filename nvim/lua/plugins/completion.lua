@@ -4,7 +4,14 @@ return {
     version = "*",
     dependencies = { "rafamadriz/friendly-snippets" },
     opts = {
-      keymap = { preset = "default" },  -- <C-space>=complete, <C-e>=cancel, <CR>=confirm, <Tab>/<S-Tab>=next/prev
+      keymap = {
+        preset = "none",
+        ["<C-space>"] = { "show", "fallback" },
+        ["<C-e>"] = { "cancel", "fallback" },
+        ["<CR>"] = { "accept", "fallback" },
+        ["<Down>"] = { "select_next", "fallback" },
+        ["<Up>"] = { "select_prev", "fallback" },
+      },
       sources = {
         default = { "lsp", "path", "snippets", "buffer" },
       },

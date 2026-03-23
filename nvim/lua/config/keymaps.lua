@@ -1,8 +1,8 @@
 local map = vim.keymap.set
 
 -- Buffer navigation
-map("n", "<Tab>", "<cmd>BufferLineCycleNext<CR>", { desc = "Next buffer", silent = true })
-map("n", "<S-Tab>", "<cmd>BufferLineCyclePrev<CR>", { desc = "Prev buffer", silent = true })
+map("n", "<S-l>", "<cmd>BufferLineCycleNext<CR>", { desc = "Next buffer", silent = true })
+map("n", "<S-h>", "<cmd>BufferLineCyclePrev<CR>", { desc = "Prev buffer", silent = true })
 map("n", "<leader>bd", "<cmd>bdelete<CR>", { desc = "Delete buffer", silent = true })
 
 -- Neo-tree
