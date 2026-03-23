@@ -1,3 +1,5 @@
+local servers = { "lua_ls", "basedpyright", "ruff", "bashls", "jsonls", "yamlls" }
+
 return {
   {
     "neovim/nvim-lspconfig",
@@ -6,7 +8,7 @@ return {
       {
         "williamboman/mason-lspconfig.nvim",
         opts = {
-          ensure_installed = { "lua_ls", "basedpyright", "ruff", "bashls", "jsonls", "yamlls" },
+          ensure_installed = servers,
         },
       },
       {
@@ -43,7 +45,7 @@ return {
       })
 
       -- Enable servers (mason-lspconfig ensures they're installed)
-      vim.lsp.enable({ "lua_ls", "basedpyright", "ruff", "bashls", "jsonls", "yamlls" })
+      vim.lsp.enable(servers)
 
       -- Lua-specific settings
       vim.lsp.config("lua_ls", {
