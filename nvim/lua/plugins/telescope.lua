@@ -1,7 +1,7 @@
 return {
   {
     "nvim-telescope/telescope.nvim",
-    branch = "0.1.x",
+    version = "*",
     dependencies = {
       "nvim-lua/plenary.nvim",
       {
@@ -12,33 +12,34 @@ return {
         end,
       },
     },
-    config = function()
-      local telescope = require("telescope")
-      local actions = require("telescope.actions")
-
-      telescope.setup({
-        defaults = {
-          mappings = {
-            i = {
-              ["<C-k>"] = actions.move_selection_previous,
-              ["<C-j>"] = actions.move_selection_next,
-              ["<C-q>"] = actions.send_selected_to_qflist + actions.open_qflist,
-            },
-          },
-          file_ignore_patterns = { "node_modules", ".git/" },
+    opts = {
+      defaults = {
+        layout_config = {
+          preview_width = 0.70,
+          width = 0.95,
+          height = 0.99,
         },
-      })
+        file_ignore_patterns = { "node_modules", ".git/" },
+        path_display = { "truncate" },
+      },
+    },
+    config = function(_, opts)
+      local telescope = require("telescope")
+      telescope.setup(opts)
 
       pcall(telescope.load_extension, "fzf")
-
-      local map = vim.keymap.set
-      local builtin = require("telescope.builtin")
-
-      map("n", "<leader>ff", builtin.find_files, { desc = "Find files" })
-      map("n", "<leader>fg", builtin.live_grep, { desc = "Live grep" })
-      map("n", "<leader>fb", builtin.buffers, { desc = "Find buffers" })
-      map("n", "<leader>fh", builtin.help_tags, { desc = "Help tags" })
-      map("n", "<leader>fr", builtin.oldfiles, { desc = "Recent files" })
     end,
-  },
+    keys = {
+      -- Find
+      { "<leader>fh", "<cmd>Telescope help_tags<cr>",              desc = "telescope: Search for help tags" },
+      { "<leader>fk", "<cmd>Telescope keymaps<cr>",                desc = "telescope: Search for keybindings" },
+      { "<leader>ff", "<cmd>Telescope find_files hidden=true<cr>", desc = "telescope: Search for files (includes hidden)" },
+      { "<leader>fg", "<cmd>Telescope live_grep<cr>",              desc = "telescope: Search for text" },
+      { "<leader>fw", "<cmd>Telescope grep_string<cr>",            desc = "telescope: Search for word under the cursor" },
+      { "<leader>fv", "<cmd>Telescope vim_options<cr>",            desc = "telescope: Search for vim options" },
+      -- Git
+      { "<leader>gc", "<cmd>Telescope git_commits<cr>",            desc = "telescope: List git commits" },
+      { "<leader>gs", "<cmd>Telescope git_status<cr>",             desc = "telescope: List git status" },
+    }
+  }
 }
