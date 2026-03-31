@@ -63,6 +63,26 @@ return {
     end,
   },
   {
+    'stevearc/conform.nvim',
+    cmd = "ConformInfo",
+    keys = {
+      { "<leader>ft", "<cmd>ConformFormat<cr>", desc = "Format file" },
+    },
+    opts = {
+      async = true,
+      lsp_format = "fallback", -- Use LSP formatting for missing formatters.
+      -- NOTE(03-31-2026): The formatters must be installed globally or in the project's root.
+      formatters_by_ft = {
+        javascript = { "prettier" },
+        typescript = { "prettier" },
+        javascriptreact = { "prettier" },
+        typescriptreact = { "prettier" },
+        json = { "prettier" },
+        markdown = { "prettier" },
+      },
+    },
+  },
+  {
     "mason-org/mason.nvim",
     cmd = "Mason",
     opts = {
