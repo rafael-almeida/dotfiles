@@ -66,12 +66,19 @@ return {
     'stevearc/conform.nvim',
     cmd = "ConformInfo",
     keys = {
-      { "<leader>ft", "<cmd>ConformFormat<cr>", desc = "Format file" },
+      {
+        "<leader>ft",
+        function()
+          require("conform").format()
+        end,
+        desc = "Format file",
+      },
     },
     opts = {
       async = true,
       lsp_format = "fallback", -- Use LSP formatting for missing formatters.
-      -- NOTE(03-31-2026): The formatters must be installed globally or in the project's root.
+
+      -- NOTE(03-31-2026): These formatters must be installed globally or in the workspace.
       formatters_by_ft = {
         javascript = { "prettier" },
         typescript = { "prettier" },
