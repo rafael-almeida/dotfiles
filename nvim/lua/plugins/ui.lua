@@ -3,7 +3,7 @@ return {
   { "nvim-tree/nvim-web-devicons", lazy = true },
 
   -- UI component library (neo-tree dep)
-  { "MunifTanjim/nui.nvim", lazy = true },
+  { "MunifTanjim/nui.nvim",        lazy = true },
 
   -- Statusline
   {
@@ -58,6 +58,7 @@ return {
     },
     cmd = "Neotree",
     opts = {
+      close_if_last_window = true,
       filesystem = {
         filtered_items = {
           hide_dotfiles = false,
@@ -76,21 +77,9 @@ return {
     "folke/which-key.nvim",
     event = "VeryLazy",
     opts = {
-      delay = 300,
+      preset = "modern",
+      delay = 500,
     },
-    config = function(_, opts)
-      local wk = require("which-key")
-      wk.setup(opts)
-      wk.add({
-        { "<leader>f", group = "Find" },
-        { "<leader>b", group = "Buffer" },
-        { "<leader>g", group = "Git" },
-        { "<leader>h", group = "Hunk" },
-        { "<leader>c", group = "Code" },
-        { "<leader>r", group = "Rename" },
-        { "<leader>a", group = "AI" },
-      })
-    end,
   },
 
   -- Indent guides
@@ -100,7 +89,6 @@ return {
     main = "ibl",
     opts = {
       indent = { char = "│" },
-      scope = { show_start = false, show_end = false },
     },
   },
 }

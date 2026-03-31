@@ -2,45 +2,23 @@ return {
   {
     "lewis6991/gitsigns.nvim",
     event = { "BufReadPost", "BufNewFile" },
-    opts = {
-      signs = {
-        add = { text = "▎" },
-        change = { text = "▎" },
-        delete = { text = "" },
-        topdelete = { text = "" },
-        changedelete = { text = "▎" },
-      },
-      on_attach = function(bufnr)
-        local gs = package.loaded.gitsigns
-        local map = function(mode, keys, func, desc)
-          vim.keymap.set(mode, keys, func, { buffer = bufnr, desc = "Git: " .. desc })
-        end
-
-        -- Navigation
-        vim.keymap.set("n", "]c", function()
-          if vim.wo.diff then return "]c" end
-          vim.schedule(function() gs.next_hunk() end)
-          return "<Ignore>"
-        end, { buffer = bufnr, expr = true, desc = "Git: Next hunk" })
-
-        vim.keymap.set("n", "[c", function()
-          if vim.wo.diff then return "[c" end
-          vim.schedule(function() gs.prev_hunk() end)
-          return "<Ignore>"
-        end, { buffer = bufnr, expr = true, desc = "Git: Prev hunk" })
-
-        -- Actions
-        map("n", "<leader>hs", gs.stage_hunk, "Stage hunk")
-        map("n", "<leader>hr", gs.reset_hunk, "Reset hunk")
-        map("n", "<leader>hp", gs.preview_hunk, "Preview hunk")
-        map("v", "<leader>hs", function() gs.stage_hunk({ vim.fn.line("."), vim.fn.line("v") }) end, "Stage hunk")
-        map("v", "<leader>hr", function() gs.reset_hunk({ vim.fn.line("."), vim.fn.line("v") }) end, "Reset hunk")
-      end,
-    },
+    opts = {},
   },
 
   {
     "tpope/vim-fugitive",
-    cmd = { "Git", "G" },
+    cmd = "Git",
+    keys = {
+      -- These keymaps are used by Telescope:
+      -- { "<leader>gc", "<cmd>Telescope git_commits<cr>", desc = "telescope: List git commits" },
+      -- { "<leader>gs", "<cmd>Telescope git_status<cr>",  desc = "telescope: List git status" },
+      { "<leader>gg", "<cmd>Git<cr>",         desc = "View git status" },
+      { "<leader>gp", "<cmd>Git pull<cr>",    desc = "Pull from remote repository" },
+      { "<leader>gP", "<cmd>Git push<cr>",    desc = "Push changes to remote repository" },
+      { "<leader>gA", "<cmd>Git add %<cr>",   desc = "Stage current file" },
+      { "<leader>gb", "<cmd>Git blame<cr>",   desc = "Show git blame for current file" },
+      { "<leader>gl", "<cmd>Git log<cr>",     desc = "View git commit log" },
+      { "<leader>gd", "<cmd>Gvdiffsplit<cr>", desc = "Open git diff tool" },
+    },
   },
 }

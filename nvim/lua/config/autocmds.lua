@@ -1,14 +1,6 @@
 local augroup = vim.api.nvim_create_augroup
 local autocmd = vim.api.nvim_create_autocmd
 
--- Highlight yanked text
-autocmd("TextYankPost", {
-  group = augroup("highlight_yank", { clear = true }),
-  callback = function()
-    vim.highlight.on_yank({ higroup = "IncSearch", timeout = 150 })
-  end,
-})
-
 -- Restore cursor position on file open
 autocmd("BufReadPost", {
   group = augroup("restore_cursor", { clear = true }),
@@ -21,11 +13,19 @@ autocmd("BufReadPost", {
   end,
 })
 
--- Auto-reload files changed on disk (e.g. when Claude Code edits a file while Neovim is in a background pane)
+-- TODO: See if this can be accomplished in a more efficient way.
+-- Prevent auto-comment on new line
+autocmd("BufEnter", {
+  pattern = "*",
+  command = "set formatoptions-=o"
+})
+
+-- Auto-reload files changed on disk
 vim.fn.timer_start(1000, function()
   vim.cmd("silent! checktime")
 end, { ["repeat"] = -1 })
 
+-- TODO: See if this is needed.
 -- Auto-resize splits on terminal resize
 autocmd("VimResized", {
   group = augroup("resize_splits", { clear = true }),
