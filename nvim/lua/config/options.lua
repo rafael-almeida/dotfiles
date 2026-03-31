@@ -13,7 +13,7 @@ opt.smartindent = true
 -- Search
 opt.ignorecase = true
 opt.smartcase = true
-opt.hlsearch = true
+opt.hlsearch = false
 
 -- Appearance
 opt.termguicolors = true
