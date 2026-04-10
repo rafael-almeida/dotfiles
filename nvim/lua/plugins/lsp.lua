@@ -1,6 +1,22 @@
 return {
   {
+    "mason-org/mason.nvim",
+    cmd = "Mason",
+    opts = {
+      ui = {
+        icons = {
+          package_installed = "✓",
+          package_pending = "➜",
+          package_uninstalled = "✗",
+        },
+      },
+    },
+  },
+  {
     "neovim/nvim-lspconfig",
+    dependencies = {
+      "mason-org/mason.nvim", -- This must be loaded before nvim-lspconfig to ensure PATH is set correctly.
+    },
     config = function()
       local servers = {
         lua_ls = {
@@ -22,11 +38,7 @@ return {
             },
           },
         },
-        ruff = {
-          init_options = {
-            settings = {},
-          },
-        },
+        ruff = {},
       }
 
       vim.lsp.config('*', {
@@ -86,19 +98,6 @@ return {
         typescriptreact = { "prettier" },
         json = { "prettier" },
         markdown = { "prettier" },
-      },
-    },
-  },
-  {
-    "mason-org/mason.nvim",
-    cmd = "Mason",
-    opts = {
-      ui = {
-        icons = {
-          package_installed = "✓",
-          package_pending = "➜",
-          package_uninstalled = "✗",
-        },
       },
     },
   },
